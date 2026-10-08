@@ -87,7 +87,10 @@ export function verifyCrankEvidence(evidence) {
 export function proposeRegenerativeAsset(evidence,{purposeId,termsRef}={}) {
   must(safeId(purposeId) && safeId(termsRef), 'explicit approved purpose and rights-terms reference required');
   const proof=verifyCrankEvidence(evidence);
-  const assetId='asset-crank-'+proof.receiptId.slice(0,32);
+  // Same resulting bytes do not multiply inventory merely because the operator
+  // repeats a source turn with a fresh turn ID. Deliberate new asset admission
+  // would require a different native source contract, not receipt-name churn.
+  const assetId='asset-crank-'+sha('jubilee-static-os-content-v0:'+proof.outputDigest).slice(0,32);
   const offer={
     id:assetId,kind:'digital_artifact',
     label:'Owner-reviewed transformed text artifact',
