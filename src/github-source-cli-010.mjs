@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdirSync, existsSync, readFileSync, openSync, closeSync, renameSync, unlinkSync } from 'node:fs';
+import { mkdirSync, existsSync, readFileSync, writeFileSync, openSync, closeSync, renameSync, unlinkSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { keysForSource, policyFor, newInbox, project, relatteObservationSpec } from './ambient-trickle-009.mjs';
 import { configureRepo, discoverRecentMerges, observeMergedPull } from './github-source-010.mjs';
@@ -8,11 +8,9 @@ const usage = 'Usage: github:source init DIR owner/repo purpose-id source-id [ba
 const load=path=>JSON.parse(readFileSync(path,'utf8'));
 function createExclusive(path,data) {
   const fd=openSync(path,'wx',0o600);
-  try{ const {writeFileSync}=awaitless();writeFileSync(fd,JSON.stringify(data,null,2)+'\n'); }
+  try{ writeFileSync(fd,JSON.stringify(data,null,2)+'\n'); }
   finally{closeSync(fd);}
 }
-function awaitless(){return {writeFileSync:__writeFileSync};}
-import {writeFileSync as __writeFileSync} from 'node:fs';
 function replaceJson(path,data){
   const temp=path+'.pending-'+process.pid;
   createExclusive(temp,data);
