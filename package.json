@@ -4,7 +4,15 @@
   "private": true,
   "type": "module",
   "description": "Portable noncustodial need and offer protocol reference specimen",
-  "engines": { "node": ">=20" },
-  "scripts": { "test": "node --test", "demo": "node src/demo.mjs" },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node src/demo.mjs",
+    "treasury": "node src/treasury-cli.mjs",
+    "treasury:demo": "node src/treasury-cli.mjs demo",
+    "treasury:relatte": "node src/relatte-hold-007.mjs"
+  },
   "license": "MIT"
 }

@@ -1,0 +1,27 @@
+name: Asset Treasury 007 native reLATTE test
+on:
+  pull_request:
+  push:
+    branches: [main, experiment/fall-share-asset-treasury-007]
+permissions:
+  contents: read
+jobs:
+  native-hold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Treasury checkout
+        uses: actions/checkout@v4
+      - name: reLATTE public donor checkout
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          path: relatte-donor
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install reLATTE dependencies
+        run: npm install --prefix relatte-donor --no-audit --no-fund
+      - name: Verify local treasury and native opaque roundtrip with cold replay
+        env:
+          RELATTE_ROOT: ${{ github.workspace }}/relatte-donor
+        run: npm test

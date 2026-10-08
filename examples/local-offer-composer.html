@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jubilee Treasury — Local Asset Offer Composer</title>
+<style>
+:root{color-scheme:light;--ink:#1b242a;--paper:#fcfaf4;--accent:#284b40;--line:#d7d6ce}
+*{box-sizing:border-box}body{font:16px/1.5 system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);margin:0}
+main{max-width:780px;padding:24px;margin:auto}h1{font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.1}p{margin:.65rem 0 1rem}
+section{border:1px solid var(--line);padding:18px;margin:20px 0;border-radius:16px;background:#fff}
+label{display:block;font-weight:650;margin-top:12px}
+input,select{width:100%;font:inherit;background:white;padding:12px;border:1px solid #a2ada5;border-radius:10px;color:#1b242a}
+button,a.action{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:13px 18px;font:650 1rem system-ui;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid #deb254}
+a{color:#1e5b48}small,.muted{color:#505a57}#notice{min-height:24px;color:#7f3d18}
+pre{overflow-wrap:anywhere;white-space:pre-wrap;background:#f1f3f0;padding:16px;border-radius:10px}
+code{background:#e9ede8;padding:.15em .35em;border-radius:5px}
+</style>
+</head>
+<body><main>
+<p class="muted">Jubilee Treasury 007 · Offline asset proposal composer · Not affiliated with or authorized by Kinship Radio</p>
+<h1>Put a useful gift on the table.</h1>
+<p>Make a local, portable offer for a resource, skill, service, equipment, space, license, or other explicitly described capacity. This page <strong>does not submit, accept, transfer or verify any donation</strong>.</p>
+<section>
+<strong>Want to give money to Kinship's Fall Share?</strong>
+<p>Use <a href="https://donate.kinshipradio.org/pledge/kinship-radio-fall-share" target="_blank" rel="noopener noreferrer">Kinship's official Fall Share form</a>. Never enter card, banking, contact, or donor identity information here. Monetary claims require station-authorized confirmation outside this experimental ledger.</p>
+</section>
+<section>
+<h2>Compose one proposal</h2>
+<label for="recordType">What are you preparing?</label>
+<select id="recordType"><option value="OFFER">An available gift / contribution offer</option><option value="NEED">A requested resource / need</option></select>
+<label for="recordId">Local record ID</label>
+<input id="recordId" value="asset-firewood-001" autocomplete="off" maxlength="127">
+<label for="assetKind">Resource kind (small machine-readable token)</label>
+<input id="assetKind" value="goods" maxlength="63" placeholder="goods / service / transport / equipment / broadcast_rights">
+<label for="assetLabel">Description (public-safe, no private details)</label>
+<input id="assetLabel" value="Two cords of firewood" maxlength="150">
+<label for="quantity">Quantity</label>
+<input id="quantity" type="number" min="1" max="1000000" step="1" value="2">
+<label for="unit">Unit (no automatic conversion)</label>
+<input id="unit" value="cord" maxlength="63">
+<div id="offerFields">
+<label for="mode">Transfer / participation mode</label>
+<select id="mode"><option value="gift">Gift</option><option value="loan">Loan</option><option value="license">License / permission</option><option value="service">Service / volunteered work</option><option value="external-funds">External money report — not a payment</option></select>
+<label for="purpose">Permitted purpose ID(s), separated by commas</label>
+<input id="purpose" value="purpose-neighbor-heat-001">
+<label for="terms">Terms or owner permission reference (not a grant by itself)</label>
+<input id="terms" value="consent-local-001">
+</div>
+<div id="needFields" hidden>
+<label for="neededPurpose">Purpose ID</label>
+<input id="neededPurpose" value="purpose-neighbor-heat-001">
+</div>
+<p id="notice" role="status"></p>
+<button id="make" type="button">Generate local JSON file</button>
+<h3>Preview</h3>
+<pre id="preview" aria-live="polite">No file created yet.</pre>
+</section>
+<section>
+<h2>What happens after this?</h2>
+<p>A properly authorized local steward may review this proposal, check consent, and record separate acceptance and delivery evidence using the Jubilee Treasury CLI. The receiving community decides if a match is appropriate. This browser does not create a legal donation receipt or commit anything to a shared ledger.</p>
+<p class="muted">No server, account, analytics, external API, or browser storage. All fields stay in the tab until you choose to generate a file. Do not share the resulting file publicly if you accidentally entered sensitive information.</p>
+</section>
+</main>
+<script>
+'use strict';
+const el=id=>document.getElementById(id);
+const checkId=s=>/^[a-zA-Z0-9][a-zA-Z0-9._:-]{2,127}$/.test(s);
+const checkToken=s=>/^[a-z][a-z0-9_-]{1,63}$/.test(s);
+function switchType(){
+ const need=el('recordType').value==='NEED';el('offerFields').hidden=need;el('needFields').hidden=!need;
+ if(need&&el('recordId').value.startsWith('asset-'))el('recordId').value='need-'+el('recordId').value.slice(6);
+ if(!need&&el('recordId').value.startsWith('need-'))el('recordId').value='asset-'+el('recordId').value.slice(5);
+}
+el('recordType').addEventListener('change',switchType);
+el('make').addEventListener('click',()=>{
+  el('notice').textContent='';
+  const type=el('recordType').value,id=el('recordId').value.trim(),
+   kind=el('assetKind').value.trim(),unit=el('unit').value.trim(),
+   label=el('assetLabel').value.trim(),quantity=Number(el('quantity').value);
+  if(!checkId(id)||!checkToken(kind)||!checkToken(unit)||!Number.isSafeInteger(quantity)||quantity<1||quantity>1000000||!label||label.length>150){
+    el('notice').textContent='Check the ID, kind, unit, description, and whole-number quantity.';return;
+  }
+  let payload;
+  if(type==='OFFER'){
+    const mode=el('mode').value,purposeIds=el('purpose').value.split(',').map(s=>s.trim()).filter(Boolean),termsRef=el('terms').value.trim();
+    if(!checkId(termsRef)||purposeIds.length<1||purposeIds.length>24||purposeIds.some(v=>!checkId(v))||new Set(purposeIds).size!==purposeIds.length||(kind==='money')!==(mode==='external-funds')){
+      el('notice').textContent='Check terms reference, permitted purposes, and money/external-funds mode.';return;
+    }
+    payload={id,kind,label,quantity,unit,mode,purposeIds,termsRef};
+  }else{
+    const purposeId=el('neededPurpose').value.trim();
+    if(!checkId(purposeId)){el('notice').textContent='Enter a valid purpose ID.';return;}
+    payload={id,title:label,kind,unit,quantity,purposeId};
+  }
+  const json=JSON.stringify(payload,null,2)+'\n';el('preview').textContent=json;
+  const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));
+  const link=document.createElement('a');link.href=url;link.download=type.toLowerCase()+'-'+id.replace(/[^a-zA-Z0-9._-]/g,'_')+'.json';
+  document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  el('notice').textContent='Generated a local proposal file. No donation was sent or accepted.';
+});
+</script>
+</body></html>
