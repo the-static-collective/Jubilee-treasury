@@ -6,11 +6,11 @@ import {proposeRegenerativeAsset,submitRegenerativeOffer,verifyCrankEvidence,
   regenerativeCut,DONOR_REF} from '../src/regenerative-static-os-009.mjs';
 const keys=generateSteward();
 const policy={purposeId:'purpose-repairs-009',termsRef:'rights-reviewed-009'};
-function syntheticProof(text='repair this bridge') {
+function syntheticProof(text='repair this bridge',turnId='turn-repair-009') {
   const registry={schema:'static-os.crank-capability-registry/v0',node_id:'static-os:cranknode:founding-001',
     capabilities:[{id:'TEXT.UPPERCASE',description:'Transform one text particular to uppercase.',handler:'uppercase-text',
       cost_units:1,proposal_only:false,authority:'none'}]};
-  const request={schema:'static-os.crank-turn-request/v0',turn_id:'turn-repair-009',
+  const request={schema:'static-os.crank-turn-request/v0',turn_id:turnId,
     source:{kind:'human',id:'test-operator-009'},selected_capability:'TEXT.UPPERCASE',
     budget_units:1,authority_request:'none',admission_request:'none',
     payload:{text}};
@@ -99,6 +99,18 @@ test('the same source turn cannot be imported twice into one authoritative ledge
     {proposalId:p.proposalId,decision:'OFFER_ONLY',sourceReviewed:true,rightsReviewed:true}).ledger;
   assert.throws(()=>submitRegenerativeOffer(l,keys,e,policy,
     {proposalId:p.proposalId,decision:'OFFER_ONLY',sourceReviewed:true,rightsReviewed:true}),/duplicate asset/);
+});
+test('repeat of identical work with a new turn ID cannot inflate one capacity',()=>{
+  const e=syntheticProof('same useful instructions');
+  const f=syntheticProof('same useful instructions','turn-again-010');
+  assert.notEqual(e.bundle.receipt.receipt_sha256,f.bundle.receipt.receipt_sha256);
+  const first=proposeRegenerativeAsset(e,policy);
+  const second=proposeRegenerativeAsset(f,policy);
+  assert.equal(first.asset.id,second.asset.id);
+  let l=submitRegenerativeOffer(newLedger(keys),keys,e,policy,
+    {proposalId:first.proposalId,decision:'OFFER_ONLY',sourceReviewed:true,rightsReviewed:true}).ledger;
+  assert.throws(()=>submitRegenerativeOffer(l,keys,f,policy,
+    {proposalId:second.proposalId,decision:'OFFER_ONLY',sourceReviewed:true,rightsReviewed:true}),/duplicate asset/);
 });
 test('unreviewed proposal, wrong ID and inferred permission are refused',()=>{
   const e=syntheticProof(),p=proposeRegenerativeAsset(e,policy);
