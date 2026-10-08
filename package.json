@@ -17,7 +17,10 @@
     "trickle": "node src/ambient-trickle-cli-009.mjs",
     "trickle:demo": "node src/ambient-trickle-cli-009.mjs demo",
     "bandcamp:source": "node src/bandcamp-source-cli-011.mjs",
-    "bandcamp:hold": "node src/bandcamp-relatte-hold-011.mjs"
+    "bandcamp:hold": "node src/bandcamp-relatte-hold-011.mjs",
+    "doors": "node src/door-cli-012.mjs",
+    "doors:demo": "node src/door-cli-012.mjs demo",
+    "doors:relatte": "node src/door-relatte-hold-012.mjs"
   },
   "license": "MIT"
 }
