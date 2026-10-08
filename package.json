@@ -15,7 +15,8 @@
     "treasury:relatte": "node src/relatte-hold-007.mjs",
     "economics:demo": "node src/living-capacity-demo-008.mjs",
     "trickle": "node src/ambient-trickle-cli-009.mjs",
-    "trickle:demo": "node src/ambient-trickle-cli-009.mjs demo"
+    "trickle:demo": "node src/ambient-trickle-cli-009.mjs demo",
+    "bandcamp:source": "node src/bandcamp-source-cli-011.mjs"
   },
   "license": "MIT"
 }
