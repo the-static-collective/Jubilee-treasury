@@ -63,3 +63,17 @@ The native hold adapter uses the **actual current** reLATTE `runOpaqueOrganRound
 This invokes a signed reLATTE crossing through file transport, receives `RECEIVED` and `R3_HOLD` signed receipts, and proves cold replay. The receiver is an independently constructed **simulation** that only HOLDS the claim. No gift ownership, payment, station permission, beneficiary authorization, or external delivery is conveyed.
 
 For actual financial donations to Kinship Radio, use [Kinship's official Fall Share giving page](https://donate.kinshipradio.org/pledge/kinship-radio-fall-share). This experimental treasury is **not** Kinship-operated or authorized as a replacement payment path. No independently verified shortfall or official accounting total is claimed.
+
+
+## AMBIENT TRICKLE 009 — silent, authorized inflow without a new donor checkout
+
+The [ambient source inbox](docs/AMBIENT-TRICKLE-009.md) is a **private, standalone, runnable** signed observation queue for independently authorized source adapters. Donors use existing channels; after a source owner deliberately configures an export, a local operator can repeatedly scan signed, privacy-safe event files without manually copying every gift into the Treasury.
+
+    npm run trickle:demo
+    npm run trickle -- init ./private-trickle ./source-policy.json
+    npm run trickle -- scan ./private-trickle ./approved-drop
+    npm run trickle -- show ./private-trickle
+
+No station data, donor data, payments, or real source adapters are connected. An observation is **not** an accepted asset, fund balance, real settlement proof, donation tax receipt, or reLATTE admission. Further consent, stewardship and recipient review are separate. A signed observation can be offered to native reLATTE as a `HOLD_OBSERVATION_ONLY` candidate, not as spendable inventory.
+
+If Kinship never chooses to connect, their official giving and operations remain unchanged; the experiment does not scrape or infer their donations.
