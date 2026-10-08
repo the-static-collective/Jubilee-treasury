@@ -103,3 +103,10 @@ This launches the real reLATTE `scripts/opaque-roundtrip.ts` on an **asset whose
 **No station/beneficiary authority is inferred:** the test receiver is a locally created independent receiving world, and its HOLD does not issue legal custody, execute a payment, authorize a broadcast, or grant permission to use the gift. The donor ledger signature and external receipt remain separate layers of evidence.
 
 The GitHub Actions native-donor workflow checks out current reLATTE separately and tests the round-trip, signed receipt kinds, and idempotence. Full Treasury test count at initial green check was 37 passing, zero failures, including the original portable-needs suite.
+
+
+## No-install local offer entry for volunteers
+
+Open `examples/local-offer-composer.html` directly in a browser, including on an offline-capable phone. It produces a JSON file for an `OFFER` or `NEED` that the local steward can validate and sign through the CLI. It supports custom asset-kind tokens, measurements, modes, permitted use IDs, and terms references. **It never submits the proposal to anyone**, requires no account and has no payment/contact entry fields. Operators still need an independently authorized, safe way to obtain and review the file. A downloaded proposal is not acceptance or a completed donation.
+
+The read-only local board from `treasury board` and the offer composer are separate from Kinship's official giving platform; neither should be represented as a station-endorsed web property.
