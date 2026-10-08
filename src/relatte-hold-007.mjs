@@ -38,7 +38,7 @@ export function runRelatteHold(ledger, assetId, relatteRoot, workRoot) {
   if(child.status!==0)throw Error('reLATTE refused: '+child.stderr.slice(0,1200));
   let result;try{result=JSON.parse(child.stdout);}catch{throw Error('reLATTE returned non-JSON result');}
   if(result?.schema!=='relatte.opaque-roundtrip-result/v0'||
-     result.receive_receipt?.kind!=='RECEIVED'||result.disposition_receipt?.kind!=='HELD'||
+     result.receive_receipt?.kind!=='RECEIVED'||result.disposition_receipt?.kind!=='R3_HOLD'||
      result.crossing?.declared_kind!=='OPAQUE_ORGAN_ARTIFACT')
      throw Error('missing signed RECEIVE / HELD reLATTE proof');
   if(result.crossing.source_history_head!==spec.source_history_head||result.crossing.source_particular!==assetId)
