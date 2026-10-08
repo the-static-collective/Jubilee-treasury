@@ -126,7 +126,7 @@ test('physical count needs two distinct pinned signatures, not one role signing 
   e.proofs.counter=attest('counter',e.claim,d.keys.custodian);
   reject(()=>append(d.world,d.keys.treasury,'DEPOSIT',e,AT),/authority/);
   delete e.proofs.counter;
-  reject(()=>append(d.world,d.keys.treasury,'DEPOSIT',e,AT),/required/);
+  reject(()=>append(d.world,d.keys.treasury,'DEPOSIT',e,AT),/three-party physical custody proof/);
 });
 test('depositor can deny backing terms / wrong box without releasing token',()=>{
   const d=demoWorld();
@@ -174,7 +174,7 @@ test('forged trustee signed event, history gap and altered work/custody all fail
 });
 test('not enough token balance, sender nonce reuse, wrong recipient proof and no consent fail closed',()=>{
  const d=createScenario();
- reject(()=>append(d.stages.release100,d.keys.treasury,'TRANSFER',move(d.keys,101),AT),/insufficient/);
+ reject(()=>append(d.stages.release100,d.keys.treasury,'TRANSFER',move(d.keys,101),AT),/unavailable token balance/);
  const wrong=move(d.keys);
  wrong.proofs.recipient=attest('token_recipient',wrong.instruction,d.keys.node);
  reject(()=>append(d.stages.release100,d.keys.treasury,'TRANSFER',wrong,AT),/authority/);
