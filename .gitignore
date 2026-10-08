@@ -20,3 +20,9 @@ bandcamp-adapter.json
 *.bandcamp-sales.csv
 private-bandcamp-work/
 bandcamp-hold.json
+private-doors/
+private-door-signer.json
+door-config.json
+local-door.lock
+door-local-board.html
+door-native-work/
