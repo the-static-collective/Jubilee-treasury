@@ -5,6 +5,7 @@ import { inspect, matches, digest } from './asset-treasury-007.mjs';
 const REF = /^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$/;
 const TOKEN = /^[a-z][a-z0-9_-]{1,63}$/;
 const pos = x => Number.isSafeInteger(x) && x > 0 && x <= 1000000;
+const cmp = (a,b) => a < b ? -1 : a > b ? 1 : 0; // codepoint order, independent of locale
 function refuse(reason) { throw new Error('LIVING_INDEX_REFUSED: ' + reason); }
 function demand(ok, reason) { if (!ok) refuse(reason); }
 function shape(x, keys) {
@@ -49,19 +50,19 @@ export function livingIndex(ledger, options = {}) {
     id:a.id,kind:a.kind,unit:a.unit,mode:a.mode,purposeIds:[...a.purposeIds].sort(),
     termsRef:a.termsRef,state:a.state,available:a.available,
     reserved:a.reserved,consumed:a.consumed
-  })).sort((a,b) => a.id.localeCompare(b.id));
+  })).sort((a,b) => cmp(a.id,b.id));
   const needs = p.needs.map(n => ({
     id:n.id,kind:n.kind,unit:n.unit,purposeId:n.purposeId,
     requested:n.quantity,open:n.remaining,fulfilled:n.fulfilled,reserved:n.reserved
-  })).sort((a,b) => a.id.localeCompare(b.id));
+  })).sort((a,b) => cmp(a.id,b.id));
   const routes = matches(ledger).map(m => ({
     assetId:m.assetId,needId:m.needId,maximumIfReservedAlone:m.maximum,
     unit:m.unit,status:'PROPOSAL_ONLY'
-  })).sort((a,b) => (a.needId+'/'+a.assetId).localeCompare(b.needId+'/'+b.assetId));
+  })).sort((a,b) => cmp(a.needId+'/'+a.assetId,b.needId+'/'+b.assetId));
 
   const compositions = [];
   const blocked = [];
-  for (const r of [...recipes].sort((a,b)=>a.id.localeCompare(b.id))) {
+  for (const r of [...recipes].sort((a,b)=>cmp(a.id,b.id))) {
     // Repeated inputs of the same kind/unit must share one inventory pool,
     // not count the same resource again as though independently available.
     const requirements = new Map();
@@ -71,7 +72,7 @@ export function livingIndex(ledger, options = {}) {
       demand(Number.isSafeInteger(requirements.get(k)) && requirements.get(k) <= 1000000, 'recipe input overflow');
     }
     let batches = Infinity;
-    const inputs = [...requirements].sort(([a],[b])=>a.localeCompare(b)).map(([key,needed]) => {
+    const inputs = [...requirements].sort(([a],[b])=>cmp(a,b)).map(([key,needed]) => {
       const eligible = assets.filter(a => keyOf(a) === key && a.state === 'received' &&
         a.purposeIds.includes(r.purposeId) && a.mode !== 'external-funds' && a.available > 0);
       const available = eligible.reduce((sum,a)=>sum+a.available,0);
