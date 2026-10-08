@@ -137,3 +137,17 @@ The owner-signed registry can withdraw a destination. A local, manually asserted
 **One penny lot creates many *mutually exclusive alternative uses*, never multiple real coin balances.** Each hypothetical route conserves the exact source penny count and draws down its own scenario work budget; additional real coins require new locally signed OFFER/ACCEPT/RECEIVE events. The optional monthly compounding calculation is a separately labeled **illustration only**; actual earned interest and deposited cash always remain zero unless independently evidenced by real outside monetary systems (not integrated here). No fiat, physical custody, legal title or interest is produced by code execution.
 
 CI exercises two distinct signed penny-asset native reLATTE RECEIVE/R3_HOLD crossings and exact cold replay, without any independent authority inference. This is an experimental source-attested plan, not a bank, collector appraisal, payment processor or deployed giving channel.
+
+
+## PENNY-014 — Work / Matter Crossing (experimental token accounting)
+
+[PENNY-014](docs/PENNY-WORK-MATTER-014.md) adds a **signed local simulation**, not a public token or currency. Work attested by a pinned independent witness creates pending PENNY allocations in treasury; **three-party signed physical coin deposits** create separately recorded box backing. Releases require consenting work holders and enough unencumbered coins. Movement between people, organizations and nodes requires both sending and receiving signatures while preserving the originating work and box. Redemption requires exact holder surrender and two box witnesses, retiring the units and recording the decrease in physical box count atomically.
+
+    npm run penny014:demo
+    npm run penny014:relatte -- ./private-penny-world.json /path/to/reLATTE ./private-penny-relatte
+
+The synthetic demonstration witnesses 100 pending work units, 37 + 63 individual pennies deposited in a Jubilee Box, releases 100 backed internal units, transfers 12 to an organization, then retires 7 with a separately attested physical withdrawal. The final local source projection has **93 outstanding units, 93 book pennies, 7 retired**, zero generated interest. No actual coins or money moved.
+
+Hostile tests prevent duplicate physical backing, forged work signatures, unauthorized recipient allocation, unsupported transfers, double redemption and missing-coin laundering. Disputed work and audit shortfalls freeze affected units while retaining claim history. A native signed reLATTE crossing carries only **the inert state observation**, with independent RECEIVED / R3_HOLD and cold replay. Neither a released *simulated* token nor its reLATTE observation creates enforceable redemption rights, bank collateral, actual custody, or public-money authority.
+
+**Before any deployment**: establish legal issuer/custody/redemption obligations and holder protections, verified real identities and physical audits, secure keys, loss coverage, fraud/dispute mechanisms, financial-regulatory review and actual institution approval.
