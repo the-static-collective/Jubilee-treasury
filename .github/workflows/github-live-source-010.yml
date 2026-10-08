@@ -1,0 +1,31 @@
+name: GitHub public source to private Trickle to native reLATTE HOLD
+on:
+  pull_request:
+  push:
+    branches: [main, experiment/github-live-trickle-010]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  real-source-proof:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          path: relatte-donor
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: reLATTE dependencies for native signed receive/HOLD
+        run: npm install --prefix relatte-donor --no-audit --no-fund
+      - name: Real public merged PR to source-signed Trickle then native reLATTE
+        env:
+          JUBILEE_GITHUB_LIVE_TEST: '1'
+          RELATTE_ROOT: ${{ github.workspace }}/relatte-donor
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node --test test/github-live-source-010.live.test.mjs
+      - name: Full local hostile suite and zero-money protocol regression
+        run: npm test
