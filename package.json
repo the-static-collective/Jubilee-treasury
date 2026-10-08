@@ -1,10 +1,14 @@
 {
   "name": "jubilee-treasury",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Portable noncustodial need and offer protocol reference specimen",
+  "description": "Portable physical capacity routing with source-owned Garden admission",
   "engines": { "node": ">=20" },
-  "scripts": { "test": "node --test", "demo": "node src/demo.mjs" },
+  "scripts": {
+    "test": "node --test test/*.test.mjs test/routing/*.test.mjs",
+    "demo": "node src/demo.mjs",
+    "test:native": "node integration/garden/run.mjs"
+  },
   "license": "MIT"
 }

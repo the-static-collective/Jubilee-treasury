@@ -1,5 +1,7 @@
 # Bounded adapters, safety, and the next public field test
 
+This file records the original 001 boundary. The implemented 002 Garden routing experiment and its explicit local/simulated/external evidence are in [ROUTING-002.md](ROUTING-002.md).
+
 ## Source-owned authority (no parallel ledger)
 
 | Donor | Read | Treasury may propose | Source must admit | Not allowed |
