@@ -18,3 +18,5 @@ bandcamp-source-key.json
 bandcamp-state.json
 bandcamp-adapter.json
 *.bandcamp-sales.csv
+private-bandcamp-work/
+bandcamp-hold.json
