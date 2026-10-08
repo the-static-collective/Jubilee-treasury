@@ -1,0 +1,10 @@
+{
+  "name": "jubilee-treasury",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable noncustodial need and offer protocol reference specimen",
+  "engines": { "node": ">=20" },
+  "scripts": { "test": "node --test", "demo": "node src/demo.mjs" },
+  "license": "MIT"
+}
