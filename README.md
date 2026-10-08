@@ -77,3 +77,21 @@ The [ambient source inbox](docs/AMBIENT-TRICKLE-009.md) is a **private, standalo
 No station data, donor data, payments, or real source adapters are connected. An observation is **not** an accepted asset, fund balance, real settlement proof, donation tax receipt, or reLATTE admission. Further consent, stewardship and recipient review are separate. A signed observation can be offered to native reLATTE as a `HOLD_OBSERVATION_ONLY` candidate, not as spendable inventory.
 
 If Kinship never chooses to connect, their official giving and operations remain unchanged; the experiment does not scrape or infer their donations.
+
+
+## GITHUB SOURCE 010 — actual public merged PR → private Trickle → real reLATTE HOLD
+
+[GitHub Source 010](docs/GITHUB-SOURCE-010.md) implements a **real read-only upstream**: a configured public GitHub repo's verified, merged PR and its merge commit, without copying author identity, diff or source code. The source adapter writes a minimal locally signed `software / merged_pr` observation into the private Trickle 009 inbox. The same historical report imported twice is one observation.
+
+    npm run github:source -- init ./private-github-trickle the-static-collective/reLATTE purpose-open-source-observation-001 github-relatte-source-001 main
+    npm run github:source -- pull ./private-github-trickle 64
+    npm run github:source -- scan ./private-github-trickle 2
+    npm run github:source -- show ./private-github-trickle
+
+The one-time source configuration generates a **private** Ed25519 adapter key. The public GitHub API is read-only; `GITHUB_TOKEN` is optional for rate-limited access. The operator may schedule a repeated scan after authorization and setup, but this PR does not install a daemon or host a service.
+
+A native reLATTE HOLD of the **observation, not an asset**, can be demonstrated with:
+
+    npm run github:hold -- ./private-github-trickle github-relatte-source-001 ghpr-64 /path/to/reLATTE ./private-relatte-work
+
+The CI live test reads [reLATTE PR #64](https://github.com/the-static-collective/reLATTE/pull/64) directly from GitHub, independently verifies its merge commit, then exercises signed Trickle ingestion and signed native reLATTE `RECEIVED / R3_HOLD` and cold replay. Neither GitHub nor its contributors are enrolled in a Jubilee asset program, and no code ownership or reuse rights are inferred. Further Bandcamp or Kinship source connectors remain unimplemented, subject to separate authorization.

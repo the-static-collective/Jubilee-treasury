@@ -15,7 +15,9 @@
     "treasury:relatte": "node src/relatte-hold-007.mjs",
     "economics:demo": "node src/living-capacity-demo-008.mjs",
     "trickle": "node src/ambient-trickle-cli-009.mjs",
-    "trickle:demo": "node src/ambient-trickle-cli-009.mjs demo"
+    "trickle:demo": "node src/ambient-trickle-cli-009.mjs demo",
+    "github:source": "node src/github-source-cli-010.mjs",
+    "github:hold": "node src/github-relatte-hold-010.mjs"
   },
   "license": "MIT"
 }
