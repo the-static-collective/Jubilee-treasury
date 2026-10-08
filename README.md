@@ -43,3 +43,23 @@ This repo currently implements **standalone typed signed envelopes**, not a real
 The reference protocol intentionally has no accounts, host authorization plane, anti-abuse reporting, real-world verification, notification delivery, payment rails, consent capture, private secure messaging, or jurisdiction-specific charitable-compliance framework. Never present it as an operational fundraising platform. A hosted deployment requires a separate product security/privacy review, safety reporting and appeal mechanisms, and compliance review for its payment provider and jurisdictions. Crowdfunding support is not automatically tax deductible.
 
 **Software licensed under MIT; reference implementation is not a promise of support.**
+
+## FALL SHARE ASSET TREASURY 007 — multimodal, locally operable gifts
+
+The [Asset Treasury 007 operator guide](docs/FALL-SHARE-ASSET-TREASURY-007.md) describes a working signed local ledger for donor offers across money (external settlement **reports only**), physical supplies, volunteer time, equipment, licenses, facilities, and other typed resource classes. Need-to-capacity matching is deterministic and **proposal-only**; actual stewardship receipts, reservations, and fulfillment remain separate.
+
+Run `npm test` (the native reLATTE integration test runs when `RELATTE_ROOT` points to an installed reLATTE checkout), then `npm run treasury:demo`. For a local operator state:
+
+    npm run treasury -- init ./private-treasury
+    npm run treasury -- apply ./private-treasury OFFER ./offer.json
+    npm run treasury -- show ./private-treasury
+    npm run treasury -- board ./private-treasury ./operator-board.html
+    npm run treasury -- relatte ./private-treasury ASSET_ID ./candidate.json
+
+The native hold adapter uses the **actual current** reLATTE `runOpaqueOrganRoundTrip` runtime, not a substitute simulation:
+
+    npm run treasury:relatte -- ./private-treasury ASSET_ID /path/to/reLATTE ./local-relatte-results
+
+This invokes a signed reLATTE crossing through file transport, receives `RECEIVED` and `R3_HOLD` signed receipts, and proves cold replay. The receiver is an independently constructed **simulation** that only HOLDS the claim. No gift ownership, payment, station permission, beneficiary authorization, or external delivery is conveyed.
+
+For actual financial donations to Kinship Radio, use [Kinship's official Fall Share giving page](https://donate.kinshipradio.org/pledge/kinship-radio-fall-share). This experimental treasury is **not** Kinship-operated or authorized as a replacement payment path. No independently verified shortfall or official accounting total is claimed.
