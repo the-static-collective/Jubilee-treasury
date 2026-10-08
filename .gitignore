@@ -13,3 +13,8 @@ operator-board.html
 private-trickle/
 approved-drop/
 source-private-key*.json
+
+# Local GitHub adapter source keys and observation receipts
+private-github-trickle/
+private-relatte-work/
+source-key.json
