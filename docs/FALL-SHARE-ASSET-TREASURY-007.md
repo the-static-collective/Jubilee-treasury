@@ -87,3 +87,19 @@ The output is a **candidate descriptor**, not a signed reLATTE crossing, receipt
 Before accepting real third-party gifts, a deployed service needs authenticated operators, secure private communication, beneficiary consent, custody/valuation policies, fraud response, takedowns, regulated payment handling, legal/tax review, and station permission if it claims to represent Kinship.
 
 **Founding law:** `OFFER != RECEIVED != RESERVED != FULFILLED`. No cash shortfall is closed by a promised noncash item, no receipt proves external physical truth, and neither money nor a reLATTE crossing buys authority.
+
+
+## Native signed reLATTE roundtrip (proved in CI)
+
+To exercise actual transport, source signing, local receiver signing, and cold re-entry, use a local reLATTE checkout with its dependencies installed:
+
+    git clone https://github.com/the-static-collective/reLATTE.git /path/to/reLATTE
+    cd /path/to/reLATTE && npm install
+    cd /path/to/Jubilee-treasury
+    npm run treasury:relatte -- ./private-treasury asset-firewood-001 /path/to/reLATTE ./receiver-work
+
+This launches the real reLATTE `scripts/opaque-roundtrip.ts` on an **asset whose local state is RECEIVED**, with fixed provenance and an explicit downstream `HOLD`. It returns a real reLATTE signed crossing and separate `RECEIVED` and `R3_HOLD` receipt identifiers; repeating the same request verifies the durable result and doesn't regenerate a new crossing.
+
+**No station/beneficiary authority is inferred:** the test receiver is a locally created independent receiving world, and its HOLD does not issue legal custody, execute a payment, authorize a broadcast, or grant permission to use the gift. The donor ledger signature and external receipt remain separate layers of evidence.
+
+The GitHub Actions native-donor workflow checks out current reLATTE separately and tests the round-trip, signed receipt kinds, and idempotence. Full Treasury test count at initial green check was 37 passing, zero failures, including the original portable-needs suite.
