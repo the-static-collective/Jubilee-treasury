@@ -77,3 +77,16 @@ The [ambient source inbox](docs/AMBIENT-TRICKLE-009.md) is a **private, standalo
 No station data, donor data, payments, or real source adapters are connected. An observation is **not** an accepted asset, fund balance, real settlement proof, donation tax receipt, or reLATTE admission. Further consent, stewardship and recipient review are separate. A signed observation can be offered to native reLATTE as a `HOLD_OBSERVATION_ONLY` candidate, not as spendable inventory.
 
 If Kinship never chooses to connect, their official giving and operations remain unchanged; the experiment does not scrape or infer their donations.
+
+
+## BANDCAMP SOURCE 011 — private artist sales to Jubilee Trickle
+
+[Bandcamp Source 011](docs/BANDCAMP-SOURCE-011.md) implements a real **owner-operated Bandcamp raw sales CSV parser** and an **explicitly authorized Bandcamp Sales Report API v4 client** with the existing private Trickle source signer. Sales, payouts, full reversals, and unresolved partial/ambiguous refunds remain distinct. No buyer names, emails, street addresses, payment account details or actual money move into Jubilee.
+
+    npm run bandcamp:source -- init ./private-bandcamp BAND_ID purpose-artist-income-001 bandcamp-artist-001
+    npm run bandcamp:source -- csv ./private-bandcamp /secure/path/to/your-bandcamp-sales.csv
+    npm run bandcamp:source -- show ./private-bandcamp
+
+Where eligible access has **already** been granted by Bandcamp and securely configured, the same CLI can call the official Sales Report API with an operator-supplied short-lived `BANDCAMP_ACCESS_TOKEN`. Missing authorization fails closed; API access is not generally available for all artist accounts. Raw owner sales reports can be used without the API.
+
+The private signed inbox stores opaque source reports and an SHA-256 transaction reconciliation index only. An exact full, related refund revokes the original source claim; ambiguous/unlinked/partial refunds remain HOLD instead of becoming fabricated settlements. This is **not** Bandcamp-authorized charity giving, an official Kinship donation, a bank balance, or a transferable IP license. Neither a live artist account nor any Bandcamp credentials are connected to this repository.
