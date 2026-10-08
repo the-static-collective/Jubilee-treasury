@@ -34,7 +34,7 @@ test('GitHub source pins owner/repo and one source purpose',()=>{
  assert.equal(config().repoFullName,repo);
  assert.throws(()=>configureRepo('https://attacker.example','purpose-001','source-001'),/owner\/repository/);
  assert.throws(()=>configureRepo('attacker.com/repo?x','purpose-001','source-001'),/invalid repository/);
- assert.throws(()=>configureRepo(repo,'bad','source-001'),/purpose id/);
+ assert.throws(()=>configureRepo(repo,'x','source-001'),/purpose id/);
 });
 test('verified merge uses exact GitHub PR and exact merge commit (no author or title)',async()=>{
  const fake=api(),fact=await readVerifiedMerge(config(),64,{fetchImpl:fake.fetchImpl,token:''});
