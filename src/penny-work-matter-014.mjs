@@ -185,8 +185,8 @@ function replay(world){
       check(!seenNonces.has('transfer:'+q.transferId),'duplicate transfer ID');
       const w=work.get(q.workId),b=boxes.get(q.boxId);
       check(w&&w.status==='approved'&&b,'transferring frozen or unbacked lot');
-      check(b.auditedCoins===null||b.auditedCoins===b.bookCoins,
-        'custody impairment freezes transfer');
+      check((b.auditedCoins===null||b.auditedCoins===b.bookCoins)&&b.outstanding<=b.bookCoins,
+        'custody impairment or undercollateralization freezes transfer');
       ensureFields(x.proofs,['sender','recipient'],'both sender and recipient required');
       authorized(x.proofs.sender,'token_sender',q,findHolder(p,q.fromId).publicKey);
       authorized(x.proofs.recipient,'token_recipient',q,findHolder(p,q.toId).publicKey);
@@ -204,8 +204,8 @@ function replay(world){
         !seenWithdrawals.has(q.withdrawalId),'unique physical withdrawal evidence');
       const w=work.get(q.workId),box=boxes.get(q.boxId);
       check(w&&w.status==='approved'&&box,'frozen work or missing box');
-      check(box.auditedCoins===null||box.auditedCoins===box.bookCoins,
-        'physical custody mismatch freezes redemptions');
+      check((box.auditedCoins===null||box.auditedCoins===box.bookCoins)&&box.outstanding<=box.bookCoins,
+        'physical custody mismatch or undercollateralization freezes redemptions');
       ensureFields(x.proofs,['surrender','custodian','counter'],'surrender + dual physical witnesses');
       authorized(x.proofs.surrender,'token_surrender',q,findHolder(p,q.holderId).publicKey);
       proofPair({custodian:x.proofs.custodian,counter:x.proofs.counter},q,findBox(p,q.boxId));
