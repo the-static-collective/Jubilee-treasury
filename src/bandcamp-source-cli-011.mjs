@@ -22,9 +22,11 @@ function withLock(root,func){
 }
 function local(dir){
   const root=resolve(dir),config=load(join(root,'bandcamp-adapter.json')),
-    keys=load(join(root,'bandcamp-source-key.json')),inbox=load(join(root,'inbox.json'));
-  configureBandcamp(config);project(inbox);
-  return {root,config,keys,inbox};
+    keys=load(join(root,'bandcamp-source-key.json')),state=load(join(root,'bandcamp-state.json'));
+  if(!state||Object.keys(state).sort().join(',')!=='inbox,sourceIndex'||!Array.isArray(state.sourceIndex))
+    throw Error('BANDCAMP_SOURCE_HOLD: private state shape mismatch');
+  configureBandcamp(config);project(state.inbox);
+  return {root,config,keys,inbox:state.inbox,sourceIndex:state.sourceIndex};
 }
 function ownerFile(file,limit){
   const path=resolve(file),s=lstatSync(path);
@@ -43,10 +45,10 @@ export async function main(args=process.argv.slice(2),opts={}){
   if(cmd==='init'&&root&&rest.length===3){
     const [bandId,purposeId,sourceId]=rest,config=configureBandcamp({bandId,sourceId,purposeId}),dir=resolve(root);
     mkdirSync(dir,{recursive:true,mode:0o700});
-    const configFile=join(dir,'bandcamp-adapter.json'),keyFile=join(dir,'bandcamp-source-key.json'),inboxFile=join(dir,'inbox.json');
+    const configFile=join(dir,'bandcamp-adapter.json'),keyFile=join(dir,'bandcamp-source-key.json'),inboxFile=join(dir,'bandcamp-state.json');
     if([configFile,keyFile,inboxFile].some(existsSync))throw Error('BANDCAMP_SOURCE_HOLD: refusing overwrite');
     const keys=keysForSource();const policy=policyFor(sourceId,keys.publicKey,['money'],[purposeId]);
-    writeNew(configFile,config);writeNew(keyFile,keys);writeNew(inboxFile,newInbox(policy));
+    writeNew(configFile,config);writeNew(keyFile,keys);writeNew(inboxFile,{inbox:newInbox(policy),sourceIndex:[]});
     return {directory:dir,configuredBandId:config.bandId,
       notice:'Owner-authored source adapter keys created locally. No Bandcamp API permission or actual sales imported. Keep this directory private.'};
   }
@@ -75,9 +77,10 @@ export async function main(args=process.argv.slice(2),opts={}){
     return withLock(base.root,()=>{
       const current=local(root);
       const result=cmd==='csv'?
-        importCsv(current.inbox,current.config,current.keys,contents):
-        importApiV4(current.inbox,current.config,current.keys,contents);
-      if(result.added)replace(join(current.root,'inbox.json'),result.inbox);
+        importCsv(current.inbox,current.config,current.keys,contents,{priorIndex:current.sourceIndex}):
+        importApiV4(current.inbox,current.config,current.keys,contents,{priorIndex:current.sourceIndex});
+      if(result.added||result.sourceIndex.length!==current.sourceIndex.length)
+        replace(join(current.root,'bandcamp-state.json'),{inbox:result.inbox,sourceIndex:result.sourceIndex});
       return present(result,cmd==='csv'?'owner_local_csv':cmd==='json'?'owner_local_api_v4_json':'authorized_api_v4');
     });
   }
