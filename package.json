@@ -22,7 +22,10 @@
     "doors:demo": "node src/door-cli-012.mjs demo",
     "doors:relatte": "node src/door-relatte-hold-012.mjs",
     "pennies": "node src/penny-recursion-cli-013.mjs",
-    "pennies:demo": "node src/penny-recursion-cli-013.mjs demo"
+    "pennies:demo": "node src/penny-recursion-cli-013.mjs demo",
+    "penny014": "node src/penny-work-matter-demo-014.mjs",
+    "penny014:demo": "node src/penny-work-matter-demo-014.mjs demo",
+    "penny014:relatte": "node src/penny-work-matter-relatte-014.mjs"
   },
   "license": "MIT"
 }
