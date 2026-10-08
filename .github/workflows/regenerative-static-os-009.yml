@@ -1,0 +1,35 @@
+name: Regenerative Capacity 009 native Static OS seam
+on:
+  pull_request:
+  push:
+    branches: [experiment/regenerative-capacity-static-os-009]
+permissions:
+  contents: read
+jobs:
+  native-crank-regeneration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Jubilee Treasury worktree
+        uses: actions/checkout@v4
+      - name: Pin actual Static OS donor
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/static-os
+          ref: 0d460524d0db129a8cccb0661cb9f533f3e6793b
+          path: donor-static-os
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Execute exactly one native Static OS CRANK turn
+        run: python3 scripts/generate-native-crank-proof-009.py --source-root donor-static-os --out dist/native-crank-proof-009.json
+      - name: Full Treasury tests plus native-source proof contract
+        env:
+          STATIC_OS_NATIVE_PROOF: dist/native-crank-proof-009.json
+        run: npm test
+      - name: Reconstruct proposal-to-received index without authorizing work
+        run: node src/regenerative-demo-009.mjs dist/native-crank-proof-009.json
+      - name: Check that source checkout did not become a trusted authority ledger
+        run: |
+          test -f donor-static-os/crank/runtime.py
+          test ! -e dist/steward-private-key.json
