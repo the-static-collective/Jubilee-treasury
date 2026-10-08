@@ -15,3 +15,5 @@ jobs:
         run: npm test
       - name: Portable host-loss demo
         run: npm run demo
+      - name: Living capacity economics demo
+        run: npm run economics:demo
