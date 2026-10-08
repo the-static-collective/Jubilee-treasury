@@ -11,7 +11,8 @@
     "test": "node --test",
     "demo": "node src/demo.mjs",
     "treasury": "node src/treasury-cli.mjs",
-    "treasury:demo": "node src/treasury-cli.mjs demo"
+    "treasury:demo": "node src/treasury-cli.mjs demo",
+    "treasury:relatte": "node src/relatte-hold-007.mjs"
   },
   "license": "MIT"
 }
