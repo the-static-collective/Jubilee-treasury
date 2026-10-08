@@ -125,3 +125,15 @@ No live Bandcamp account is currently connected and no authenticated Bandcamp ar
 The owner-signed registry can withdraw a destination. A local, manually asserted source report enters private Trickle 009 only as `offer_reported` or `pledge_reported`, **never as a provider-confirmed settlement, chain-confirmed crypto transfer or verified physical receipt**. A real native reLATTE crossing can carry the observation into separately signed `RECEIVED / R3_HOLD` without granting ownership. The 37-penny case is intentionally synthetic and does not require any bank account, payment handle, actual gold, or donor identity.
 
 **This is a reusable front door, not a fundraising launch, live payment connection, hosted public service or charity verification.** Publishing another organization's donation links requires its explicit approval. Each actual contribution remains governed by its source and recipient owners.
+
+
+## PENNY RECURSION 013 — accumulating held coins without fabricated interest
+
+[Penny Recursion 013](docs/PENNY-RECURSION-013.md) is a signed-Asset-Treasury-pinned, read-only recursive **option planner**: a 37-penny steward-attested lot plus an independently accepted 63-penny lot accumulate into a 100-penny inventory; separately attested labor enables bounded candidate paths through counting, sorting, community art, storytelling, matching invitations and possible bank outreach.
+
+    npm run pennies:demo
+    npm run pennies -- inspect /secure/path/to/ledger.json purpose-neighbor-support-001 4 500 12
+
+**One penny lot creates many *mutually exclusive alternative uses*, never multiple real coin balances.** Each hypothetical route conserves the exact source penny count and draws down its own scenario work budget; additional real coins require new locally signed OFFER/ACCEPT/RECEIVE events. The optional monthly compounding calculation is a separately labeled **illustration only**; actual earned interest and deposited cash always remain zero unless independently evidenced by real outside monetary systems (not integrated here). No fiat, physical custody, legal title or interest is produced by code execution.
+
+CI exercises two distinct signed penny-asset native reLATTE RECEIVE/R3_HOLD crossings and exact cold replay, without any independent authority inference. This is an experimental source-attested plan, not a bank, collector appraisal, payment processor or deployed giving channel.
