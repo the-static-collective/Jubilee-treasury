@@ -89,9 +89,11 @@ export function amountMinor(value,currency,{allowZero=false}={}){
   return Number(x);
 }
 function monetaryRow(row){
+  const reversal=REVERSALS.has(row.type);
+  const magnitude = v => reversal && String(v).trim().startsWith('-') ? String(v).trim().slice(1) : v;
   const decimal=row.type==='payout'?row.payout:row.total;
-  const amount=amountMinor(decimal,row.currency,{allowZero:false});
-  const fan=row.type==='payout'?0:row.contribution?amountMinor(row.contribution,row.currency,{allowZero:true}):0;
+  const amount=amountMinor(magnitude(decimal),row.currency,{allowZero:false});
+  const fan=row.type==='payout'?0:row.contribution?amountMinor(magnitude(row.contribution),row.currency,{allowZero:true}):0;
   check(Number.isSafeInteger(amount+fan)&&amount+fan<=1000000000000,'unsupported monetary sum');
   return amount+fan;
 }
@@ -133,22 +135,35 @@ function holdItem(type,row,reason){
   return {kind:type,sourceRowType:row.type,transactionCommitment:fingerprint({transaction:row.transaction}),
     reason,disposition:'HOLD_FOR_HUMAN_RECONCILIATION'};
 }
-export function importBandcampRows(inbox,config,keys,inputs){
+export function importBandcampRows(inbox,config,keys,inputs,{priorIndex=[]}={}){
   config=configureBandcamp(config);
   ensureLocal(inbox,config,keys);
   check(Array.isArray(inputs)&&inputs.length<=MAX_ROWS,'bounded owner report array required');
+  check(Array.isArray(priorIndex)&&priorIndex.length<=50000,'private transaction index required');
   const rows=inputs.map(normalizedRow);
-  let staged=inbox; const indexes=new Map(),seen=new Set();
+  let staged=inbox; const seen=new Set();
   const sourceSignals=()=>staged.signals.filter(s=>s.sourceId===config.sourceId);
   const reports=[],held=[];
-  // First inspect the current retained signals to find exact original sale
-  // references, without ever persisting the raw rows.
-  const originalByAsset=new Map();
-  for(const s of sourceSignals()){
-    if(s.payload.revision===1&&s.payload.status==='pledge_reported')
-      originalByAsset.set(s.payload.assetId,s);
-  }
+  // Private index retains only source transaction *hashes*, amounts and asset IDs.
+  // References are verified against the existing signed inbox before use.
+  const index=priorIndex.map(entry=>{
+    check(entry&&Object.keys(entry).sort().join(',')===
+      ['transactionHash','assetId','minor','unit'].sort().join(',') &&
+      /^[a-f0-9]{64}$/.test(entry.transactionHash) &&
+      /^bc-sale-[a-f0-9]{32}$/.test(entry.assetId) &&
+      Number.isSafeInteger(entry.minor) && entry.minor>0 && /^minor_[a-z]{3}$/.test(entry.unit),
+      'invalid private reconciliation index');
+    const proof=sourceSignals().find(s=>s.payload.assetId===entry.assetId&&s.payload.revision===1&&s.payload.status==='pledge_reported');
+    check(proof&&proof.payload.unit===entry.unit&&proof.payload.quantity===entry.minor,
+      'private index does not match signed source event');
+    return {...entry};
+  });
   const linkByTransaction=new Map();
+  for(const item of index){
+    if(!linkByTransaction.has(item.transactionHash))linkByTransaction.set(item.transactionHash,[]);
+    check(!linkByTransaction.get(item.transactionHash).some(x=>x.assetId===item.assetId),'duplicate reconciliation index');
+    linkByTransaction.get(item.transactionHash).push(item);
+  }
   // Import sales/payouts before reversals regardless of report row order.
   for(const row of rows.filter(x=>!REVERSALS.has(x.type))){
     const key=identity(row),duplicate=key+'|'+row.type;
@@ -165,10 +180,13 @@ export function importBandcampRows(inbox,config,keys,inputs){
         unit:entry.unit,quantity:entry.minor});
     }
     if(row.type!=='payout'){
-      if(!linkByTransaction.has(row.transaction))linkByTransaction.set(row.transaction,[]);
-      linkByTransaction.get(row.transaction).push(entry);
-      const orig=sourceSignals().find(s=>s.payload.assetId===entry.assetId&&s.payload.revision===1);
-      if(orig)originalByAsset.set(entry.assetId,orig);
+      const txHash=contentHash({bandId:config.bandId,transaction:row.transaction});
+      if(!linkByTransaction.has(txHash))linkByTransaction.set(txHash,[]);
+      if(!linkByTransaction.get(txHash).some(x=>x.assetId===entry.assetId)){
+        const item={transactionHash:txHash,assetId:entry.assetId,minor:entry.minor,unit:entry.unit};
+        linkByTransaction.get(txHash).push(item);
+        index.push(item);
+      }
     }
   }
   // Only a full exact-currency reversal tied to exactly ONE known source sale
@@ -177,7 +195,7 @@ export function importBandcampRows(inbox,config,keys,inputs){
   for(const row of rows.filter(x=>REVERSALS.has(x.type))){
     const related=row.related;
     if(!related){held.push(holdItem('reversal',row,'missing_original_transaction_link'));continue;}
-    const candidates=linkByTransaction.get(related)||[];
+    const candidates=linkByTransaction.get(contentHash({bandId:config.bandId,transaction:related}))||[];
     if(candidates.length!==1){held.push(holdItem('reversal',row,'ambiguous_or_missing_original_sale'));continue;}
     const original=candidates[0];
     if(original.unit!=='minor_'+row.currency.toLowerCase()){
@@ -202,18 +220,18 @@ export function importBandcampRows(inbox,config,keys,inputs){
       unit:original.unit,quantity:original.minor});
   }
   return {
-    inbox:staged,added:staged.signals.length-inbox.signals.length,
+    inbox:staged,sourceIndex:index,added:staged.signals.length-inbox.signals.length,
     reported:reports,heldForReview:held,projection:project(staged),
     note:'Owner-controlled Bandcamp sales report observations; no buyer PII, payout bank proof, holdings or charity donation inferred.'
   };
 }
-export function importCsv(inbox,config,keys,bytes){
-  return importBandcampRows(inbox,config,keys,parseCsv(bytes));
+export function importCsv(inbox,config,keys,bytes,options={}){
+  return importBandcampRows(inbox,config,keys,parseCsv(bytes),options);
 }
-export function importApiV4(inbox,config,keys,body){
+export function importApiV4(inbox,config,keys,body,options={}){
   check(body&&Object.keys(body).join(',')==='report'&&Array.isArray(body.report),
     'Bandcamp v4 report array required');
-  return importBandcampRows(inbox,config,keys,body.report);
+  return importBandcampRows(inbox,config,keys,body.report,options);
 }
 export async function fetchAuthorizedBandcampV4(config,startTime,endTime,{
   fetchImpl=fetch,token=process.env.BANDCAMP_ACCESS_TOKEN
