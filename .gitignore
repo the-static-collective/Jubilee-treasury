@@ -8,3 +8,8 @@ receiver-work/
 relatte-donor/
 local-board.html
 operator-board.html
+
+# Private source-adapter inboxes and signed reports
+private-trickle/
+approved-drop/
+source-private-key*.json
