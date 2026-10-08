@@ -20,7 +20,9 @@
     "bandcamp:hold": "node src/bandcamp-relatte-hold-011.mjs",
     "doors": "node src/door-cli-012.mjs",
     "doors:demo": "node src/door-cli-012.mjs demo",
-    "doors:relatte": "node src/door-relatte-hold-012.mjs"
+    "doors:relatte": "node src/door-relatte-hold-012.mjs",
+    "pennies": "node src/penny-recursion-cli-013.mjs",
+    "pennies:demo": "node src/penny-recursion-cli-013.mjs demo"
   },
   "license": "MIT"
 }
