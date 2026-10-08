@@ -90,3 +90,17 @@ If Kinship never chooses to connect, their official giving and operations remain
 Where eligible access has **already** been granted by Bandcamp and securely configured, the same CLI can call the official Sales Report API with an operator-supplied short-lived `BANDCAMP_ACCESS_TOKEN`. Missing authorization fails closed; API access is not generally available for all artist accounts. Raw owner sales reports can be used without the API.
 
 The private signed inbox stores opaque source reports and an SHA-256 transaction reconciliation index only. An exact full, related refund revokes the original source claim; ambiguous/unlinked/partial refunds remain HOLD instead of becoming fabricated settlements. This is **not** Bandcamp-authorized charity giving, an official Kinship donation, a bank balance, or a transferable IP license. Neither a live artist account nor any Bandcamp credentials are connected to this repository.
+
+
+## BANDCAMP SOURCE 011 — artist-owned sales reports with signed Trickle receipts
+
+[Bandcamp Source 011](docs/BANDCAMP-SOURCE-011.md) adds a **runnable private importer** for an account owner's own Bandcamp Tools raw sales CSV, and an optional official Sales Report API **v4** adapter for accounts already granted API access. Buyer names, addresses and payment-account details are excluded from the minimal source observations.
+
+    npm run bandcamp:source -- init ./private-bandcamp BAND_ID purpose-artist-income-001 bandcamp-artist-001
+    npm run bandcamp:source -- csv ./private-bandcamp /secure/path/to/your-bandcamp-sales.csv
+    npm run bandcamp:source -- show ./private-bandcamp
+    npm run bandcamp:source -- hold ./private-bandcamp ASSET_ID ./observation.json
+
+A separate `npm run bandcamp:hold` command exercises an **actual signed reLATTE crossing** into an independent local receiver that emits distinct `RECEIVED` and `R3_HOLD` receipts, without admitting funds or assets. Duplicate imports remain idempotent. Full, unambiguous linked refunds revoke the original observation; partial and unclear reversals HOLD for reconciliation. Sale, payout and refund reports are never conflated with available cash.
+
+No live Bandcamp account is currently connected and no authenticated Bandcamp artist data has been read. The OAuth-gated API path needs Bandcamp's own authorization and a short-lived operator-provided access token; the owner CSV path does not. This does not affect fans' checkout, connect to Kinship, or assert any rights over artists' contributions.
