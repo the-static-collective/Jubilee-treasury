@@ -165,3 +165,16 @@ The synthetic scenario disconnects A, drops B's signed ACK after a successful co
 CI also feeds the B source world through the **actual native reLATTE** HOLD crossing before funding, while fully funded, during box shortfall and after recovery; distinct source states preserve distinct signed receipts, with exact cold replay for unchanged evidence.
 
 This is a local adversarial protocol *specimen*, not a deployed distributed peer-to-peer network, user-visible payment instrument, verified coin vault, or public cryptocurrency.
+
+
+## PENNY-016 — The Box That Asks: three sovereign boxes compose a fourth
+
+[Experiment and boundary laws](docs/PENNY-BOX-THAT-ASKS-016.md). A source-owned PENNY-014 coin box (100 signed book pennies, all backing existing internal claims), an independently owned tool box (3 tools), and an independently owned work box (60 minutes) are combined by a **proposal-only** composition engine. It initially **HOLDs** because the construction kit is missing. A new independently signed kit receipt permits proposing—but not automatically executing—the construction of Box D.
+
+    npm run penny016:demo
+    npm run penny016 -- print ./private-receipt-016.html
+    npm run penny016:relatte -- ./private-field.json ./private-proposal.json /path/to/reLATTE ./private-016-receiver
+
+Nested 1–11 dials control attention only. Three resource owners must independently approve; a fabricator, external witness and incoming box owner must independently attest an exact completion statement. Only after all three owner APPLY records does the simulator show *signed completion attested*, never actual physical verification. It consumes **one kit and 45 minutes**, returns the tool, and preserves all **100 pennies and 100 PENNY backing assignments**. A printable HTML receipt carries owner signatures, source digest, and explicit nonfinancial warnings.
+
+Hosted tests include forged proof/kit/inventory refusals, box disconnection and replay, lost/duplicate receipts, stale source heads, and a **native reLATTE R3_HOLD** of only the completed observation. No deployed hardware, live Static OS or Full Measure connector, QR, financial token, physical box construction, or real-money custody is claimed.
