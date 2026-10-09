@@ -189,7 +189,7 @@ test('rewritten source ledger and forged prior human approval fail closed',async
  changed.boxes['box-b'].events[0].signature='fake';
  reject(()=>verifyReady(changed,f.candidate,f.session,f.bundle,{
   gcodeBytes:SIM_GCODE,photoBytes:SIM_PHOTO,notesBytes:notes
- }),/BOX_016_HOLD/);
+ }),/inspection packet not source bound/);
 });
 test('printer capture has no authority to issue PENNY or modify any source asset',async()=>{
  const f=await fullySigned();
