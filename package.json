@@ -32,7 +32,8 @@
     "penny016:demo": "node src/penny-box-demo-016.mjs demo",
     "penny016:relatte": "node src/penny-box-relatte-016.mjs",
     "penny017": "node src/penny-hardware-demo-017.mjs",
-    "penny017:demo": "node src/penny-hardware-demo-017.mjs demo"
+    "penny017:demo": "node src/penny-hardware-demo-017.mjs demo",
+    "penny018": "node src/penny-field-cli-018.mjs"
   },
   "license": "MIT"
 }
