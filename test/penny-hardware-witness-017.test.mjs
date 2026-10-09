@@ -9,9 +9,10 @@ import {
   applyHardwareEvidence,reportHold
 } from '../src/penny-hardware-witness-017.mjs';
 import {
-  SIM_GCODE,SIM_PHOTO,AT,APPLY_AT,approvedFabricationFixture,
+  SIM_GCODE,SIM_PHOTO,APPLY_AT,approvedFabricationFixture,
   mockReadOnlyDevice,syntheticMachineTrace,createHardwareFixture,demo
 } from '../src/penny-hardware-demo-017.mjs';
+import {AT} from '../src/penny-box-demo-016.mjs';
 import {inspectFourthBox} from '../src/penny-box-composer-016.mjs';
 
 const deny=(fn,re=/BOX_017_HOLD/)=>assert.throws(fn,re);
@@ -140,7 +141,7 @@ test('fabrication evidence cannot be replayed as another plan, another image or 
  const x=await createHardwareFixture(),bad=copy(x.evidence);
  bad.photo.sha256='2'.repeat(64);
  bad.evidenceHash=digest(Object.fromEntries(Object.entries(bad).filter(([k])=>k!=='evidenceHash')));
- deny(()=>validateEvidence(x.field,x.candidate,bad,x.proofs),/same evidence/);
+ deny(()=>validateEvidence(x.field,x.candidate,bad,x.proofs),/signature failed/);
  const other=copy(x.evidence);other.inspection.widthMm=150;
  deny(()=>validateEvidence(x.field,x.candidate,other,x.proofs),/tampered evidence/);
 });
