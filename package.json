@@ -33,7 +33,9 @@
     "penny016:relatte": "node src/penny-box-relatte-016.mjs",
     "penny017": "node src/penny-hardware-demo-017.mjs",
     "penny017:demo": "node src/penny-hardware-demo-017.mjs demo",
-    "penny018": "node src/penny-field-cli-018.mjs"
+    "penny018": "node src/penny-field-cli-018.mjs",
+    "penny019:demo": "node src/haunted-jubilee-arcade-demo-019.mjs",
+    "penny019:test": "node --test test/haunted-jubilee-arcade-019.test.mjs"
   },
   "license": "MIT"
 }
