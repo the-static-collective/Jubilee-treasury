@@ -38,3 +38,7 @@ private-printer-captures/
 private-machine-evidence/
 box-d-part.gcode
 private-post-print-photo.jpg
+private-field-trials/
+handoff-public-review.json
+inspection-evidence.json
+private-input-paths.json
