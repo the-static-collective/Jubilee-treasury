@@ -387,9 +387,21 @@ export function portableReceipt(field,nodeId,planId){
 }
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 export function printableReceiptHTML(receipt){
-  check(receipt?.schema==='jubilee.penny-paper-receipt/v0.1'&&
-    hash(receipt.eventHash)&&digest(receipt.event)===receipt.eventHash,
+  check(exact(receipt,['schema','nodeId','ownerPublicKey','event','eventHash',
+    'fieldMode','noBackingTransferred'])&&
+    receipt.schema==='jubilee.penny-paper-receipt/v0.1'&&ref(receipt.nodeId)&&
+    receipt.fieldMode==='OFFLINE_SIGNED_ASSERTION_NOT_FINANCIAL_RECEIPT'&&
+    receipt.noBackingTransferred===true&&hash(receipt.eventHash)&&
+    digest(receipt.event)===receipt.eventHash,
     'cannot print altered paper receipt');
+  const event=receipt.event;
+  check(exact(event,['seq','type','payload','previous','createdAt','signature'])&&
+    ['APPROVE','APPLY'].includes(event.type)&&
+    Number.isSafeInteger(event.seq)&&event.seq>=1&&stamp(event.createdAt),
+    'paper record must be actual owner acceptance/application');
+  const {signature:ownerSignature,...unsigned}=event;
+  check(verified(receipt.ownerPublicKey,DOMAIN,unsigned,ownerSignature),
+    'cannot print unverified source-owner signature');
   const body=canonical(receipt);
   return '<!doctype html><html lang="en"><head><meta charset="utf-8">'+
     '<title>Jubilee Box owner receipt</title>'+
