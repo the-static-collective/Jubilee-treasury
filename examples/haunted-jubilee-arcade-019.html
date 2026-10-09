@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HAUNTED JUBILEE ARCADE / 019</title>
+<style>
+:root { color-scheme: dark; --void:#0c1719; --panel:#132629; --edge:#3a5757; --mint:#c5e4d0; --amber:#eec58a; --soft:#93b5b0; --red:#dd998e; --paper:#f1e1c2; }
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -20%,#3b4d4b 0,transparent 47%),repeating-linear-gradient(90deg,#102125 0 1px,#0c1b1e 1px 9px);color:#e9ecd9;font-family:system-ui,-apple-system,sans-serif}
+body.flash::before{content:"";position:fixed;inset:0;background:#f7f3d6;opacity:.76;pointer-events:none;z-index:99;animation:flash .35s ease-out forwards}
+@keyframes flash{from{opacity:.9}to{opacity:0}}
+.shell{max-width:1180px;margin:0 auto;padding:28px 18px 60px}
+header{text-align:center;border:2px solid #997f5d;background:linear-gradient(180deg,#253d3b,#162729);box-shadow:0 14px 0 #081112,0 0 0 7px #17292c;padding:22px 14px;margin:0 0 36px}
+.eyebrow{color:var(--amber);letter-spacing:.26em;font-size:11px;font-weight:750}
+h1{font-family:Georgia,serif;font-size:clamp(30px,5.5vw,64px);font-weight:normal;letter-spacing:.015em;margin:5px 0}
+h2{font:normal 25px Georgia,serif;color:var(--amber);margin:0 0 14px}
+p{line-height:1.48}
+.tagline{color:var(--soft);margin:8px auto;max-width:660px}
+.status{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;color:var(--mint);font:12px ui-monospace,monospace}
+.status span{border:1px solid #66816b;padding:7px 11px}
+.layout{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);gap:20px}
+.cabinet,.mailroom{border:2px solid #846b50;background:linear-gradient(135deg,#1a3435,#101f22);box-shadow:inset 0 0 0 5px #243d3b,0 8px 22px #02080896;padding:25px;border-radius:12px}
+.mailroom{border-color:#4c6e6d}
+.section{border-top:1px solid #4d6866;margin-top:24px;padding-top:22px}
+label{display:block;font-size:13px;font-weight:650;color:var(--mint);margin:12px 0 7px}
+input,textarea,select{width:100%;border:1px solid #73867c;border-radius:5px;background:#091517;color:#f5ebd6;padding:11px 12px;font:inherit}
+textarea{min-height:74px;resize:vertical}
+input[type=file]{font-size:12px}
+input[type=checkbox]{width:auto;accent-color:var(--amber);margin-right:7px}
+.check{display:block;font-size:12px;font-weight:normal;color:#d0dacd}
+button{cursor:pointer;border:1px solid #c9b28e;border-radius:5px;padding:12px 14px;background:#d0ba93;color:#102327;font-weight:800;letter-spacing:.05em;font-size:12px}
+button:hover{filter:brightness(1.1)}
+button:disabled{cursor:not-allowed;opacity:.35}
+button.secondary{background:#173235;color:#e7dfc7;border-color:#507573}
+button.red{border-color:#96605b;background:#49312d;color:#ffdbd4}
+.crank{display:flex;align-items:center;justify-content:space-around;gap:12px;margin:25px auto 14px;background:radial-gradient(circle,#365755,#17302e);padding:19px;border:1px solid #6a8277;border-radius:10px}
+.dial{width:125px;height:125px;border:9px double #bd9a69;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 11px #152b2b,0 3px 20px #0006;transform:rotate(-15deg)}
+.dial span{font:68px Georgia,serif;color:#d2b18a;text-shadow:3px 4px #000}
+.crank button{flex:1;max-width:220px;min-height:78px;background:#e4cd9e;font-size:15px}
+.hint,.sub{font-size:12px;color:var(--soft)}
+.preview{height:195px;border:2px dashed #5d796e;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at center,#52655a,#172b2b)}
+.preview img{width:100%;height:100%;object-fit:contain}
+.six{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0}
+.option{min-width:0;border:1px solid #657e73;padding:7px;background:#1b2c2a;cursor:pointer;border-radius:7px}
+.option.selected{outline:3px solid var(--amber)}
+.option .frame{height:90px;background:#61736c;position:relative;overflow:hidden}
+.option img{width:100%;height:100%;object-fit:cover}
+.option .frame::after{content:"";position:absolute;inset:0;border:7px solid #dbc49a55;box-shadow:inset 0 0 15px #0008}
+.option:nth-child(1) img{filter:sepia(.9) contrast(1.2)}
+.option:nth-child(2) img{filter:grayscale(1) invert(.6) contrast(1.4)}
+.option:nth-child(3) img{filter:sepia(.5) saturate(.5) brightness(.9)}
+.option:nth-child(4) img{filter:sepia(.9) contrast(1.8) brightness(.8)}
+.option:nth-child(5) img{filter:grayscale(1) contrast(.75)}
+.option:nth-child(6) img{filter:sepia(.9) hue-rotate(25deg) brightness(1.3)}
+.option small{display:block;margin-top:7px;color:var(--mint);font:9px ui-monospace,monospace;word-break:break-word}
+.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.row button{flex:1}
+.paper{background:var(--paper);color:#33271d;padding:18px;border:8px solid #c8a879;box-shadow:4px 6px 0 #080d0d;margin:15px 0;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 ui-monospace,monospace}
+.log{height:200px;overflow:auto;background:#081719;border:1px solid #3d605f;padding:12px;font:10px/1.55 ui-monospace,monospace;color:#a7c7b8}
+.post{border:1px solid #496c68;margin-top:12px;padding:12px;background:#0e2426}
+.post p{margin:6px 0;font-size:13px}
+.split{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.light{display:inline-block;width:12px;height:12px;border-radius:50%;background:#9dde7a;box-shadow:0 0 13px #b2e689}
+#message{position:sticky;bottom:8px;background:#091619;border:1px solid #a2b8a9;padding:10px 14px;font:12px ui-monospace,monospace;color:#e6e3c9;margin:22px 0;box-shadow:0 4px 20px #0008;z-index:5}
+.foot{color:#c1c5b6;font-size:12px;max-width:850px;margin:22px auto 0;text-align:center}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.cabinet,.mailroom{padding:18px}.six{gap:7px}.option .frame{height:85px}}
+@media print{body{background:white;color:black}.shell>*:not(#printTarget){display:none!important}#printTarget{display:block!important;color:black;background:white;border:1px solid black;box-shadow:none;margin:0;font-size:15px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <div class="eyebrow">THE STATIC COLLECTIVE · OFFLINE EXPERIMENT 019</div>
+  <h1>THE HAUNTED JUBILEE ARCADE</h1>
+  <p class="tagline">A penny arcade, an eccentric photobooth, a hand-cranked quest machine, and a postal ghost with exceptionally strict receipts.</p>
+  <div class="status"><span><i class="light"></i> SYNTHETIC LOCAL SESSION</span><span> TWO BOXES / ONE PROCESS</span><span> PENNY ISSUED: ZERO</span></div>
+</header>
+<div class="layout">
+<main class="cabinet">
+  <div class="eyebrow">CABINET A · THE PORCH</div>
+  <h2>The box that asks.</h2>
+  <p class="sub">Your photograph stays in this browser for previews and travels only to this loopback-local server for a SHA-256 source digest. No account, score, wallet, or donor record.</p>
+  <label for="alias">What should the postcard call you?</label>
+  <input id="alias" value="A Bicycle Neighbor" maxlength="40" autocomplete="off">
+  <label for="offer">What could you offer another human?</label>
+  <textarea id="offer" maxlength="240">I can repair a bicycle on Saturday.</textarea>
+  <label for="photo">Feed the camera a PNG or JPEG</label>
+  <input id="photo" type="file" accept="image/png,image/jpeg">
+  <div class="preview" id="preview"><span>NO IMAGE YET · NO SHUTTER CLAIM</span></div>
+  <label class="check"><input type="checkbox" id="printPermission" checked> I allow a local print projection of my offered text and image source digest</label>
+  <label class="check"><input type="checkbox" id="mailPermission" checked> I allow a review-only story parcel to enter the second box</label>
+  <label class="check"><input type="checkbox" id="flash"> Theatrical flash-pop animation (screen only)</label>
+  <div class="crank"><div class="dial" aria-hidden="true"><span>↻</span></div><button id="crank">TURN THE CRANK<br>ONE TIME</button></div>
+  <p class="hint">One click = one simulated edge = at most one proposal. This is not physical CRANKNODE hardware.</p>
+  <section class="section">
+    <div class="eyebrow">HAUNTED POL-ISH-ROIDS · METADATA PREVIEW</div>
+    <h2>Six imperfect descendants.</h2>
+    <p class="sub">Six visual previews of the same original. These are live CSS treatments, <strong>not generated or saved new image files</strong>.</p>
+    <div id="six" class="six"><p class="sub">Turn the crank to develop.</p></div>
+    <div class="row">
+      <button id="keep" class="secondary" disabled>KEEP</button>
+      <button id="haunt" class="secondary" disabled>HAUNT</button>
+      <button id="compost" class="red" disabled>COMPOST</button>
+    </div>
+    <p id="choice" class="hint">No selection.</p>
+  </section>
+  <section class="section">
+    <div class="eyebrow">POSTEMAHH'N · MAIL CANDIDATE</div>
+    <h2>Make a physical-world-shaped postcard.</h2>
+    <div class="row">
+      <button id="approve" disabled>APPROVE CARD</button>
+      <button id="printPaper" class="secondary" disabled>OPEN PRINT DIALOG</button>
+      <button id="mail" class="secondary" disabled>MAIL TO BOX B</button>
+    </div>
+    <div id="paper" class="paper">A human-approved printable projection will appear here. Actual printing remains a separate decision.</div>
+    <p class="hint">The printer dialogue, if opened, is controlled by you. No printer outcome is inferred or logged.</p>
+  </section>
+</main>
+<aside class="mailroom">
+  <div class="eyebrow">CABINET B · THE MAILROOM</div>
+  <h2>A different door. A different owner.</h2>
+  <p class="sub">A received card enters HOLD. No broadcast, donation, work verification, or social obligation follows automatically.</p>
+  <div id="received" class="post">No parcels yet. The letterbox is open.</div>
+  <section class="section">
+    <div class="eyebrow">THE PHYSICAL PENNY / HELD</div>
+    <h2>One penny is not a mint.</h2>
+    <p class="sub">Try declaring a penny witness. It creates an unverified claim, not real backing or an issued unit.</p>
+    <div class="row"><input id="coinCount" type="number" min="1" max="1000" value="1" style="width:90px"><button id="claimCoin" class="secondary">REPORT COIN</button></div>
+    <p id="pennyStatus" class="hint">Reported: 0 · admitted backing: 0 · units issued: 0</p>
+  </section>
+  <section class="section">
+    <div class="eyebrow">AN AUDIT TRAIL, NOT AN ORACLE</div>
+    <h2>Tree rings.</h2>
+    <div class="split"><small>Source head</small><code id="originHead">GENESIS</code></div>
+    <div class="split"><small>Receiver head</small><code id="receiverHead">GENESIS</code></div>
+    <div class="log" id="journal">No events.</div>
+    <p class="hint">Hashes alone are unsigned. Independent authentication and fresh permission are required before real-world use.</p>
+  </section>
+  <section class="section">
+    <div class="eyebrow">THE ROBOT FORTUNE TELLER</div>
+    <h2>An invitation, not a prophecy.</h2>
+    <p id="fortune" style="font-family:Georgia,serif;font-size:18px;line-height:1.5">“The machine knows only that someone has arrived.”</p>
+  </section>
+</aside>
+</div>
+<div id="message" role="status">Cabinet is ready. Nothing has been transmitted, printed, minted or witnessed.</div>
+<p class="foot">Local-only source-provenance specimen. Human choice is real when you click; pictured work, coin claims, hardware, financial issuance, mailing and Kinship station participation are not. No explosive flashbulbs were harmed in the making of this arcade.</p>
+</div>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const note = message => { $('message').textContent = message; };
+  let latest = null, variant = -1, imageUrl = null, currentFile = null, state = null;
+  const fortunes = [
+    'A missed thread is not a severed history.',
+    'You may carry the letter without carrying the obligation.',
+    'A penny cannot be in two boxes at once.',
+    'The tree ring does not explain the whole tree.',
+    'The next person gets to make a different choice.',
+    'A ghost may suggest. A human must decide.'
+  ];
+  const api = async payload => {
+    try {
+      const response = await fetch('/api/action', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+      const data = await response.json();
+      if (!response.ok) throw Error(data.error || 'Local operation held');
+      state = data.state;
+      redraw();
+      return data.result;
+    } catch(error) { note('HOLD / ' + error.message); return null; }
+  };
+  const loadState = async () => { const r = await fetch('/api/state'); state = await r.json(); redraw(); };
+  const readBase64 = file => new Promise((resolve,reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+  const drawFrame = (item, index) => {
+    const div = document.createElement('div'); div.className = 'option' + (index === variant ? ' selected' : '');
+    const holder = document.createElement('div'); holder.className = 'frame';
+    if(imageUrl) { const im = document.createElement('img'); im.src = imageUrl; im.alt = 'Preview of original local image in a proposed haunted frame'; holder.append(im); }
+    div.append(holder);
+    const text = document.createElement('small'); text.textContent = String(index + 1).padStart(2,'0') + ' / ' + item.lens.replaceAll('_',' ');
+    div.append(text);
+    div.addEventListener('click', () => {
+      if(latest.choice) { note('One irreversible local development choice has already been recorded.'); return; }
+      variant = index; redraw();
+    });
+    return div;
+  };
+  const redraw = () => {
+    if(!state) return;
+    const active = state.candidates.at(-1);
+    latest = active || null;
+    const six = $('six'); six.replaceChildren();
+    if(active) active.six.forEach((frame,i) => six.append(drawFrame(frame,i)));
+    else { const p=document.createElement('p');p.textContent='Turn the crank to develop.';six.append(p); }
+    const canChoose = !!active && !active.choice && variant >= 0;
+    for(const id of ['keep','haunt','compost']) $(id).disabled = !canChoose;
+    $('choice').textContent = active?.choice ? 'Chosen: ' + active.choice.decision + ' / ' + active.choice.selected.lens : 'Select a frame, then KEEP / HAUNT / COMPOST.';
+    $('approve').disabled = !active || !active.choice || active.choice.decision === 'COMPOST' || !!active.card || !active.permissions.print;
+    $('mail').disabled = !active?.card || !active.permissions.mail;
+    $('printPaper').disabled = !active?.card;
+    $('paper').textContent = active?.card?.text || 'A human-approved printable projection will appear here. Actual printing remains a separate decision.';
+    $('originHead').textContent = state.porch.head.slice(0,12);
+    $('receiverHead').textContent = state.mailroom.head.slice(0,12);
+    const log=$('journal'); log.textContent = state.porch.history.concat(state.mailroom.history).slice(-20).map(e => '[' + e.index + '] ' + e.type + ' / ' + e.hash.slice(0,10)).join('\n');
+    const reports=state.porch.history.filter(e=>e.type==='UNVERIFIED_COIN_REPORT_HELD').reduce((n,e)=>n+e.payload.numberOfCoins,0);
+    $('pennyStatus').textContent='Reported: '+reports+' · admitted backing: 0 · units issued: 0';
+    const recv=$('received');recv.replaceChildren();
+    if(!state.held.length) recv.textContent='No parcels yet. The letterbox is open.';
+    state.held.forEach(p => {
+      const box=document.createElement('div'); box.className='post';
+      const id=document.createElement('small');id.textContent='HELD / '+p.id.slice(0,12);
+      const story=document.createElement('p');story.textContent=p.alias+': '+p.offer;
+      const editor=document.createElement('input'); editor.value='Perhaps this becomes a neighborhood workshop';editor.maxLength=240;
+      const button=document.createElement('button');button.textContent=p.heirInterpreted?'HEIR RECORDED':'ADD PRIVATE HEIR';button.disabled=p.heirInterpreted;
+      button.addEventListener('click',async()=>{ const r=await api({action:'heir',parcelId:p.id,interpretation:editor.value});if(r)note('Private successor interpretation recorded. The parent is unchanged.'); });
+      box.append(id,story,editor,button);recv.append(box);
+    });
+  };
+  $('photo').addEventListener('change', () => {
+    currentFile = $('photo').files?.[0] || null;
+    if(imageUrl) URL.revokeObjectURL(imageUrl);
+    imageUrl = currentFile ? URL.createObjectURL(currentFile) : null;
+    const preview=$('preview');preview.replaceChildren();
+    if(imageUrl) { const im=document.createElement('img');im.src=imageUrl;im.alt='Imported image preview';preview.append(im); }
+    else preview.textContent='NO IMAGE YET · NO SHUTTER CLAIM';
+    redraw();
+  });
+  $('crank').addEventListener('click',async () => {
+    if(!currentFile) { note('HOLD / Import a PNG or JPEG first.');return; }
+    if(currentFile.size>2000000) {note('HOLD / Local file exceeds 2 MB.');return;}
+    const payload={ action:'turn', alias:$('alias').value, offer:$('offer').value, imageBase64:await readBase64(currentFile),
+      mime:currentFile.type, print:$('printPermission').checked, mail:$('mailPermission').checked, flash:$('flash').checked };
+    if(payload.flash){ document.body.classList.add('flash');setTimeout(()=>document.body.classList.remove('flash'),400); }
+    const result=await api(payload);
+    if(result){variant=-1; $('fortune').textContent='“'+fortunes[parseInt(result.image.sha256.slice(0,2),16)%fortunes.length]+'”';redraw();note('One bounded proposal HELD. Choose a haunted development.');}
+  });
+  for(const [id,decision] of [['keep','KEEP'],['haunt','HAUNT'],['compost','COMPOST']]) $(id).addEventListener('click',async()=>{
+    if(!latest)return;
+    const result=await api({action:'choose',id:latest.id,variant,decision});
+    if(result)note(decision + ' chosen. Source bytes are untouched; no independent image was generated.');
+  });
+  $('approve').addEventListener('click',async()=>{if(!latest)return;const r=await api({action:'print',id:latest.id});if(r)note('Card prepared for a human print decision; no paper has been printed by this program.');});
+  $('printPaper').addEventListener('click',()=>{ if(latest?.card) window.print(); });
+  $('mail').addEventListener('click',async()=>{if(!latest)return;const r=await api({action:'mail',id:latest.id});if(r)note('Card arrived at Box B as HOLD. Not broadcast, delivered in the real world, or admitted as a donation.');});
+  $('claimCoin').addEventListener('click',async()=>{
+    const n=Number($('coinCount').value);
+    const r=await api({action:'claimPenny',numberOfCoins:n,claimId:'browser-report-'+Date.now()});
+    if(r)note('Unverified coin report HELD. Verified backing remains zero; nothing was issued.');
+  });
+  loadState().catch(e=>note('Local server unavailable: '+e.message));
+})();
+</script>
+</body>
+</html>
