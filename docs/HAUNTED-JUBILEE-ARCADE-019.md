@@ -11,8 +11,11 @@ Requires Node 20+; no install, camera, printer, wallet, device or network access
 ~~~sh
 npm run penny019:test
 npm run penny019:demo
+npm run penny019:serve  # local playable cabinet: http://127.0.0.1:8777
 npm test
 ~~~
+
+For the browser cabinet, open http://127.0.0.1:8777 on the **same machine**. Select a PNG/JPEG, supply an offer and an alias, choose independent print/mail consents, turn the simulated crank, pick one of six CSS-only preview treatments, KEEP/HAUNT/COMPOST, approve a printable text card, and optionally MAIL it to Box B as HOLD. An independently selected receiver can add a private HEIR interpretation. The browser UI uses the **same Node core state machine** (not a separate implementation). No third-party JS, fonts or requests, external upload endpoint, wallet or printer control. The page can open your browser's native print dialog only after your explicit button press; the ledger still makes no physical-print success claim. The two boxes are distinct objects **inside one local process**, not two independent network hosts. Closing the server loses in-memory session state. Be careful not to enter private details in a shared device.
 
 Or call node --test test/haunted-jubilee-arcade-019.test.mjs and node src/haunted-jubilee-arcade-demo-019.mjs. The demo embeds a tiny synthetic PNG, and all human approvals in it are simulated by fixed operators. Its text output is an ASCII-printable postcard projection. It does not generate real image pixels or print actual paper.
 
@@ -63,7 +66,7 @@ Journal hashes detect change relative to an *independently trusted known head*. 
 
 The offline receiver cannot discover a withdrawal made *after* the sender prepared a parcel unless a trusted channel supplies updated facts. Previous paper copies cannot be unprinted. Exported journals contain contributor offer and alias text; do not put real personal/donor data or private photos in public repository fixtures. The model is in-memory and **not crash durable**. Real-world serial gates and custody must retain their own authoritative native implementations.
 
-Tests cover edge reuse even after failed work, semantic smuggling, image byte binding, six independent metadata frames, COMPOST, missing print/mail rights, verified printable projection without claiming paper, MAIL/HOLD, duplicates, wrong destination, modified card and journal, pre-mail withdrawal, penny reports that never issue, and independent HEIR that does not mutate source.
+Tests also run real loopback HTTP requests to the cabinet server, exercise the full button-equivalent journey, reject cross-origin operations, block rights escalation, and verify that local held penny declarations leave backing and issuance at zero. They are software tests, not field deployment. Tests cover edge reuse even after failed work, semantic smuggling, image byte binding, six independent metadata frames, COMPOST, missing print/mail rights, verified printable projection without claiming paper, MAIL/HOLD, duplicates, wrong destination, modified card and journal, pre-mail withdrawal, penny reports that never issue, and independent HEIR that does not mutate source.
 
 ## Physical cabinet and later slices
 
