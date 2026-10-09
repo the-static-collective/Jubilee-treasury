@@ -189,3 +189,13 @@ Hosted tests include forged proof/kit/inventory refusals, box disconnection and 
     npm run penny017 -- fingerprint /private/box-d-part.gcode /private/photo.jpg
 
 The default demo uses mocked read-only OctoPrint STATUS replies, sample G-code/photo bytes and synthetic signers. No printer, camera, real manufactured fourth box, physical inspection, money or actual wallet is connected. A photo hash is not image verification, and even a printer state saying "Operational" after printing does not establish that a real part was built. Native opt-in tests carry the resulting evidence-bound signed completion to actual reLATTE R3_HOLD; ownership, custody and issue rights remain false.
+
+## PENNY-018 — actual operator-controlled physical capture, no machine execution
+
+[PENNY-018 field-trial manual](docs/PENNY-FIELD-TRIAL-018.md) implements a privacy-preserving optional read-only printer-observation and physical evidence procedure. This new stage begins with an already **independently selected** PENNY-016 proposal, creates a fresh on-site challenge, captures two operator-requested read-only OctoPrint states, fingerprints real G-code/photo/inspection-note bytes, and requires three separate pinned human role keys to sign the exact same evidence manifest. Re-review always rereads the original local files; any change HOLDs.
+
+    npm run penny018 -- init ./field.json ./proposal.json ./box-d-part.gcode ./private-field-trials/trial-001
+    OCTOPRINT_API_KEY=... npm run penny018 -- observe ./private-field-trials/trial-001 http://127.0.0.1:5000
+    npm run penny018 -- status ./private-field-trials/trial-001
+
+See the manual for on-site independent inspection, signature handoff, and allowed/rejected commands. **No real printer or human was accessed during CI**, no automatic print or issuance occurs, and the output is only `EVIDENCE_READY_FOR_MANUAL_OWNER_REVIEW_NO_AUTOMATIC_APPLY`. Any Box D commissioning and PENNY backing/token permissions remain separate future authorized decisions.
