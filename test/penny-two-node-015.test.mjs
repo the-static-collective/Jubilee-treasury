@@ -228,7 +228,7 @@ test('reordered unacknowledged older work after higher source sequence is quaran
     },s.keys.work)},AT);
   // B cannot CLEAR without DISPUTE; replay native guards even if network reorders.
   reject(()=>admitToB(s.boxNode,second,'proposal-later-001',s.keys.treasury,AT),
-    /invalid work status transition/);
+    /out-of-order message/);
 });
 test('A work dispute delivered to B freezes all positions without erasing them',()=>{
   const s=funded();
