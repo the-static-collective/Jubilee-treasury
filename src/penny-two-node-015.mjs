@@ -196,6 +196,9 @@ export function admitToB(node,source,proposalId,stewardKeys,at,
     receipt:dropResponse?null:structuredClone(previous),
     status:'IDEMPOTENT_PRIOR_COMMIT'};
   check(p.seq>state.lastSourceSeq,'late out-of-order source message requires reconciliation');
+  const earlierUncommitted=source.events.slice(0,p.seq-1).filter(e=>
+    e.type==='PROPOSE'&&!node.receipts.some(r=>r.sourceEventHash===digest(e)));
+  check(earlierUncommitted.length===0,'out-of-order message: earlier A proposal must reconcile first');
   check(stewardKeys?.publicKey===node.treasuryPublicKey,
     'A cannot sign B treasury events');
   verifyNativeIntent(node,p.payload.operation,p.payload.pennyPayload);
