@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {newKeys,inspectWorld} from '../src/penny-work-matter-014.mjs';
+import {newKeys,inspectWorld,digest} from '../src/penny-work-matter-014.mjs';
 import {
  newNode,inspectNode,inspectField,declareResource,compose,validateDials,
  selectAtNode,makeCompletion,applyAtNode,inspectFourthBox,
@@ -174,6 +174,9 @@ test('approval and completion event receipts preserve exact signed provenance',(
  assert.doesNotMatch(html,/<script|<iframe|fetch\(|<form/i);
  const bad=copy(r);bad.eventHash='0'.repeat(64);
  reject(()=>printableReceiptHTML(bad),/altered paper receipt/);
+ const forged=copy(r);forged.event.signature='bogus';
+ forged.eventHash=digest(forged.event);
+ reject(()=>printableReceiptHTML(forged),/unverified source-owner signature/);
 });
 test('untrusted user-supplied HTML cannot pass owner-signed inventory event',()=>{
  const s=ready(),node=s.field.boxes['box-b'];
