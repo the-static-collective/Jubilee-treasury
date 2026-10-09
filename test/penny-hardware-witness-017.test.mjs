@@ -135,13 +135,13 @@ test('even correctly signed stale evidence cannot cross into different chosen fo
  const x=await createHardwareFixture();
  const bogus=copy(x.candidate);
  bogus.proposalHash='0'.repeat(64);
- deny(()=>validateEvidence(x.field,bogus,x.evidence,x.proofs),/bound to selected source/);
+ deny(()=>validateEvidence(x.field,bogus,x.evidence,x.proofs),/independent approval/);
 });
 test('fabrication evidence cannot be replayed as another plan, another image or later inspection',async()=>{
  const x=await createHardwareFixture(),bad=copy(x.evidence);
  bad.photo.sha256='2'.repeat(64);
  bad.evidenceHash=digest(Object.fromEntries(Object.entries(bad).filter(([k])=>k!=='evidenceHash')));
- deny(()=>validateEvidence(x.field,x.candidate,bad,x.proofs),/signature failed/);
+ deny(()=>validateEvidence(x.field,x.candidate,bad,x.proofs),/witness signoff did not bind/);
  const other=copy(x.evidence);other.inspection.widthMm=150;
  deny(()=>validateEvidence(x.field,x.candidate,other,x.proofs),/tampered evidence/);
 });
