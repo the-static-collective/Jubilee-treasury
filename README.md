@@ -151,3 +151,17 @@ The synthetic demonstration witnesses 100 pending work units, 37 + 63 individual
 Hostile tests prevent duplicate physical backing, forged work signatures, unauthorized recipient allocation, unsupported transfers, double redemption and missing-coin laundering. Disputed work and audit shortfalls freeze affected units while retaining claim history. A native signed reLATTE crossing carries only **the inert state observation**, with independent RECEIVED / R3_HOLD and cold replay. Neither a released *simulated* token nor its reLATTE observation creates enforceable redemption rights, bank collateral, actual custody, or public-money authority.
 
 **Before any deployment**: establish legal issuer/custody/redemption obligations and holder protections, verified real identities and physical audits, secure keys, loss coverage, fraud/dispute mechanisms, financial-regulatory review and actual institution approval.
+
+
+## PENNY-015 — two-node sovereignty, network partition and missing physical pennies
+
+[PENNY-015](docs/PENNY-TWO-NODE-015.md) puts a **separately signed work node A** opposite a **sovereign PENNY-014 physical custody node B**. A may propose work, release, holder transfer and redemption using existing exact role proofs; B independently checks and commits one atomic local journal effect and signed source-bound receipt. Actual physical DEPOSIT / AUDIT / LOSS requires B's local owner/witness authority, not a remote A message.
+
+    npm run penny015:demo
+    npm run penny015 -- audit ./private-node-a.json ./private-node-b.json
+
+The synthetic scenario disconnects A, drops B's signed ACK after a successful commit, kills/reconstitutes both local JSON worlds, and retries identically **without issuing again**. B then funds 37+63 pennies for 100 units of source-signed work, accepts a dual-consent transfer of 12 to an organization, redeems/retires 7 with three-party physical evidence, identifies a missing 12-penny discrepancy and freezes circulation. A separate deposit restores locally attested backing (93/93) without inventing money or deleting holder claims.
+
+CI also feeds the B source world through the **actual native reLATTE** HOLD crossing before funding, while fully funded, during box shortfall and after recovery; distinct source states preserve distinct signed receipts, with exact cold replay for unchanged evidence.
+
+This is a local adversarial protocol *specimen*, not a deployed distributed peer-to-peer network, user-visible payment instrument, verified coin vault, or public cryptocurrency.

@@ -25,7 +25,9 @@
     "pennies:demo": "node src/penny-recursion-cli-013.mjs demo",
     "penny014": "node src/penny-work-matter-demo-014.mjs",
     "penny014:demo": "node src/penny-work-matter-demo-014.mjs demo",
-    "penny014:relatte": "node src/penny-work-matter-relatte-014.mjs"
+    "penny014:relatte": "node src/penny-work-matter-relatte-014.mjs",
+    "penny015": "node src/penny-two-node-demo-015.mjs",
+    "penny015:demo": "node src/penny-two-node-demo-015.mjs demo"
   },
   "license": "MIT"
 }
