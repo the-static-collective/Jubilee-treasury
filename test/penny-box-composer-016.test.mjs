@@ -152,7 +152,8 @@ test('tampered accepted plan or stale A coin source is denied',()=>{
  reject(()=>applyAtNode(s.field,bad,'box-a',s.owners['box-a'],s.completion,AT),/tampered proposal/);
  const shifted=copy(s.field);
  shifted.pennyWorld.events[0].signature='forged';
- reject(()=>applyAtNode(shifted,s.proposal,'box-a',s.owners['box-a'],s.completion,AT));
+ reject(()=>applyAtNode(shifted,s.proposal,'box-a',s.owners['box-a'],s.completion,AT),
+   /PENNY_014_HOLD: invalid steward event signature/);
 });
 test('no double allocation of a single material kit to a second plan while reserved',()=>{
  const s=approved(),b=inspectNode(s.field.boxes['box-b']);
