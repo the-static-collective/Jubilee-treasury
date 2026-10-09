@@ -27,7 +27,10 @@
     "penny014:demo": "node src/penny-work-matter-demo-014.mjs demo",
     "penny014:relatte": "node src/penny-work-matter-relatte-014.mjs",
     "penny015": "node src/penny-two-node-demo-015.mjs",
-    "penny015:demo": "node src/penny-two-node-demo-015.mjs demo"
+    "penny015:demo": "node src/penny-two-node-demo-015.mjs demo",
+    "penny016": "node src/penny-box-demo-016.mjs",
+    "penny016:demo": "node src/penny-box-demo-016.mjs demo",
+    "penny016:relatte": "node src/penny-box-relatte-016.mjs"
   },
   "license": "MIT"
 }
