@@ -178,3 +178,14 @@ This is a local adversarial protocol *specimen*, not a deployed distributed peer
 Nested 1–11 dials control attention only. Three resource owners must independently approve; a fabricator, external witness and incoming box owner must independently attest an exact completion statement. Only after all three owner APPLY records does the simulator show *signed completion attested*, never actual physical verification. It consumes **one kit and 45 minutes**, returns the tool, and preserves all **100 pennies and 100 PENNY backing assignments**. A printable HTML receipt carries owner signatures, source digest, and explicit nonfinancial warnings.
 
 Hosted tests include forged proof/kit/inventory refusals, box disconnection and replay, lost/duplicate receipts, stale source heads, and a **native reLATTE R3_HOLD** of only the completed observation. No deployed hardware, live Static OS or Full Measure connector, QR, financial token, physical box construction, or real-money custody is claimed.
+
+
+## PENNY-017 — hardware witnesses, local G-code/photos and read-only OctoPrint status
+
+[Hardware evidence contract](docs/PENNY-HARDWARE-WITNESS-017.md). This is the first local live-capable *read-only* fabrication observation seam, layered on PENNY-016's three-box signed proposal/selection system. It can probe an operator-owned private/loopback OctoPrint server's STATUS API without sending a command, hash actual local G-code/photo bytes, bind two ordered job observations to the approved construction plan, and require three independent human-signature roles on post-job measurements. Only then is a PENNY-016 completion claim produced, without affecting existing coin backing or creating PENNY tokens.
+
+    npm run penny017:demo
+    OCTOPRINT_API_KEY=... npm run penny017 -- probe http://127.0.0.1:5000
+    npm run penny017 -- fingerprint /private/box-d-part.gcode /private/photo.jpg
+
+The default demo uses mocked read-only OctoPrint STATUS replies, sample G-code/photo bytes and synthetic signers. No printer, camera, real manufactured fourth box, physical inspection, money or actual wallet is connected. A photo hash is not image verification, and even a printer state saying "Operational" after printing does not establish that a real part was built. Native opt-in tests carry the resulting evidence-bound signed completion to actual reLATTE R3_HOLD; ownership, custody and issue rights remain false.
