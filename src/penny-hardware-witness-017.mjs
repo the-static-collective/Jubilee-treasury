@@ -236,6 +236,8 @@ export function validateEvidence(field,candidate,evidence,proofs){
 }
 export function applyHardwareEvidence(field,candidate,evidence,proofs,owners,at){
   const validated=validateEvidence(field,candidate,evidence,proofs);
+  must(time(at)&&at>=evidence.inspection.inspectedAt,
+    'owner APPLY cannot precede observed machine work and inspection');
   must(owners&&nodeNames.every(id=>owners[id])&&owners.fabricator&&
     owners.witness&&owners.newBox,'owner role keyset required');
   const completion=makeCompletion(candidate,{
