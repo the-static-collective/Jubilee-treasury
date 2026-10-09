@@ -28,7 +28,8 @@ export function validatePacket(packet) {
   keys(packet.edge, edgeFields, 'physical edge');
   const e=packet.edge;
   requireThat(e.schema === 'static-os.crank-physical-edge/v0', 'edge schema mismatch');
-  slug(e.device_id); slug(e.session_id);
+  requireThat(typeof e.device_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9:._-]{0,127}$/.test(e.device_id), 'invalid hardware device id');
+  requireThat(typeof e.session_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9:._-]{0,127}$/.test(e.session_id), 'invalid hardware session id');
   requireThat(Number.isSafeInteger(e.sequence) && e.sequence >= 0, 'invalid edge sequence');
   requireThat(e.ticks === 1 && ['CW','CCW'].includes(e.direction), 'invalid edge ticks or direction');
   const nativeId = 'static-os-crank-edge-v0:' + shaObject(e);
