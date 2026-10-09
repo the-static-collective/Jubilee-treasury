@@ -8,6 +8,7 @@ import {
   signEvidence,applyHardwareEvidence,reportHold
 } from './penny-hardware-witness-017.mjs';
 
+export const APPLY_AT='2026-10-08T21:17:04.000Z';
 export const SIM_GCODE=Buffer.from('; synthetic fourth-box print specimen\nG21\nG90\nG1 X20 Y20 F1200\nG1 X40 Y20 E0.5\n');
 export const SIM_PHOTO=Buffer.concat([
   Buffer.from([137,80,78,71,13,10,26,10]),Buffer.from('SIMULATED_IMAGE_NOT_CAMERA_DATA')
@@ -73,7 +74,7 @@ export async function demo(){
   const x=await createHardwareFixture();
   const pre=reportHold(x.field,x.candidate,{gcode:true,twoMachineSnapshots:true,
     photo:true,inspection:true,witnesses:false});
-  const completed=applyHardwareEvidence(x.field,x.candidate,x.evidence,x.proofs,x.owners,AT);
+  const completed=applyHardwareEvidence(x.field,x.candidate,x.evidence,x.proofs,x.owners,APPLY_AT);
   const final=inspectFourthBox(completed.field,x.candidate);
   return {
     schema:'jubilee.penny-hardware-017-demo/v0.1',
