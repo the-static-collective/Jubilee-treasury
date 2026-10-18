@@ -43,3 +43,6 @@ This repo currently implements **standalone typed signed envelopes**, not a real
 The reference protocol intentionally has no accounts, host authorization plane, anti-abuse reporting, real-world verification, notification delivery, payment rails, consent capture, private secure messaging, or jurisdiction-specific charitable-compliance framework. Never present it as an operational fundraising platform. A hosted deployment requires a separate product security/privacy review, safety reporting and appeal mechanisms, and compliance review for its payment provider and jurisdictions. Crowdfunding support is not automatically tax deductible.
 
 **Software licensed under MIT; reference implementation is not a promise of support.**
+## Church participation experiment — PENNY BOX 001
+
+A separate, local-only, zero-payment prototype for a church-managed coin box, anonymous volunteer interest, observed deliveries and donated equipment now lives at [`labs/penny-box-001`](labs/penny-box-001/README.md). Its physical QR doorway is not a live public deployment, and it does not mint PENNY or change Treasury authority. Open it as a standalone lab; needs and observation records only become Treasury proposals through an explicitly reviewed future adapter.
