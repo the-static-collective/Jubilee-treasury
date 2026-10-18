@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8in" height="2in" viewBox="0 0 800 200" role="img" aria-label="PENNY BOX eight-by-two-inch container strip">
+<rect width="800" height="200" fill="#F9F4E7"/><rect x="12" y="12" width="776" height="176" rx="8" fill="none" stroke="#B17D45" stroke-width="2"/>
+<g transform="translate(106 100) scale(.7)"><circle r="90" fill="none" stroke="#BF7B3B" stroke-width="5"/><circle r="76" fill="none" stroke="#BF7B3B" stroke-width="1.5" opacity=".68"/><path d="M0 45 V-25" stroke="#BF7B3B" stroke-width="7" stroke-linecap="round"/><path d="M0 -6 C-40 -5-54 -33-54 -55 C-24 -62-4 -47 0 -6Z" fill="#BF7B3B"/><path d="M0 -25 C9-68 37-73 55-64 C52-33 32-17 0-25Z" fill="#BF7B3B"/><path d="M-24 48 H24" stroke="#BF7B3B" stroke-width="5" stroke-linecap="round"/></g>
+<text x="213" y="88" font-family="Georgia,serif" font-size="48" font-weight="700" fill="#173E32">A LITTLE ADDS UP.</text>
+<text x="215" y="125" font-family="Arial,sans-serif" font-size="19" font-weight="700" letter-spacing="3" fill="#AF763E">PENNY BOX / SMALL THINGS COUNT</text>
+<text x="215" y="154" font-family="Arial,sans-serif" font-size="12" fill="#51665A">Box label only. No automatic credit or tax receipt. Steward approval required.</text>
+</svg>
