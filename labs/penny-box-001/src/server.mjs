@@ -3,8 +3,16 @@ import { createServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { Journal, publicBoard, createNeed, createOffer, createObservation, createClose } from './ledger.mjs';
+import { brandPage } from './brand-page.mjs';
 
 const UI = readFileSync(new URL('./ui.js', import.meta.url), 'utf8');
+const BRAND_CSS = readFileSync(new URL('./brand.css', import.meta.url), 'utf8');
+const brandAssets = new Map([
+  ['/mark.svg','mark.svg'],
+  ['/kit/poster-letter.svg','poster-letter.svg'],
+  ['/kit/box-front-5x7.svg','box-front-5x7.svg'],
+  ['/kit/box-top-8x2.svg','box-top-8x2.svg']
+].map(([route,name]) => [route, readFileSync(new URL('../assets/'+name, import.meta.url),'utf8')]));
 const css = [
   ':root{--ink:#20312d;--pine:#274c40;--cream:#faf5e9;--copper:#b78140}',
   '*{box-sizing:border-box}body{font:18px/1.55 system-ui,sans-serif;margin:0;background:var(--cream);color:var(--ink)}',
@@ -30,7 +38,7 @@ function reply(res, status, value, type='application/json') {
     'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
     'Referrer-Policy': 'no-referrer',
     'Content-Security-Policy': type === 'text/html'
-      ? "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'; form-action 'none'"
+      ? "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; frame-ancestors 'none'; form-action 'none'"
       : "default-src 'none'; frame-ancestors 'none'"
   });
   res.end(type === 'application/json' ? JSON.stringify(value) : value);
@@ -108,6 +116,10 @@ export function createPennyBox({ journalPath, stewardToken = null }) {
     try {
       if (req.method === 'GET' && path === '/ui.js')
         return reply(res,200,UI,'application/javascript');
+      if (req.method === 'GET' && path === '/brand.css')
+        return reply(res,200,BRAND_CSS,'text/css');
+      if (req.method === 'GET' && brandAssets.has(path))
+        return reply(res,200,brandAssets.get(path),'image/svg+xml');
       if (req.method === 'GET' && path === '/health') {
         store.state();
         return reply(res,200,{status:'LOCAL_DEMO',noPayments:true,noPennyIssuance:true});
@@ -115,7 +127,7 @@ export function createPennyBox({ journalPath, stewardToken = null }) {
       if (req.method === 'GET' && ['/', '/print', '/api/board'].includes(path)) {
         const board = publicBoard(store.state());
         return path === '/api/board' ? reply(res,200,board) :
-          reply(res,200,page(board,path==='/print'),'text/html');
+          reply(res,200,brandPage(board,path==='/print'),'text/html');
       }
       if (path.startsWith('/api/steward/')) {
         if (!authorized(req,stewardToken))
