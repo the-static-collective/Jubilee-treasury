@@ -1,5 +1,7 @@
 # PENNY BOX — 001
 
+> **NEW: PENNY BOX 002 — physical + digital identity.** See [the responsive phone page, printable box labels, US Letter QR-ready poster and offline steward-approved QR generator](DESIGN-SYSTEM-002.md). Open `npm start` and visit `/` for the new visual layout or `/print` to see the print kit. The QR area is blank until a real church-approved HTTPS site exists.
+
 **Small things count.** A standalone, church-portable, **local-only** prototype for the pop-tab / Box Tops / church scrip *participation pattern*: a physical coin collection box, an accessible QR-ready community board, and **separate** records for counted physical pennies, candidate offers, received equipment and steward-confirmed service.
 
 This is **not** a payment processor, PENNY mint, scrip system, verified donation portal, tax-receipt service or deployed church application. All sample community needs are synthetic. No church is endorsed or integrated.
