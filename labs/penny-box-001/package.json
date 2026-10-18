@@ -1,0 +1,13 @@
+{
+  "name": "penny-box-001",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first church participation: physical pennies, material offers and service observations. No payments or issuance.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "seed": "node scripts/demo.mjs --seed",
+    "start": "node scripts/demo.mjs"
+  },
+  "engines": {"node": ">=22"}
+}
