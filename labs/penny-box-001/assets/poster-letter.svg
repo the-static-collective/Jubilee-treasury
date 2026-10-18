@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8.5in" height="11in" viewBox="0 0 816 1056" role="img" aria-label="PENNY BOX printable community participation poster with reserved QR code area">
+<defs><pattern id="dots" width="17" height="17" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#CDBF99" opacity=".29"/></pattern><pattern id="bars" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V9" stroke="#E4D3AD" stroke-width="1" opacity=".45"/></pattern></defs>
+<rect width="816" height="1056" fill="#F9F4E7"/><rect width="816" height="1056" fill="url(#dots)"/>
+<rect x="26" y="26" width="764" height="1004" rx="8" fill="none" stroke="#325B46" stroke-width="2"/>
+<rect x="42" y="42" width="732" height="497" rx="2" fill="#173E32"/>
+<path d="M42 385 C220 354 450 530 774 395 V539 H42Z" fill="#224D3E"/>
+<path d="M42 442 C275 390 455 558 774 462 V539 H42Z" fill="#2B5A48"/>
+<g opacity=".11" transform="translate(665 238) scale(1.82)"><circle r="90" fill="none" stroke="#F3D293" stroke-width="5"/><circle r="76" fill="none" stroke="#F3D293" stroke-width="1.5"/><path d="M0 45 V-25" stroke="#F3D293" stroke-width="7"/><path d="M0 -6 C-40 -5-54 -33-54 -55 C-24 -62-4 -47 0 -6Z" fill="#F3D293"/><path d="M0 -25 C9-68 37-73 55-64 C52-33 32-17 0-25Z" fill="#F3D293"/></g>
+<g transform="translate(128 154) scale(.72)">
+<circle r="90" fill="none" stroke="#F3D293" stroke-width="5"/><circle r="76" fill="none" stroke="#F3D293" stroke-width="1.5" opacity=".68"/><path d="M0 45 V-25" stroke="#F3D293" stroke-width="7" stroke-linecap="round"/><path d="M0 -6 C-40 -5-54 -33-54 -55 C-24 -62-4 -47 0 -6Z" fill="#F3D293"/><path d="M0 -25 C9-68 37-73 55-64 C52-33 32-17 0-25Z" fill="#F3D293"/><path d="M-24 48 H24" stroke="#F3D293" stroke-width="5" stroke-linecap="round"/></g>
+<text x="235" y="126" font-family="Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="5.2" fill="#E5C78D">COMMON GOODS • LOCAL HANDS</text>
+<text x="92" y="296" font-family="Georgia,serif" font-weight="700" font-size="117" letter-spacing="-5" fill="#FAF3E5">PENNY</text>
+<text x="93" y="395" font-family="Georgia,serif" font-style="italic" font-size="66" fill="#EFD08D">box.</text>
+<text x="96" y="483" font-family="Arial,sans-serif" font-size="25" font-weight="700" letter-spacing="2.2" fill="#F8F2E6">SMALL THINGS COUNT.</text>
+<text x="69" y="595" font-family="Georgia,serif" font-size="32" font-weight="700" fill="#193B30">A coin. A ride. A little time.</text>
+<text x="69" y="634" font-family="Georgia,serif" font-size="31" fill="#193B30">Something good starts small.</text>
+<line x1="69" y1="673" x2="747" y2="673" stroke="#C5B38B" stroke-width="2"/>
+<g id="qr-placeholder">
+<rect x="69" y="708" width="244" height="244" rx="9" fill="#FFFFFF" stroke="#BF8550" stroke-width="4"/>
+<rect x="84" y="723" width="214" height="214" rx="3" fill="url(#bars)" stroke="#D6C298" stroke-width="2" stroke-dasharray="6 8"/>
+<path d="M100 739L282 921M282 739L100 921" stroke="#C9B98D" stroke-width="1.5" opacity=".55"/>
+<text x="191" y="819" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#365443">APPROVED QR</text>
+<text x="191" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#365443">GOES HERE</text>
+<text x="191" y="876" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#516A5C">NO LIVE LINK YET</text>
+</g>
+<text x="351" y="751" font-family="Arial,sans-serif" font-size="18" letter-spacing="2" font-weight="700" fill="#986336">SCAN • SEE • HELP</text>
+<text x="351" y="801" font-family="Georgia,serif" font-size="28" fill="#193B30">See the community board.</text>
+<text x="351" y="843" font-family="Georgia,serif" font-size="28" fill="#193B30">Offer what you can.</text>
+<text x="351" y="885" font-family="Georgia,serif" font-size="28" fill="#193B30">Talk to a steward.</text>
+<path d="M352 913h376" stroke="#BD9055" stroke-width="2"/>
+<text x="351" y="942" font-family="Arial,sans-serif" font-size="14" fill="#51635A">No account. No payment through this poster.</text>
+<text x="408" y="998" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.3" fill="#5A6B62">PROTOTYPE / CHURCH APPROVAL REQUIRED BEFORE PUBLIC USE</text>
+</svg>
