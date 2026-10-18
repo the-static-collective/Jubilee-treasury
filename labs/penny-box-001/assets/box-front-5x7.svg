@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="5in" height="7in" viewBox="0 0 500 700" role="img" aria-label="PENNY BOX five-by-seven-inch collection box front label">
+<defs><pattern id="dots" width="17" height="17" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#CDBF99" opacity=".29"/></pattern></defs>
+<rect width="500" height="700" fill="#F9F4E7"/><rect width="500" height="700" fill="url(#dots)"/>
+<rect x="14" y="14" width="472" height="672" rx="8" stroke="#AE8051" stroke-width="2" fill="none"/>
+<rect x="27" y="27" width="446" height="444" rx="4" fill="#173E32"/>
+<g opacity=".2" transform="translate(250 237) scale(1.64)"><circle r="90" fill="none" stroke="#F3D293" stroke-width="5"/><circle r="76" fill="none" stroke="#F3D293" stroke-width="1.5"/><path d="M0 45 V-25" stroke="#F3D293" stroke-width="7"/><path d="M0 -6 C-40 -5-54 -33-54 -55 C-24 -62-4 -47 0 -6Z" fill="#F3D293"/><path d="M0 -25 C9-68 37-73 55-64 C52-33 32-17 0-25Z" fill="#F3D293"/></g>
+<g transform="translate(250 174)">
+<circle r="90" fill="none" stroke="#F3D293" stroke-width="5"/><circle r="76" fill="none" stroke="#F3D293" stroke-width="1.5" opacity=".68"/>
+<path d="M0 45 V-25" stroke="#F3D293" stroke-width="7" stroke-linecap="round"/>
+<path d="M0 -6 C-40 -5-54 -33-54 -55 C-24 -62-4 -47 0 -6Z" fill="#F3D293"/>
+<path d="M0 -25 C9-68 37-73 55-64 C52-33 32-17 0-25Z" fill="#F3D293"/>
+<path d="M-24 48 H24" stroke="#F3D293" stroke-width="5" stroke-linecap="round"/></g>
+<text x="250" y="327" font-family="Georgia,serif" font-size="66" font-weight="700" text-anchor="middle" fill="#F7F2E4">PENNY</text>
+<text x="250" y="381" font-family="Georgia,serif" font-size="51" font-style="italic" text-anchor="middle" fill="#E8BF79">box.</text>
+<text x="250" y="431" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" letter-spacing="3" font-weight="700" fill="#F8E9C9">SMALL THINGS COUNT</text>
+<text x="250" y="523" text-anchor="middle" font-family="Georgia,serif" font-size="29" font-weight="700" fill="#173E32">Have a penny?</text>
+<text x="250" y="559" text-anchor="middle" font-family="Georgia,serif" font-size="24" fill="#173E32">Help something grow.</text>
+<line x1="98" y1="594" x2="402" y2="594" stroke="#BD8D54" stroke-width="2"/>
+<text x="250" y="625" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5" fill="#445D51">GIVE LOCALLY • SEE THE GOOD</text>
+<text x="250" y="662" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#58655D">DEMO LABEL — STEWARD APPROVAL REQUIRED</text>
+</svg>
