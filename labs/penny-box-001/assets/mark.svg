@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="-100 -100 200 200" role="img" aria-label="PENNY BOX seedling growing inside penny emblem">
+<circle r="90" fill="none" stroke="#BF7B3B" stroke-width="5"/>
+<circle r="76" fill="none" stroke="#BF7B3B" stroke-width="1.5" opacity=".68"/>
+<circle r="65" fill="#BF7B3B" opacity=".14"/>
+<path d="M0 45 V-25" stroke="#BF7B3B" stroke-width="7" stroke-linecap="round"/>
+<path d="M0 -6 C-40 -5-54 -33-54 -55 C-24 -62-4 -47 0 -6Z" fill="#BF7B3B"/>
+<path d="M0 -25 C9-68 37-73 55-64 C52-33 32-17 0-25Z" fill="#BF7B3B"/>
+<path d="M-24 48 H24" stroke="#BF7B3B" stroke-width="5" stroke-linecap="round"/>
+<path d="M-43 58 Q0 40 43 58" fill="none" stroke="#BF7B3B" stroke-width="2.2" opacity=".65"/>
+<g fill="#BF7B3B"><circle cx="0" cy="-72" r="3"/><circle cx="0" cy="72" r="3"/><circle cx="-72" cy="0" r="3"/><circle cx="72" cy="0" r="3"/></g>
+</svg>
