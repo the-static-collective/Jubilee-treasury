@@ -1,0 +1,22 @@
+name: PENNY × PUDDLE-003 synthetic economics
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-003/**'
+      - '.github/workflows/penny-puddle-003.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-003/**'
+      - '.github/workflows/penny-puddle-003.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm test --prefix labs/penny-puddle-003
+      - run: npm run demo --prefix labs/penny-puddle-003
