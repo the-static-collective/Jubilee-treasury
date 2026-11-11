@@ -11,6 +11,7 @@ const routes=new Map([
   ['/weave.mjs',['weave.mjs','text/javascript; charset=utf-8']],
   ['/penny-bank.mjs',['penny-bank.mjs','text/javascript; charset=utf-8']],
   ['/batch-net.mjs',['batch-net.mjs','text/javascript; charset=utf-8']],
+  ['/coin-flow.mjs',['coin-flow.mjs','text/javascript; charset=utf-8']],
   ['/demo.mjs',['demo.mjs','text/javascript; charset=utf-8']],
   ['/puddle-001/penny-campaign.mjs',['../puddle-001/penny-campaign.mjs','text/javascript; charset=utf-8']],
 ]);
