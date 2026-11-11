@@ -6,7 +6,8 @@
   "description": "Synthetic penny-bank stewardship, account routing and batch-netting experiment",
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "demo": "node demo.mjs"
+    "demo": "node demo.mjs",
+    "serve": "node server.mjs"
   },
   "engines": {"node": ">=20"},
   "license": "MIT"
