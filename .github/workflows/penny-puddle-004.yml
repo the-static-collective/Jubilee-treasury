@@ -22,3 +22,5 @@ jobs:
       - run: npm run demo --prefix labs/penny-puddle-004
       - run: node --check labs/penny-puddle-004/collector.mjs
       - run: node --check labs/penny-puddle-004/triage.mjs
+      - run: node --check labs/penny-puddle-004/ui.mjs
+      - run: node --check labs/penny-puddle-004/server.mjs
