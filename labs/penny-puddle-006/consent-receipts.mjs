@@ -12,7 +12,7 @@ export function createDirectOfferLab(fixture) {
   const offers=new Map(), reservedListings=new Set(), reservedSeekers=new Set();
   const events=[];
   const snapshot=()=>({
-    simulated:true,offers:[...offers.values()].map(o=>({...o,disclosure:{...o.disclosure}})),
+    simulated:true,offers:[...offers.values()].map(o=>({...o,terms:{...o.terms},sharedMeaningTags:[...o.sharedMeaningTags],disclosure:{...o.disclosure}})),
     events:events.map(x=>({...x})),
     realCoinsDelivered:0,realMoneyMovedCents:0,legalObligationsCreated:0,
     publicTitleVerification:false,cryptographicSignaturesVerified:false,
