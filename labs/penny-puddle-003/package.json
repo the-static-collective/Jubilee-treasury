@@ -1,0 +1,13 @@
+{
+  "name": "penny-puddle-003",
+  "version": "0.0.3",
+  "private": true,
+  "type": "module",
+  "description": "Synthetic penny-bank stewardship, account routing and batch-netting experiment",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node demo.mjs"
+  },
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}
