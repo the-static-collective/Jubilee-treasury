@@ -92,8 +92,11 @@ Node.js 20+, no packages or credentials:
 ```bash
 npm test --prefix labs/penny-puddle-004
 npm run demo --prefix labs/penny-puddle-004
+npm run serve --prefix labs/penny-puddle-004
+# Open http://127.0.0.1:8800/ on this machine
 ```
 
+- `index.html` + `ui.mjs` + `server.mjs`: a mobile-friendly, loopback-only explorer for fictional candidate coins, opt-in mock sale terms and premium splits. No online listing, collection service or network egress.
 - `triage.mjs`: incomplete, conservative, observational screening for possible 1943 copper-like and 1944 steel-like pennies, 1955 doubled-die candidates, 1909-S VDB signals, older wheat-back observations and some pre-1971 silver-era dime/quarter/half-dollar questions. It **does not** grade, price or authenticate anything. Missing a rule is not evidence of ordinary value.
 - `collector.mjs`: synthetic personal-object custody records across penny, nickel, dime, quarter, half-dollar and dollar. No fungible reserve issuance. Review and owner-opt-in transitions; no sale before collector confirmation; explicit basis-point shares of a hypothetical sale's *premium*, with every rounding remainder to the owner. The default share is **100% owner**.
 - `demo.mjs`: connects the existing **003 fictional account-weaving + sponsor campaign context** to a hypothetical rare penny discovery. Critically, **even the simulated $100.01 sale remains zero current available spending power**, because no real buyer, legal title or settlement exists.
