@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PENNY BANK × PUDDLE | Living laboratory</title>
+<style>
+:root{--paper:#f5f1df;--ink:#252c27;--green:#0f6257;--cream:#fffbee;--border:#a5ad9c;--orange:#e59e58}
+*{box-sizing:border-box}body{margin:0;background:#dfe7da;font:16px/1.48 system-ui;color:var(--ink)}
+main{max-width:980px;margin:auto;padding:24px 18px 70px;min-height:100vh;background:var(--paper)}
+header{border-bottom:2px solid var(--ink);padding-bottom:16px}h1{font:700 clamp(2.7rem,8vw,5.5rem)/1.04 Georgia,serif;letter-spacing:-.035em;margin:12px 0}
+h2{font:700 1.45rem/1.15 Georgia,serif;margin:0 0 12px}h3{font-size:1rem;margin:14px 0 4px}.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--green)}
+.layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}.card{padding:21px;border:1.5px solid var(--border);border-radius:13px;background:var(--cream)}
+.card.large{grid-column:span 2}.amount{font:700 clamp(2.3rem,6vw,3.7rem)/1.2 Georgia,serif;letter-spacing:-.03em}
+button{background:var(--orange);color:var(--ink);font-size:1rem;font-weight:800;border:2px solid var(--ink);border-radius:7px;padding:11px 13px;cursor:pointer;margin:6px 5px 6px 0}
+button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+button.secondary{background:transparent}.status{padding:12px;border-radius:8px;background:#e2eddf;white-space:pre-wrap;margin-top:12px;min-height:53px}
+.small{font-size:.88rem;color:#52625b}.tag{display:inline-block;padding:5px 10px;margin:12px 0;background:#f6d19a;font-weight:850;transform:rotate(-1deg)}
+.num{font-variant-numeric:tabular-nums;font-weight:800}.two{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:5px 0;border-bottom:1px solid #ddd7c9}.two:last-child{border:0}
+input[type=number]{padding:10px;width:120px;border-radius:6px;border:1px solid var(--border);font:700 1.1rem system-ui}
+.note{border-left:4px solid var(--green);padding-left:13px}.foot{padding-top:15px;border-top:2px solid var(--ink)}
+@media(max-width:620px){.layout{grid-template-columns:1fr}.card.large{grid-column:span 1}.card{padding:17px}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="eyebrow">Jubilee Treasury / Penny × Puddle / 003</div><h1>Small money.<br>More possibilities.</h1>
+<p>Penny banks, account-weaving, one-cent campaigns, and community services—working together in a fictional economy.</p>
+<div class="tag">LABORATORY ONLY · NO REAL COINS, DONATIONS OR TRANSFERS</div>
+</header>
+<div class="layout">
+<section class="card large" aria-labelledby="weave-title">
+<div class="eyebrow">01 · Stranded cents</div><h2 id="weave-title">I have money. Can I use it together?</h2>
+<div class="two"><span>Bank</span><span class="num">$1.00</span></div>
+<div class="two"><span>Wallet A</span><span class="num">$2.00</span></div>
+<div class="two"><span>Wallet B</span><span class="num">$0.58</span></div>
+<div class="two"><strong>Reported total</strong><strong>$3.58</strong></div>
+<p><label for="target">Purchase cost ($)</label> <input id="target" type="number" min=".01" max="10" step=".01" value="3.25"></p>
+<button type="button" id="now">Need it in 30 minutes</button><button type="button" id="later" class="secondary">Can wait 72 hours</button>
+<div id="route-result" class="status" role="status" aria-live="polite">Select a time window.</div>
+<p class="small">Illustrative transfer routes only. The example assumes hypothetical 25¢ instant fees per wallet or fee-free standard routes. No provider capability or transfer minimum is verified.</p>
+</section>
+<section class="card" aria-labelledby="campaign-title">
+<div class="eyebrow">02 · One penny at a time</div><h2 id="campaign-title">Give me a penny</h2>
+<p>Synthetic sponsor reserve: <strong>20¢</strong>. Fictional campaign goal: <strong>8¢</strong>. One click simulates a new, eligible helper using an already-funded sponsor penny.</p>
+<div class="amount" id="campaign-meter">0¢ / 8¢</div>
+<button type="button" id="give">Simulate a sponsored penny</button>
+<div class="status" id="campaign-result" role="status" aria-live="polite">No allocations yet. An ordinary unfunded like is worth 0¢.</div>
+</section>
+<section class="card" aria-labelledby="bank-title">
+<div class="eyebrow">03 · Penny bank</div><h2 id="bank-title">Proof of custody, paid useful work</h2>
+<p>A fictional local custodian can record witnessed physical coins, protect an earmarked amount, and receive a 1¢ service stipend from a separately funded sponsor budget.</p>
+<button type="button" id="count">Simulate witnessed 100-coin intake</button><button type="button" id="earn" disabled>Simulate a 1¢ paid service</button>
+<div class="status" id="bank-result" role="status" aria-live="polite">No physical coins recorded.</div>
+</section>
+<section class="card large" aria-labelledby="net-title">
+<div class="eyebrow">04 · Compose the network</div><h2 id="net-title">Fewer transfers, not imaginary money</h2>
+<p>A owes B 50¢. B owes C 50¢. With everyone consenting <em>in this example</em>, a hypothetical clearing institution could examine a single net obligation: A owes C 50¢.</p>
+<button type="button" id="net">Model consenting netting</button><button type="button" class="secondary" id="hold">Model missing consent</button>
+<div class="status" id="net-result" role="status" aria-live="polite">Mathematical netting does not execute a payment.</div>
+</section>
+</div>
+<p class="note"><strong>What the experiment demonstrates:</strong> cents are conserved inside each synthetic backing class; sponsor-funded rewards never create extra coin backing; conditional campaign goals do not automatically settle an external bill; and a graph route requires financial-provider permission, not just arithmetic.</p>
+<footer class="foot small">Local simulated data only. No financial accounts, private identities, cookies, bank APIs, live wallets, legal escrow, token issuance, lending, real payments or actual sponsor funds. Don't use these numbers as rates or advice.</footer>
+</main>
+<script type="module" src="/ui.mjs"></script>
+</body>
+</html>
