@@ -23,7 +23,7 @@ test('local browser laboratory serves all module dependencies without a remote e
     assert.match(html,/Small money/);
     assert.match(html,/LABORATORY ONLY/);
     for(const path of ['/ui.mjs','/demo.mjs','/weave.mjs','/penny-bank.mjs',
-      '/batch-net.mjs','/puddle-001/penny-campaign.mjs']){
+      '/batch-net.mjs','/coin-flow.mjs','/puddle-001/penny-campaign.mjs']){
       const r=await fetch('http://127.0.0.1:'+port+path);
       assert.equal(r.status,200,'missing '+path);
       assert.match(r.headers.get('content-type')||'',/javascript/);
