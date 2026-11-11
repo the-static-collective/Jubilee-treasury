@@ -27,7 +27,7 @@ export function createStewardBankLab({ banks, fictionalSponsorBudgetCents }) {
     return {
       syntheticOnly:true, coinBackingActuallyVerified:false, realPennyTokensIssued:0,
       sponsorBudgetCents:budget,
-      banks:[...bankMap.values()].map(b=>({...b,availableUnencumberedCoins:b.recordedCoins-b.earmarkedCoins})),
+      banks:[...bankMap.values()].map(b=>({...b,availableUnencumberedCoins:Math.max(0,b.recordedCoins-b.earmarkedCoins),uncoveredEarmarksCoins:Math.max(0,b.earmarkedCoins-b.recordedCoins)})),
       batches:batches.size,earmarks:[...earmarks].map(([key,value])=>({key,...value})),
       outsidePaymentsMade:0,
     };
