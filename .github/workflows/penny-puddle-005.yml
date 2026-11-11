@@ -22,3 +22,5 @@ jobs:
       - run: npm run demo --prefix labs/penny-puddle-005
       - run: node --check labs/penny-puddle-005/opportunity.mjs
       - run: node --check labs/penny-puddle-005/bridge.mjs
+      - run: node --check labs/penny-puddle-005/ui.mjs
+      - run: node --check labs/penny-puddle-005/server.mjs
