@@ -84,6 +84,12 @@ Node.js 20 or newer, no npm dependencies. The 005 module reads only the previous
 
 `demo.mjs` wraps the existing 004 quarantine and provenance rules and the 005 bounded planner, then emits an inspectable synthetic decision report in JSON.
 
+### Native pinned MOTIF witness / reproducible ledger-safe result
+
+The 2026-11-11 CI run executed **the original pinned MOTIF-003** with five hypothetical first moves. Its immediate policy chose `raw-buyer-proposal`; its affordance policy chose `inspect-positive`, opening two independent *imagined* next authentication branches and thirteen reachable simulated states under the declared horizon. The native source blob was verified before import and its Python regression tests passed. This native observation is **not** a verified financial outcome; it is a structural decision comparison.
+
+The separate JavaScript model now writes a checked-in [example-benchmark.json](example-benchmark.json), generated from the actual `benchmark(makeFixture())` result, with every hypothetical hidden-world outcome and the SHA of the exact model source blob. A CI regression test re-executes all policies and compares the complete per-world outcome rows to the saved receipt; failures block promotion. Tests exercise the mobile read-only server, too.
+
 ## Result and tradeoff
 
 The default reproducible fixture produces the following (all amounts are **weighted fictional net outcomes**, not dollars earned):
