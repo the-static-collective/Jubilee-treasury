@@ -1,6 +1,7 @@
 import { weaveToDestination } from './weave.mjs';
 import { createStewardBankLab } from './penny-bank.mjs';
 import { proposeBatchNetting } from './batch-net.mjs';
+import { proposeCoinCirculation } from './coin-flow.mjs';
 import { createPennyCampaignLab } from '../puddle-001/penny-campaign.mjs';
 
 // Invented, non-personalized balances and fee assumptions; not provider quotes.
@@ -42,10 +43,23 @@ export function runSyntheticEconomy() {
     ],
     explicitModelAuthorizations:['A','B','C']
   });
+  const physicalCoinRouting=proposeCoinCirculation({
+    stewards:[{id:'community-custodian-example',availableUnencumberedCoins:450}],
+    requests:[
+      {id:'cooperating-shop',coinsRequested:250,consentForModel:true},
+      {id:'neighbor-cash-desk',coinsRequested:100,consentForModel:true}
+    ],
+    links:[
+      {id:'coin-run-1',fromSteward:'community-custodian-example',toRequest:'cooperating-shop',
+        maxCoins:250,perTripCostCents:20,per100CoinHandlingCents:10,consentForModel:true},
+      {id:'coin-run-2',fromSteward:'community-custodian-example',toRequest:'neighbor-cash-desk',
+        maxCoins:100,perTripCostCents:15,per100CoinHandlingCents:10,consentForModel:true},
+    ],
+  });
   return {
     labels:'ALL AMOUNTS, PARTICIPANTS, PERMISSIONS AND PENNY CUSTODY ARE FICTIONAL',
     comparison:{immediate,patient},
-    localCoinSteward:bank.snapshot(),sponsoredCampaign:campaign.inspect(),netting,
+    localCoinSteward:bank.snapshot(),physicalCoinRouting,sponsoredCampaign:campaign.inspect(),netting,
     realMoneyMoved:false,pennyTokensIssued:0,authorizedCustodyCreated:false
   };
 }
