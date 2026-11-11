@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import {makeFixture,validateFixture,planOpportunity,replayPolicy,benchmark} from '../opportunity.mjs';
 import {createOpportunityGraph,proposalCarrier} from '../bridge.mjs';
@@ -126,4 +127,22 @@ test('policy comparison never depends on a real buyer, custody, or collector est
   assert.equal(p.goal.additionalReallyFundedCents,0);
   assert.ok(p.firstMoves.every(x=>x.realWorldActionPermitted===false));
   assert.ok(p.firstMoves.every(x=>Number.isFinite(x.contingentExpectedValueCents)));
+});
+
+test('checked-in example receipt agrees with the re-executed benchmark',()=>{
+  const stored=JSON.parse(readFileSync(new URL('../example-benchmark.json',import.meta.url),'utf8'));
+  const actual=benchmark(makeFixture());
+  assert.equal(stored.actualFundsMovedCents,0);
+  assert.deepEqual(stored.firstMoves,{
+    immediate:actual.planner.greedyImmediateFirst,
+    affordance:actual.planner.affordanceFirst,
+    classicalExpected:actual.planner.optimalClassicalExpected.action,
+    robust:actual.planner.robustWorstCase.action
+  });
+  for(const [strategy,metrics] of Object.entries(stored.outcomes)){
+    assert.equal(metrics.modeledWeightedNetCents,actual.comparisons[strategy].expectedNetCents);
+    assert.equal(metrics.modeledWorstNetCents,actual.comparisons[strategy].worstCaseNetCents);
+    assert.equal(metrics.modeledBestNetCents,actual.comparisons[strategy].bestCaseNetCents);
+    assert.deepEqual(metrics.worlds,actual.comparisons[strategy].outcomes);
+  }
 });
