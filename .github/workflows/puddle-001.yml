@@ -1,0 +1,21 @@
+name: PUDDLE-001 (noncustodial lab)
+on:
+  push:
+    paths:
+      - 'labs/puddle-001/**'
+      - '.github/workflows/puddle-001.yml'
+  pull_request:
+    paths:
+      - 'labs/puddle-001/**'
+      - '.github/workflows/puddle-001.yml'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm test --prefix labs/puddle-001
