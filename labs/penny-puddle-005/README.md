@@ -42,6 +42,24 @@ The $25 fee is not a certified current total. As of the Nov. 11, 2026 source che
 
 For buyer demand, never equate a website's asking-price guide with an executable bid. [PCGS explicitly explains](https://www.pcgs.com/prices/detail) that its Price Guide reflects average **dealer asking prices** for PCGS-graded coins and can diverge from actual transactions; [PCGS also points](https://www.pcgs.com/faq) to *Auction Prices Realized* as another separate research resource. Even a documented past realized sale of a similar coin cannot guarantee that another specimen will sell, much less in a particular timeframe.
 
+## Native MOTIF-003: actual source-pinned read-only crossing
+
+In addition to the standalone JavaScript policies, `native_motif_probe.py` now loads the **original Python MOTIF-003 implementation** from a separate checkout of [MOTIF at commit `66d27cfbd077b2c91d0d86d66e320206d88d8f95`](https://github.com/the-static-collective/MOTIF/blob/66d27cfbd077b2c91d0d86d66e320206d88d8f95/experiments/003/affordance.py). It verifies the exact Git blob SHA `db25da0d50a9c8e2cd87aa576a22f969405737cf` before import, refusing changed implementations instead of silently adapting.
+
+The native MOTIF experiment receives an invented relational world whose first moves are `inspect-positive`, `inspect-negative`, `raw-buyer-proposal`, `licensed-story-proposal`, or `preserve-owner-property`. Inspection branches unlock later independent-authentication possibilities; cashing out is immediately rewarding only within the fictional graph. The native `analyze_first_moves` and `select_first_move` directly compare immediate and new-affordance priorities. All source relations remain fictional; no real coin is handled or buyer contacted.
+
+This **is a real invocation of native MOTIF source**, but **not** a live integration into MOTIF's active planning runtime and not a matched numerical comparison to PUDDLE-005's stochastic/weighted JS solver. The native world tests structural branching alone; the JS solver tests costs, weighted outcomes and robust losses. They share a *question*, not interchangeable metrics.
+
+CI checks out the read-only public MOTIF commit and runs a Python standard-library unit test and witness script. To run locally, after obtaining that exact repository revision:
+
+```sh
+MOTIF_SOURCE_ROOT=/path/to/pinned/MOTIF python3 -m unittest discover \
+  -s labs/penny-puddle-005/test -p 'test_native_motif.py' -v
+MOTIF_SOURCE_ROOT=/path/to/pinned/MOTIF python3 labs/penny-puddle-005/native_motif_probe.py
+```
+
+This creates an inspectable source-owned MOTIF crossing without pushing into MOTIF's other active research branches, modifying its code or implying any operational rights.
+
 ## The actual experiment
 
 ```sh
