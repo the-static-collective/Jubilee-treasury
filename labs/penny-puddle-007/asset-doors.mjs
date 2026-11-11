@@ -61,7 +61,8 @@ export function suggestAssetDoors(asset){
   }
   if(asset.ownerWantsToRetainTitle){
     for(const d of doors)
-      if(['sale','coordinated-purchase','physical-division'].includes(d.category))
+      if(['sale','coordinated-purchase','physical-division'].includes(d.category) &&
+         !d.feasibility.startsWith('BLOCKED'))
         d.feasibility='HOLD-OWNER-RETAINS-TITLE';
   }
   if(!asset.titleAndCustodyIndependentlyVerified){
