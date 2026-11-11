@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEALWEAVER · Jubilee Treasury</title>
+<style>
+:root{--paper:#f7f1df;--forest:#1b4036;--ink:#222e28;--line:#bcc7b8;--cream:#fffdf5;--amber:#d9a75a;--rose:#f8e7da}
+*{box-sizing:border-box}
+body{font:16px/1.53 system-ui,-apple-system,sans-serif;background:#e0e6db;color:var(--ink);margin:0}
+main{margin:auto;max-width:1040px;background:var(--paper);min-height:100vh;padding:30px clamp(15px,4vw,42px) 65px}
+h1{font:700 clamp(2.9rem,7.5vw,5.8rem)/1.03 Georgia,serif;letter-spacing:-.05em;margin:12px 0}
+h2{font:700 1.5rem/1.2 Georgia,serif;margin:0 0 12px}h3{font:700 1.03rem/1.2 Georgia,serif;margin:10px 0 8px}
+.eyebrow{text-transform:uppercase;font-size:.74rem;letter-spacing:.1em;font-weight:900;color:var(--forest)}
+.explain{font:1.16rem/1.5 Georgia,serif;max-width:69ch}
+.tag{display:inline-block;background:#f2cf90;padding:7px 13px;font-weight:850;transform:rotate(-1deg);margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}
+.panel{border:1.5px solid var(--line);background:var(--cream);padding:22px;border-radius:13px}
+.wide{grid-column:span 2}
+.small{font-size:.86rem;color:#53675b}.stat{font:700 clamp(2rem,5vw,3.3rem)/1.1 Georgia,serif;color:var(--forest)}
+button{border:2px solid var(--forest);border-radius:7px;background:var(--amber);padding:11px 15px;margin:6px 8px 6px 0;font:800 .96rem system-ui;cursor:pointer;color:var(--ink)}
+button:focus-visible{outline:3px solid #a65e1c;outline-offset:3px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.section-result{margin:12px 0 0;background:#eaf0e7;padding:14px;border-radius:7px;white-space:pre-line}
+.row{display:flex;gap:10px;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0}
+.positive{border-left:4px solid var(--forest);padding-left:12px}.caution{background:var(--rose);border-left:4px solid #9c593f;padding:12px;margin-top:12px}
+.summary{display:flex;gap:14px;flex-wrap:wrap}.mini{border:1px solid var(--line);border-radius:7px;padding:12px;flex:1;min-width:150px}
+.number{font:700 1.6rem Georgia,serif}
+footer{border-top:2px solid var(--line);margin-top:20px;padding-top:16px;font-size:.86rem;color:#52645b}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.panel{padding:17px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury · PENNY × PUDDLE / 007</div>
+<h1>Make a<br>good deal.</h1>
+<p class="explain">The penny is too small to be useful by itself. The enormous asset may be too big to use at once. A good exchange finds the middle: arrangements that make the people involved genuinely better off while protecting what they already own.</p>
+<div class="tag">ALL FIGURES AND PEOPLE ARE FICTIONAL · NO FINANCIAL SERVICES</div>
+
+<div class="grid">
+<section class="panel wide"><div class="eyebrow">01 · Win–win composer</div>
+<h2>A useful object doesn't always need a buyer</h2>
+<p>A fictional community kiln has two unused Saturday time windows. An owner doesn't want to sell it. A ceramicist needs access, and a local artist needs a workshop. The system looks for deals that everyone involved would willingly consider.</p>
+<button id="compose" type="button">Compose good deals</button>
+<div class="section-result" id="deal-output" role="status" aria-live="polite">Choose a simulation. Nothing has been agreed yet.</div>
+<div class="summary" id="impact"></div>
+<p class="small">Owner goals and personal gains are explicitly declared in the scenario. Social and environmental scores are unverified signals—not impact measurements or a common monetary exchange rate.</p>
+</section>
+<section class="panel"><div class="eyebrow">02 · Too big to move</div>
+<h2>A gold brick the size of a table</h2>
+<p>What's the route to usefulness if an asset is so large, costly, or specialized that its owner can't easily sell or borrow against it?</p>
+<button id="doors" type="button">Explore ways to unlock usefulness</button>
+<div class="section-result" id="door-output" role="status" aria-live="polite">No verified weight, authenticity, title or gold price.</div>
+</section>
+<section class="panel"><div class="eyebrow">03 · Capital without extraction</div>
+<h2>A 0% principal-only bridge</h2>
+<p>In this synthetic example, a sponsor places $50 into a community pool. A $30 essential repair advance would return <strong>only $30</strong> if repaid. A separate sponsor covers administration and potential losses.</p>
+<button id="loan" type="button">Model $30 principal allocation</button><button id="repay" type="button" disabled>Model $12 returned</button>
+<div class="section-result" id="loan-output" role="status" aria-live="polite">Modeled reserve $50. No actual loan or funds exist.</div>
+<div class="caution small">0% interest doesn't eliminate lending costs, defaults, legal restrictions or the need to check repayment capacity. This prototype makes no loan or payment.</div>
+</section>
+<section class="panel wide"><div class="eyebrow">04 · The triple bottom line without coerced trade</div>
+<h2>People. Planet. Practical benefit.</h2>
+<div class="summary">
+ <div class="mini"><div class="eyebrow">Participants</div><p>Everyone retains the right to refuse. A deal must provide positive self-declared benefit to each affected participant.</p></div>
+ <div class="mini"><div class="eyebrow">Community</div><p>Sharing a machine or a room may make additional work and relationships possible.</p></div>
+ <div class="mini"><div class="eyebrow">Environment</div><p>Greater use of existing assets could avoid needless replacement, but the real environmental effect must be measured.</p></div>
+</div>
+<p class="positive">The platform proposes possible mutual gains. <strong>It does not select winners, set universal prices, or force anyone to exchange.</strong></p>
+</section>
+</div>
+<footer>All examples are simulated and local only. A proposed time slot is not legal property use. A gold block's reported size is not a verified valuable or collateral. A principal-only advance is not exempt from licensing. No coin, bank account, title, buyer, collateral, loan, interest, payment, insurance or legal agreement exists in this lab.</footer>
+</main>
+<script type="module" src="/ui.mjs"></script>
+</body></html>
