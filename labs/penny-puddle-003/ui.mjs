@@ -93,24 +93,9 @@ find('#coin-route').addEventListener('click',()=>{
       ],
     });
     write('#coin-result','Candidate physical pennies to circulate: '+p.totalProposedCoins+
-      '\\nTotal weight: '+p.grossWeightGrams+' grams'+
-      '\\nModeled service costs: 
-  {id:'ab',from:'A',to:'B',cents:50},
-  {id:'bc',from:'B',to:'C',cents:50}
-];
-function net(consented){
-  try {
-    const plan=proposeBatchNetting({obligations,explicitModelAuthorizations:consented?['A','B','C']:['A']});
-    write('#net-result',plan.status==='mathematical-netting-proposal-only'
-      ? 'GROSS OBLIGATIONS: $'+c(plan.grossCents)+'\nPROPOSED NET MOVES: '+plan.proposedSettlementMoves.map(x=>x.from+' → '+x.to+' $'+c(x.cents)).join(', ')+'\nREALLY MOVED: $0.00. Authorization and partner agreements still missing.'
-      : 'ON HOLD: participant consent missing. No usable netting instruction and no real transfer.');
-  } catch(error){write('#net-result',error.message);}
-}
-find('#net').addEventListener('click',()=>net(true));
-find('#hold').addEventListener('click',()=>net(false));
-renderRoute(30);
-+c(p.modeledServiceCostCents)+
-      '\\nNO COINS MOVED. A real paid job needs an authorized merchant, steward, custody verification and budget.');
+      '\nTotal weight: '+p.grossWeightGrams+' grams'+
+      '\nModeled service costs: $'+c(p.modeledServiceCostCents)+
+      '\nNO COINS MOVED. A real paid job needs an authorized merchant, steward, custody verification and budget.');
   }catch(error){write('#coin-result',error.message);}
 });
 const obligations=[
