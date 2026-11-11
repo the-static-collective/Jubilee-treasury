@@ -6,7 +6,8 @@
   "description": "Synthetic coin discovery, collector demand, MOTIF-inspired inquiry and robust controls",
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "demo": "node demo.mjs"
+    "demo": "node demo.mjs",
+    "serve": "node server.mjs"
   },
   "engines": {"node": ">=20"},
   "license": "MIT"
