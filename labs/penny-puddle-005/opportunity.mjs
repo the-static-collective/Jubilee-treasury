@@ -194,6 +194,26 @@ function expectedValue(state,worlds,f,remainingMoves,memo,visited) {
   }
   memo.set(cacheKey,result);return result;
 }
+/**
+ * Strong pessimistic control: maximize worst plausible counterfactual result.
+ * Explicit scenarios, not a general guarantee about collector outcomes.
+ */
+function robustValue(state,worlds,f,remainingMoves,memo){
+  if(!remainingMoves||state.terminal)return {valueCents:0,action:null};
+  const key=JSON.stringify([state,worlds.map(w=>w.id),remainingMoves]);
+  if(memo.has(key))return memo.get(key);
+  let result={valueCents:0,action:null};
+  for(const action of options(state,f)){
+    const possible=branches(state,worlds,action);
+    const worst=Math.min(...possible.map(out=>
+      out.deltaCents+robustValue(out.state,out.worlds,f,remainingMoves-1,memo).valueCents));
+    if(worst>result.valueCents+1e-9||
+      (Math.abs(worst-result.valueCents)<=1e-9 && result.action && action.id<result.action))
+      result={valueCents:worst,action:action.id};
+  }
+  memo.set(key,result);
+  return result;
+}
 function calculateNewActions(state,worlds,f,action) {
   const current=new Set(options(state,f).map(a=>a.id));
   const after=new Set();
@@ -208,6 +228,7 @@ export function planOpportunity(f) {
   if(!worlds.length)throw new Error('No positive-weight scenarios');
   const state=baseState(),memo=new Map(),visited={count:0};
   const optimal=expectedValue(state,worlds,f,f.limits.maxMoves,memo,visited);
+  const robust=robustValue(state,worlds,f,f.limits.maxMoves,new Map());
   const roots=options(state,f).map(action=>{
     const outs=branches(state,worlds,action);
     const continuation=outs.reduce((value,out)=>{
@@ -233,7 +254,7 @@ export function planOpportunity(f) {
     marketQuotesVerified:false,appraisalsVerified:false,realFundsReceivedCents:0,
     personalAccountConnected:false,financialExecutionEnabled:false,
     hypotheticalWorldWeights:worlds.map(w=>({...w})),
-    firstMoves:roots,optimalClassicalExpected:optimal,
+    firstMoves:roots,optimalClassicalExpected:optimal,robustWorstCase:robust,
     greedyImmediateFirst:immediate?.actionId||null,
     affordanceFirst:opportunityFirst?.actionId||null,
     exploredStates:visited.count,
@@ -257,6 +278,9 @@ export function replayPolicy(f,worldId,kind='expected') {
       chosen=[...allMoves].sort((a,b)=>
         calculateNewActions(state,belief,f,b).length-calculateNewActions(state,belief,f,a).length||
         b.immediateCents-a.immediateCents||a.id.localeCompare(b.id))[0];
+    }else if(kind==='robust'){
+      const best=robustValue(state,belief,f,f.limits.maxMoves-step,new Map());
+      chosen=allMoves.find(a=>a.id===best.action)||allMoves.find(a=>a.type==='keep');
     }else if(kind==='expected'||kind==='affordance'){
       const memo=new Map(),visited={count:0};
       const best=expectedValue(state,belief,f,f.limits.maxMoves-step,memo,visited);
@@ -295,7 +319,7 @@ export function replayPolicy(f,worldId,kind='expected') {
 }
 export function benchmark(f) {
   const p=planOpportunity(f);
-  const worlds=possibleWorlds(f),strategies=['greedy','affordance','expected'];
+  const worlds=possibleWorlds(f),strategies=['greedy','affordance','expected','robust'];
   const results=Object.fromEntries(strategies.map(strategy=>{
     let weighted=0,worst=Infinity,best=-Infinity;
     const outcomes=worlds.map(world=>{
