@@ -3,6 +3,7 @@ import { scenario } from './demo.mjs';
 import { createPennyCampaignLab } from '/puddle-001/penny-campaign.mjs';
 import { createStewardBankLab } from './penny-bank.mjs';
 import { proposeBatchNetting } from './batch-net.mjs';
+import { proposeCoinCirculation } from './coin-flow.mjs';
 const find = selector => document.querySelector(selector);
 const write = (selector, value) => { find(selector).textContent = value; };
 const c = n => (n/100).toFixed(2);
@@ -75,6 +76,42 @@ find('#earn').addEventListener('click',()=>{
     write('#bank-result','Fictional steward work credited: '+snap.banks[0].hypotheticalServiceEarningsCents+'¢. Separate sponsor budget remaining: '+snap.sponsorBudgetCents+'¢. Physical coin claims unchanged. No real wages paid.');
     if(snap.sponsorBudgetCents===0) find('#earn').disabled=true;
   }catch(error){write('#bank-result',error.message);}
+});
+find('#coin-route').addEventListener('click',()=>{
+  try{
+    const p=proposeCoinCirculation({
+      stewards:[{id:'fictional-coin-bank',availableUnencumberedCoins:450}],
+      requests:[
+        {id:'fictional-grocer',coinsRequested:250,consentForModel:true},
+        {id:'fictional-neighbor-desk',coinsRequested:100,consentForModel:true}
+      ],
+      links:[
+        {id:'route1',fromSteward:'fictional-coin-bank',toRequest:'fictional-grocer',
+          maxCoins:250,perTripCostCents:20,per100CoinHandlingCents:10,consentForModel:true},
+        {id:'route2',fromSteward:'fictional-coin-bank',toRequest:'fictional-neighbor-desk',
+          maxCoins:100,perTripCostCents:15,per100CoinHandlingCents:10,consentForModel:true}
+      ],
+    });
+    write('#coin-result','Candidate physical pennies to circulate: '+p.totalProposedCoins+
+      '\\nTotal weight: '+p.grossWeightGrams+' grams'+
+      '\\nModeled service costs: 
+  {id:'ab',from:'A',to:'B',cents:50},
+  {id:'bc',from:'B',to:'C',cents:50}
+];
+function net(consented){
+  try {
+    const plan=proposeBatchNetting({obligations,explicitModelAuthorizations:consented?['A','B','C']:['A']});
+    write('#net-result',plan.status==='mathematical-netting-proposal-only'
+      ? 'GROSS OBLIGATIONS: $'+c(plan.grossCents)+'\nPROPOSED NET MOVES: '+plan.proposedSettlementMoves.map(x=>x.from+' → '+x.to+' $'+c(x.cents)).join(', ')+'\nREALLY MOVED: $0.00. Authorization and partner agreements still missing.'
+      : 'ON HOLD: participant consent missing. No usable netting instruction and no real transfer.');
+  } catch(error){write('#net-result',error.message);}
+}
+find('#net').addEventListener('click',()=>net(true));
+find('#hold').addEventListener('click',()=>net(false));
+renderRoute(30);
++c(p.modeledServiceCostCents)+
+      '\\nNO COINS MOVED. A real paid job needs an authorized merchant, steward, custody verification and budget.');
+  }catch(error){write('#coin-result',error.message);}
 });
 const obligations=[
   {id:'ab',from:'A',to:'B',cents:50},
