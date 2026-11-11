@@ -17,6 +17,8 @@ Requires **Node.js 20 or newer** and zero dependencies.
 ```sh
 npm test --prefix labs/penny-puddle-003
 npm run demo --prefix labs/penny-puddle-003
+npm run serve --prefix labs/penny-puddle-003
+# Open http://127.0.0.1:8799/ on the same computer
 ```
 
 The demonstration runs an invented $3.58 example split into $0.58 wallet B, $1 bank, $2 wallet A and asks about a $3.25 purchase.
