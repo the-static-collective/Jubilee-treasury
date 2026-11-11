@@ -38,7 +38,7 @@ test('seller sees their own ask, not private buyer liquidity cap',()=>{
   assert.equal(p.otherPartyPrivateBudgetWithheld,true);
   assert.equal(p.matches[0].listedAskCents,800);
   assert.equal(p.matches[0].seekerId,'birthday-collector');
-  assert.equal('maxPersonalCashCents' in JSON.stringify(p),false);
+  assert.equal(JSON.stringify(p).includes('maxPersonalCashCents'),false);
 });
 test('no participant is required to use PCGS, NGC or any grade for explicitly raw coin',()=>{
   const p=proposeDirectExchange(f());
