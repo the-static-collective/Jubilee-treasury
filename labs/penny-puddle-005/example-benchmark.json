@@ -1,0 +1,219 @@
+{
+  "type": "reproducible-model-receipt",
+  "version": "penny-puddle-005",
+  "inputs": "All source data, rarity weights, permission assertions, market quotes and sponsors are fictional",
+  "originSourceBlobSha": "efeb7ac8c77b753346dd4b41cce4cc0bee8c9feb",
+  "nativeMotif003SourceCommit": "66d27cfbd077b2c91d0d86d66e320206d88d8f95",
+  "regressionFunction": "benchmark(makeFixture())",
+  "scenarioName": "fictional-local-collector-network",
+  "coinFaceValueCents": 1,
+  "probabilityWeightsAreInvented": true,
+  "buyerBidsAreInvented": true,
+  "actualFundsMovedCents": 0,
+  "actualCampaignReceiptsCents": 0,
+  "firstMoves": {
+    "immediate": "sell:regional-raw-buyer",
+    "affordance": "inspect",
+    "classicalExpected": "inspect",
+    "robust": "publish-sponsored-story"
+  },
+  "outcomes": {
+    "greedy": {
+      "modeledWeightedNetCents": 380,
+      "modeledWorstNetCents": 380,
+      "modeledBestNetCents": 380,
+      "worlds": [
+        {
+          "worldId": "rare-positive",
+          "worldWeight": 12600000,
+          "netCents": 380,
+          "firstMove": "sell:regional-raw-buyer",
+          "actions": [
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "rare-negative",
+          "worldWeight": 1400000,
+          "netCents": 380,
+          "firstMove": "sell:regional-raw-buyer",
+          "actions": [
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-positive",
+          "worldWeight": 8600000,
+          "netCents": 380,
+          "firstMove": "sell:regional-raw-buyer",
+          "actions": [
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-negative",
+          "worldWeight": 77400000,
+          "netCents": 380,
+          "firstMove": "sell:regional-raw-buyer",
+          "actions": [
+            "sell:regional-raw-buyer"
+          ]
+        }
+      ]
+    },
+    "affordance": {
+      "modeledWeightedNetCents": 1389.32,
+      "modeledWorstNetCents": -2070,
+      "modeledBestNetCents": 9750,
+      "worlds": [
+        {
+          "worldId": "rare-positive",
+          "worldWeight": 12600000,
+          "netCents": 9750,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "authenticate",
+            "publish-sponsored-story",
+            "sell:collector-after-certification"
+          ]
+        },
+        {
+          "worldId": "rare-negative",
+          "worldWeight": 1400000,
+          "netCents": 430,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-positive",
+          "worldWeight": 8600000,
+          "netCents": -2070,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "authenticate",
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-negative",
+          "worldWeight": 77400000,
+          "netCents": 430,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "modeledWeightedNetCents": 1389.32,
+      "modeledWorstNetCents": -2070,
+      "modeledBestNetCents": 9750,
+      "worlds": [
+        {
+          "worldId": "rare-positive",
+          "worldWeight": 12600000,
+          "netCents": 9750,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "authenticate",
+            "publish-sponsored-story",
+            "sell:collector-after-certification"
+          ]
+        },
+        {
+          "worldId": "rare-negative",
+          "worldWeight": 1400000,
+          "netCents": 430,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-positive",
+          "worldWeight": 8600000,
+          "netCents": -2070,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "authenticate",
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-negative",
+          "worldWeight": 77400000,
+          "netCents": 430,
+          "firstMove": "inspect",
+          "actions": [
+            "inspect",
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        }
+      ]
+    },
+    "robust": {
+      "modeledWeightedNetCents": 530,
+      "modeledWorstNetCents": 530,
+      "modeledBestNetCents": 530,
+      "worlds": [
+        {
+          "worldId": "rare-positive",
+          "worldWeight": 12600000,
+          "netCents": 530,
+          "firstMove": "publish-sponsored-story",
+          "actions": [
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "rare-negative",
+          "worldWeight": 1400000,
+          "netCents": 530,
+          "firstMove": "publish-sponsored-story",
+          "actions": [
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-positive",
+          "worldWeight": 8600000,
+          "netCents": 530,
+          "firstMove": "publish-sponsored-story",
+          "actions": [
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        },
+        {
+          "worldId": "ordinary-negative",
+          "worldWeight": 77400000,
+          "netCents": 530,
+          "firstMove": "publish-sponsored-story",
+          "actions": [
+            "publish-sponsored-story",
+            "sell:regional-raw-buyer"
+          ]
+        }
+      ]
+    }
+  },
+  "interpretation": "MOTIF-inspired affordance first ties the strong classical expected planner; no verified economic advantage or real transfer. The robust policy avoids a hypothetical negative grading surprise."
+}

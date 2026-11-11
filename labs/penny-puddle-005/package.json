@@ -1,0 +1,14 @@
+{
+  "name": "penny-puddle-005-discovery-market",
+  "version": "0.0.5",
+  "private": true,
+  "type": "module",
+  "description": "Synthetic coin discovery, collector demand, MOTIF-inspired inquiry and robust controls",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node demo.mjs",
+    "serve": "node server.mjs"
+  },
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}
