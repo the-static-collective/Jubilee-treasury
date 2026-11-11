@@ -1,0 +1,24 @@
+name: PENNY x PUDDLE-007 mutual-surplus enablement
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-007/**'
+      - '.github/workflows/penny-puddle-007.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-007/**'
+      - '.github/workflows/penny-puddle-007.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-007
+      - run: npm run demo --prefix labs/penny-puddle-007
+      - run: node --check labs/penny-puddle-007/ui.mjs
+      - run: node --check labs/penny-puddle-007/server.mjs
