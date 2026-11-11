@@ -47,6 +47,8 @@ For buyer demand, never equate a website's asking-price guide with an executable
 ```sh
 npm test --prefix labs/penny-puddle-005
 npm run demo --prefix labs/penny-puddle-005
+npm run serve --prefix labs/penny-puddle-005
+# On that computer, visit http://127.0.0.1:8801/
 ```
 
 Node.js 20 or newer, no npm dependencies. The 005 module reads only the previous 004 *synthetic* one-coin quarantine model; there are no external calls.
@@ -59,6 +61,8 @@ Node.js 20 or newer, no npm dependencies. The 005 module reads only the previous
 - `benchmark`: identical world, budget and action grammar for all four policies.
 
 `bridge.mjs` offers a **typed, read-only graph** of specimen, consent assertion, inspection services, buyer categories, sponsor, and community campaign, together with two observation tickets. It is **only an OFFER/HOLD carrier**. It is not a native MOTIF-009 cartridge, authorized reLATTE crossing, signed source, reconciled bank result, financial permission, or verified appraisal. A separate receiving project's **own** adaptation, validation, admission, and consent rules must apply.
+
+`index.html`, `ui.mjs`, `server.mjs` run a **mobile-first, loopback-only decision board**: select one of five fictional cases by button, inspect the four policies and their worst-world results, and keep every external financial edge held. Browser inputs remain local; no tracking, credentials or provider fetches.
 
 `demo.mjs` wraps the existing 004 quarantine and provenance rules and the 005 bounded planner, then emits an inspectable synthetic decision report in JSON.
 
