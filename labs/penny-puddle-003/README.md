@@ -76,6 +76,16 @@ The current `penny-bank.mjs` simulates witnessed batch counts (two asserted witn
 
 A $1,000 campaign backed solely by existing 2.5g circulating pennies needs 100,000 physical coins (~250 kg). That mass creates a **real job in logistics but also a real loss-producing cost center**. Physical backing is attractive for small local reserve circles and deliberate civic participation; the plan for large electronic bills should ordinarily involve separately backed USD-cent balances with an authorized payment partner. Never silently swap the two backing classes.
 
+## Physical coin circulation — the actual steward job
+
+This lab now includes `coin-flow.mjs`, a deterministic, **heuristic** physical-circulation planner linking synthetic local coin stewards to synthetic participating shops/neighbor desks. It respects unencumbered coin stock, delivery capacities and each participant's permission flags, and estimates standard 2.5g-per-coin weight and fictional per-trip/handling expenses. It creates **no pickup or payment**.
+
+The opportunity after penny production ceased is not to hoard coins and promise passive yield. It is to help local businesses, nonprofits and financial institutions *recirculate existing coins they actually need*, with honest service work: counting, auditing, packing, routing, pickup/delivery, receipt and exception handling. A sponsor, merchant, or other legally approved service buyer must pay the steward independently; *the cents in a backed reserve are not wages*.
+
+A near-term fact worth testing on the ground: the Federal Reserve reports that **all FedCash coin terminals resumed acceptance of penny deposits and fulfillment of penny orders for financial institutions as of Nov. 9, 2026**, subject to its access rules. That enables a potential *bank/credit-union partner* conversation. The Federal Reserve does not offer direct consumer or business penny-order services. Source: https://www.frbservices.org/resources/financial-services/fedcash-services-resources/fedcash-frequently-asked-questions/penny-order-deposit-information/
+
+For a paid physical steward pilot, test `service revenue - counting - transport - custody security - insurance - financial processing` with an explicit minimum profitable bundle; the coin face value is a conserved liability, **not** profit. Avoid depositing, melting, exporting, or treating physical pennies as automatically electronically transferable without verified permissions.
+
 ## Work, rewards, and anti-capture
 
 Steemit proved creators can earn from attention. The lesson for PENNY is not to mint coins for likes. A sponsor could fund $10 of approved social microgrants, at most **1,000 one-cent awards**, and allocate them by human-reviewed useful contributions. A "like" merely proposes where a preexisting cent goes; an unfunded like is a nonmonetary social signal.
