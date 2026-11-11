@@ -24,3 +24,18 @@ jobs:
       - run: node --check labs/penny-puddle-005/bridge.mjs
       - run: node --check labs/penny-puddle-005/ui.mjs
       - run: node --check labs/penny-puddle-005/server.mjs
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/MOTIF
+          ref: 66d27cfbd077b2c91d0d86d66e320206d88d8f95
+          path: motif-source
+          persist-credentials: false
+      - name: Pinned native MOTIF-003 observation-only cross
+        env:
+          MOTIF_SOURCE_ROOT: motif-source
+        run: python3 -m unittest discover -s labs/penny-puddle-005/test -p 'test_native_motif.py' -v
+      - name: Reproducible native MOTIF first-move witness
+        env:
+          MOTIF_SOURCE_ROOT: motif-source
+        run: python3 labs/penny-puddle-005/native_motif_probe.py
+
