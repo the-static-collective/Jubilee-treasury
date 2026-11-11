@@ -49,6 +49,6 @@ export function runSyntheticEconomy() {
     realMoneyMoved:false,pennyTokensIssued:0,authorizedCustodyCreated:false
   };
 }
-if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+if (typeof process !== 'undefined' && process.argv?.[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
   console.log(JSON.stringify(runSyntheticEconomy(),null,2));
 }
