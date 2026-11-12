@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CONCORD-014 — Invent the Agreement</title>
+<style>
+:root{--paper:#f9f3e4;--cream:#fffdf5;--ink:#263b31;--green:#285e4c;--gold:#e7b56c;--line:#c9cabb;--mint:#e8f0e5;--alert:#f7e6d6}
+*{box-sizing:border-box}body{margin:0;background:#dce7dc;color:var(--ink);font:16px/1.48 system-ui,sans-serif}
+main{max-width:1040px;min-height:100vh;margin:auto;background:var(--paper);padding:28px clamp(15px,4vw,44px) 72px}
+.eyebrow{font-size:.76rem;letter-spacing:.11em;text-transform:uppercase;font-weight:850;color:var(--green)}
+h1{font:700 clamp(2.8rem,7.5vw,5.5rem)/1.03 Georgia,serif;letter-spacing:-.05em;margin:12px 0}
+h2{font:700 1.5rem/1.2 Georgia,serif;margin:0 0 12px}
+p{max-width:75ch}.lead{font:1.12rem/1.5 Georgia,serif}
+.tag{display:inline-block;background:var(--gold);padding:8px 12px;font-size:.84rem;font-weight:850;transform:rotate(-1deg);margin:11px 0 20px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin:16px 0}
+.card{background:var(--cream);padding:22px;border:1.5px solid var(--line);border-radius:12px}
+.wide{grid-column:span 2}
+button{font:760 .96rem system-ui;color:var(--ink);background:var(--gold);padding:11px 14px;border:2px solid var(--ink);border-radius:7px;margin:4px 5px 5px 0;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+output{display:block;white-space:pre-wrap;overflow-wrap:anywhere;padding:13px;background:var(--mint);border-left:4px solid var(--green);margin:11px 0;min-height:48px}
+.note{background:var(--alert);padding:14px;border-left:4px solid #a66b3f}
+small,.small{font-size:.87rem;color:#586d5c}
+.metric{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.metric>div{background:#eef0e6;border-radius:7px;padding:12px}
+.big{font:700 2.6rem Georgia,serif;color:var(--green)}
+footer{padding:18px 0;border-top:2px solid var(--line);margin-top:26px;color:#546b5e;font-size:.85rem}
+@media(max-width:690px){.grid,.metric{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:17px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury / CONCORD-014 · OFFER GRAMMAR</div>
+<h1>Invent the<br>agreement.</h1>
+<p class="lead">The gold brick stays put. The original repair-for-rent idea fails. Could a network discover an entirely different arrangement from the things people say they'd be willing to discuss?</p>
+<div class="tag">ALL PEOPLE, CAPABILITIES, PRIORS & MONEY ARE FICTIONAL</div>
+<section class="card">
+<div class="eyebrow">01 / From one plan to a grammar</div><h2>Don't prewrite the whole exchange.</h2>
+<p>Individuals disclose local possibilities: a limited image permission; a film; a repair; a listing video; a community event poster; a workshop. The engine connects compatible outputs and inputs without needing somebody to propose an entire barter chain.</p>
+<div class="metric">
+<div><div class="big" id="fixed-count">—</div><small>Single prewritten repair pathway</small></div>
+<div><div class="big" id="generated-count">—</div><small>Distinct conditional paths synthesized</small></div>
+</div>
+<button id="see-plans">Show the generated paths</button>
+<output id="plans-out" role="status" aria-live="polite">The engine will distinguish unanswered conditions from actual willingness to discuss.</output>
+</section>
+<div class="grid">
+<section class="card"><div class="eyebrow">02 / Freedom before inquiry</div>
+<h2>Renter and owner decide.</h2>
+<p>The original beneficiary is not an instrument for generating economic opportunity, and an interesting gold object isn't permission to pledge or exhibit somebody's property.</p>
+<button id="tenant">Fictional renter opts in</button>
+<button id="owner">Fictional owner opts in</button>
+<output id="gates-out" role="status" aria-live="polite">Both separate choices are required.</output>
+</section>
+<section class="card"><div class="eyebrow">03 / One useful question</div>
+<h2>Ask the right person.</h2>
+<p>QUESTION-012 searches over the possible agreements. RELAY-010 ensures every intermediary makes their own choice to introduce.</p>
+<button id="start">Request selected introduction</button>
+<button id="hop-yes">Next person: YES</button>
+<button id="hop-no">Next person: NO</button>
+<output id="route-out" role="status" aria-live="polite">No introductions requested.</output>
+</section>
+<section class="card wide"><div class="eyebrow">04 / Recompose from each answer</div>
+<h2>When one route fails, another can appear.</h2>
+<p id="question-out">No personal question has been authorized.</p>
+<button id="pose">Subject independently agrees to the question</button>
+<button id="answer-yes">Subject answers YES to discussing this offer</button>
+<button id="answer-no">Subject answers NO</button>
+<button id="decline">Subject declines to answer</button>
+<output id="answer-out" role="status" aria-live="polite">No answers received. No offer cards may be treated as verified contracts.</output>
+</section>
+<section class="card wide"><div class="eyebrow">05 / A new possible arrangement—not a new debt</div>
+<h2>Check the source-owned outcome boundary.</h2>
+<button id="outcome">Inspect candidate agreements</button>
+<button id="revoke">Renter revokes the entire inquiry</button>
+<output id="outcome-out" role="status" aria-live="polite">The engine has not created any performed work, money, signed waivers or legally enforceable promise.</output>
+<div class="note"><strong>No magic liquidity.</strong> Fictional willingness to discuss a video, repair or workshop doesn't discharge $300 of rent. The real landlord would need to agree to precise lawful terms; participating people would have to actually perform their obligations; and any effective release would require separate proof.</div>
+</section>
+</div>
+<footer>The browser runs a local-only synthetic model. No private contacts, authentic identity, psychological profile, property title, payment account, real license, external message, automatic financial settlement or real work. The action composer can recombine new declared cards, but cannot invent a person's consent or assign a dollar value to a story.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>
