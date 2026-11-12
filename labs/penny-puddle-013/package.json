@@ -1,0 +1,14 @@
+{
+  "name":"penny-puddle-013-network-inquiry",
+  "version":"0.0.13",
+  "private":true,
+  "type":"module",
+  "description":"Simulated multi-party question targeting via permissioned RELAY and finite VOI",
+  "scripts":{
+    "test":"node --test test/*.test.mjs",
+    "demo":"node demo.mjs",
+    "serve":"node server.mjs"
+  },
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}
