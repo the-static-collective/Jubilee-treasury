@@ -1,0 +1,24 @@
+name: PENNY x PUDDLE-010 RELAY / relationship introductions
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-010/**'
+      - '.github/workflows/penny-puddle-010.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-010/**'
+      - '.github/workflows/penny-puddle-010.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-010
+      - run: npm run demo --prefix labs/penny-puddle-010
+      - run: node --check labs/penny-puddle-010/ui.mjs
+      - run: node --check labs/penny-puddle-010/server.mjs
