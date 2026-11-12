@@ -19,6 +19,7 @@ export function makeSatisfactionFixture(){
  return {
   liability:{id:'rent-obligation-A',debtorId:'A',creditorId:'L',amountCents:30000,
    creditorWouldConsiderNoncashPaymentInFixture:true,
+   creditorConditionalAcceptanceTermsAssertedInFixture:true,
    actualCreditorSignedWaiver:false},
   asset:{id:'large-gold-like-thing',ownerId:'G',rightsOwnerConsentInFixture:true,
    actualTitleVerified:false,physicalPropertyMoved:false,alreadyLicensedExclusively:false},
@@ -47,8 +48,9 @@ function validate(f){
   throw new Error('Creditor, debtor and object owner must participate');
  if(a.alreadyLicensedExclusively!==false||a.rightsOwnerConsentInFixture!==true)
   throw new Error('No double-licensed owner permission');
- if(l.creditorWouldConsiderNoncashPaymentInFixture!==true)
-  throw new Error('Creditor refusal: a third party cannot unilaterally extinguish their claim');
+ if(l.creditorWouldConsiderNoncashPaymentInFixture!==true ||
+    l.creditorConditionalAcceptanceTermsAssertedInFixture!==true)
+  throw new Error('Creditor refusal or missing pre-agreed conditional terms: a third party cannot unilaterally extinguish a claim');
  if(!Array.isArray(f.promisedSteps)||f.promisedSteps.length>12)
   throw new TypeError('Expected bounded promised steps');
  const index=new Map();
@@ -101,6 +103,7 @@ export function createSatisfactionWeave(f){
   promisorReceipts:[...done].map(([stepId,receipt])=>({stepId,...receipt})),
   confirmedStepsInFixture:done.size,requiredSteps:steps.size,
   creditorWaiverSelfAssertedInFixture:creditorWaived,
+  realPreperformanceCreditorContractVerified:false,
   events:events.map(e=>({...e})),
   status:creditorWaived?'fully-simulated-noncash-creditor-satisfaction':
     'HOLD-no-independent-real-world-creditor-discharge'
