@@ -1,0 +1,25 @@
+name: Jubilee CAPABILITY-015 missing-operator inquiry
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-015/**'
+      - '.github/workflows/penny-puddle-015.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-015/**'
+      - '.github/workflows/penny-puddle-015.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-015
+      - run: npm run demo --prefix labs/penny-puddle-015
+      - run: node --check labs/penny-puddle-015/capability.mjs
+      - run: node --check labs/penny-puddle-015/export-request.mjs
+      - run: node --check labs/penny-puddle-015/verify-output.mjs
