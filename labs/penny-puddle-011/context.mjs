@@ -70,6 +70,7 @@ export function validateContext(f){
   expected(r.consentToPrivateProposalInFixture,'requester opt-in');
   uniq(r.acceptableFormats,'requester formats');
   uniq(r.acceptableSlots,'requester slots');
+  uniq(r.personalHardNos,'requester hard limits');
   uniq(s.allowedPurposes,'subject purposes');
   uniq(s.preferredFormats,'subject formats');
   uniq(s.unacceptableFormats,'subject refusals');
@@ -170,17 +171,19 @@ export function createContextLab(f){
     if(!invitation||invitation.status!=='pending')throw new Error('No pending question for this subject');
     if(actorId!==fixture.subject.id)throw new Error('Only subject can share their own preferences');
     if(typeof approve!=='boolean')throw new TypeError('Subject must explicitly accept or refuse');
+    if(approve){
+      expected(shareAvailability,'share availability');
+      uniq(shareFormats,'chosen disclosed formats');
+      if(!shareFormats.length ||
+         !shareFormats.every(x=>fixture.subject.preferredFormats.includes(x) &&
+           !fixture.subject.unacceptableFormats.includes(x)))
+        throw new Error('Only a subject\'s explicitly authored, permitted formats may be shared');
+      if(typeof shareMotivation!=='boolean')throw new TypeError('Subject must decide whether motivation is shared');
+      int(ttlDays,'disclosure lifetime',1,30);
+    }
     record(eventId,approve?'SUBJECT_SELF_DISCLOSURE':'SUBJECT_REFUSED');
     invitation.status=approve?'approved':'refused';
     if(!approve){grant=null;return {status:'refused',noPenaltyForDeclining:true};}
-    expected(shareAvailability,'share availability');
-    uniq(shareFormats,'chosen disclosed formats');
-    if(!shareFormats.length ||
-       !shareFormats.every(x=>fixture.subject.preferredFormats.includes(x) &&
-         !fixture.subject.unacceptableFormats.includes(x)))
-      throw new Error('Only a subject\'s explicitly authored, permitted formats may be shared');
-    if(typeof shareMotivation!=='boolean')throw new TypeError('Subject must decide whether motivation is shared');
-    int(ttlDays,'disclosure lifetime',1,30);
     grant={status:'approved',recipientId:invitation.requesterId,
       purpose:invitation.purpose,formats:[...shareFormats],
       expiresDay:Math.min(today+ttlDays,fixture.subject.expiresDay),
