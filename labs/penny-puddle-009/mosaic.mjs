@@ -28,7 +28,10 @@ export function composeAnchorMosaic(f=createAnchorFixture(),{
   const license= f.licensedRights.find(x=>x.id===selectedLicenseId);
   const licenseGross=licensed?license.sponsoredGrossCents:0;
   const licenseCosts=licensed?license.productionAndRightsCostCents:0;
-  const licenseDirectPayeeCents=licensed?right.modeledNetCents:0;
+  const licenseDirectPayeeCents=licensed?
+    Math.min(right.modeledNetCents,f.urgentNeed.amountCents):0;
+  const licenseOwnerRetainedCents=licensed?
+    right.modeledNetCents-licenseDirectPayeeCents:0;
   const originalNeed=f.urgentNeed.amountCents;
   const remainingBill=Math.max(0,originalNeed-licenseDirectPayeeCents);
   const angelCash=Math.min(f.angel.cashAvailableCents,remainingBill);
@@ -57,7 +60,7 @@ export function composeAnchorMosaic(f=createAnchorFixture(),{
   const angelGrossRecovery=donor+waterfallDraw;
   const angelUnrecovered=remainingBill-angelGrossRecovery;
   const outsideSources=licenseGross+angelCash+donor+waterfallDraw;
-  const uses=licenseCosts+originalNeed+angelGrossRecovery;
+  const uses=licenseCosts+originalNeed+angelGrossRecovery+licenseOwnerRetainedCents;
   if(outsideSources!==uses)throw new Error('No money without independently modeled sources');
   return {
     status:'synthetic-source-conserved-plan-no-actual-money',
@@ -66,7 +69,8 @@ export function composeAnchorMosaic(f=createAnchorFixture(),{
     licensedRightsUsed:[{right:license.right,
       source:'invented consented licensee budget',grossCents:licenseGross,
       productionCostCents:licenseCosts,
-      netWillinglyDonatedToPayeeCents:licenseDirectPayeeCents}],
+      netWillinglyDonatedToPayeeCents:licenseDirectPayeeCents,
+      excessLicensedIncomeRetainedByOwnerCents:licenseOwnerRetainedCents}],
     angelPaymentToPayeeCents:angelCash,
     donorDesignatedAngelReplenishmentCents:donor,
     thirdPartyFacilityPayoutToAngelCents:waterfallDraw,
@@ -81,6 +85,7 @@ export function composeAnchorMosaic(f=createAnchorFixture(),{
     },
     destinations:{
       licenseProductionCents:licenseCosts,rentPayeeCents:originalNeed,
+      licenseOwnerRetainedCents:licenseOwnerRetainedCents,
       angelReimbursementCents:angelGrossRecovery,
       totalCents:uses
     },
