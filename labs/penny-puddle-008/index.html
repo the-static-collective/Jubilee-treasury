@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PUDDLE / ANGEL CIRCLE — Rent paid, generosity continues</title>
+<style>
+:root{--ink:#243c32;--paper:#f7f3e6;--light:#fffdf6;--green:#216451;--line:#c4ceb9;--gold:#e2b66d;--rose:#f8e9d5}
+*{box-sizing:border-box}body{font:16px/1.5 system-ui;background:#e0e8dc;margin:0;color:var(--ink)}
+main{margin:auto;max-width:920px;min-height:100vh;padding:30px clamp(16px,4vw,42px) 70px;background:var(--paper)}
+h1{font:700 clamp(2.7rem,7vw,5rem)/1.05 Georgia,serif;letter-spacing:-.045em;margin:14px 0}
+h2{font:700 1.55rem/1.2 Georgia,serif;margin:0 0 12px}
+.eyebrow{font-size:.74rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+.tag{display:inline-block;padding:7px 13px;background:#f0d39f;transform:rotate(-1deg);font-weight:850;margin:12px 0 18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:12px 0}
+.card{padding:20px;border:1.5px solid var(--line);border-radius:11px;background:var(--light)}
+.wide{grid-column:span 2}
+.number{font:700 clamp(2.2rem,5vw,3.1rem) Georgia,serif}
+button{background:var(--gold);border:2px solid var(--ink);color:var(--ink);border-radius:7px;padding:11px 13px;font:750 1rem system-ui;cursor:pointer;margin:4px 5px 6px 0}
+button:disabled{opacity:.4;cursor:not-allowed}button:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+p{max-width:68ch}.small{font-size:.85rem;color:#597065}
+.status{white-space:pre-wrap;background:#ecf3e8;border-left:4px solid var(--green);padding:14px;margin-top:12px}
+.disclaimer{padding:15px;background:var(--rose);border-left:4px solid #a87129}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.metric{padding:12px;background:#eff2e9;border-radius:8px}.mini{font-weight:800;font-size:1.35rem;font-variant-numeric:tabular-nums}
+footer{padding-top:18px;border-top:2px solid var(--line);font-size:.84rem;color:#597065}
+@media(max-width:620px){.grid,.metrics{grid-template-columns:1fr}.wide{grid-column:span 1}}
+</style>
+</head><body><main>
+<div class="eyebrow">Jubilee Treasury / PENNY × PUDDLE / 008</div>
+<h1>The rent is paid.<br>The giving isn't over.</h1>
+<p>A community member covers an urgent $300 need today. The campaign becomes a continuing record of help, inviting people to replenish the sponsor or seed the next act of kindness.</p>
+<div class="tag">ALL PEOPLE & PAYMENTS ARE FICTIONAL — NOTHING IS CHARGED</div>
+<div class="grid">
+<section class="card wide"><div class="eyebrow">01 · Urgent need</div><h2>Someone needs $300 for rent</h2>
+<p>The original bill is never funded twice. The example insists on a separate need review and fictional payee receipt before it marks the cause as addressed.</p>
+<button id="review">Simulate independent review</button>
+<button id="pay" disabled>Angel B covers $300 directly</button>
+<div id="need-status" class="status" role="status" aria-live="polite">Awaiting evidence review. Original bill unpaid in the fictional scenario.</div>
+</section>
+<section class="card"><div class="eyebrow">02 · Impact certificate</div><h2>A record, not a debt</h2>
+<p>The certificate carries the cause and angel's history. It has no face value, tradability, guaranteed redemption, or claim against Person A.</p>
+<div id="certificate" class="status" aria-live="polite">No certificate until verified fictional payee payment.</div>
+</section>
+<section class="card"><div class="eyebrow">03 · Keep the story open</div><h2>Other people can still help</h2>
+<p>Subsequent donations must say where the money goes now that rent has been paid.</p>
+<button id="replenish" disabled>Donor gives $30 to replenish Angel B</button>
+<button id="community" disabled>Donor gives $20 to future community needs</button>
+<button id="recycle" disabled>Angel B recycles $15 received back</button>
+<div id="donor-status" class="status" role="status" aria-live="polite">No new donor money has entered the fictional circle.</div>
+</section>
+<section class="card wide"><div class="eyebrow">04 · Clout can carry the story—not mint money</div>
+<h2>One like isn't necessarily one penny</h2>
+<p>Share the event freely. A like is worth zero cents unless a separate sponsor has already committed a one-cent promotional budget.</p>
+<button id="endorse" disabled>Give an unfunded like</button>
+<button id="funded" disabled>Spend one pre-funded penny on the community pool</button>
+<div id="like-status" class="status" role="status" aria-live="polite">Three independently sponsor-funded mock cents are available in this experiment. Zero real dollars.</div>
+</section>
+<section class="card wide"><div class="eyebrow">05 · Conservation</div><h2>Every cent came from somewhere</h2>
+<div class="metrics">
+<div class="metric"><div class="small">Original rent covered</div><div id="rent" class="mini">$0.00</div></div>
+<div class="metric"><div class="small">Angel reimbursement kept</div><div id="angel" class="mini">$0.00</div></div>
+<div class="metric"><div class="small">New community reserve</div><div id="pool" class="mini">$0.00</div></div>
+</div>
+<div id="ledger-status" class="status" role="status" aria-live="polite">Modeled support and allocations always balance. Actual money moved: $0.00.</div>
+<div class="disclaimer"><strong>Person A owes $0.</strong> Later supporters are donating to clearly labeled reimbursement or community purposes; they are not paying rent a second time. A fundraiser cannot secretly redirect donors' money.</div>
+</section>
+</div>
+<footer>Prototype only: receipt assertions are not bank evidence. No actual landlord receipt, donor, payment, tax-deductible status, financial obligation, transferable certificate or guaranteed repayment exists. A real program requires a lawful payment partner, donor-purpose disclosures, fundraising/tax review and privacy-preserving confirmation.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>
