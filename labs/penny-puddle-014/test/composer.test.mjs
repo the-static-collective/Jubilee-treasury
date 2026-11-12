@@ -160,7 +160,7 @@ test('one first-person answer cannot be supplied by a friend, repeated, or treat
  const changed=applyFirstPersonOfferAnswer(f,'L-considers-repair','L','yes');
  assert.equal(f.offers.find(x=>x.id==='L-considers-repair').status,'unknown');
  assert.equal(changed.offers.find(x=>x.id==='L-considers-repair').status,'yes');
- assert.throws(()=>applyFirstPersonOfferAnswer(changed,'L-considers-repair','L','no'),/already recorded/);
+ assert.throws(()=>applyFirstPersonOfferAnswer(changed,'L-considers-repair','L','no'),/previously recorded/);
  assert.equal(synthesizeAgreements(changed).readyToDiscussInFixture,1);
  assert.equal(synthesizeAgreements(changed).realDebtDischargedCents,0);
 });
