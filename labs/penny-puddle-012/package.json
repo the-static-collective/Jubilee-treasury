@@ -1,0 +1,14 @@
+{
+  "name":"penny-puddle-012-next-question",
+  "version":"0.0.12",
+  "private":true,
+  "type":"module",
+  "description":"Synthetic exact finite VOI question planner crossed with source-owned RELAY and native pinned MOTIF",
+  "scripts":{
+    "test":"node --test test/*.test.mjs",
+    "demo":"node weave.mjs",
+    "serve":"node server.mjs"
+  },
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}

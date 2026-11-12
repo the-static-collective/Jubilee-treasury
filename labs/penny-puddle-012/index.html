@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE NEXT QUESTION / Jubilee Treasury</title>
+<style>
+:root{--paper:#f9f3e4;--ink:#243831;--green:#286452;--gold:#e9b86b;--line:#c8c9b8;--white:#fffdf6;--mint:#eaf0e6;--alert:#f6e4d6}
+*{box-sizing:border-box}
+body{margin:0;background:#dfe7df;color:var(--ink);font:16px/1.54 system-ui,-apple-system,sans-serif}
+main{max-width:950px;margin:0 auto;padding:28px clamp(15px,4vw,44px) 64px;background:var(--paper);min-height:100vh}
+h1{font:700 clamp(2.8rem,8vw,5.4rem)/1 Georgia,serif;letter-spacing:-.055em;margin:12px 0 16px}
+h2{font:700 1.52rem/1.2 Georgia,serif;margin:0 0 14px}
+h3{font:700 1.16rem Georgia,serif;margin:7px 0}
+.eyebrow{color:var(--green);letter-spacing:.11em;font-weight:900;text-transform:uppercase;font-size:.76rem}
+.tag{display:inline-block;font-size:.8rem;font-weight:850;background:var(--gold);transform:rotate(-1deg);padding:7px 13px;margin:11px 0 22px}
+.lead{font:1.14rem/1.54 Georgia,serif;max-width:73ch}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin:15px 0}
+.card{padding:22px;border:1.5px solid var(--line);border-radius:12px;background:var(--white)}
+.wide{grid-column:span 2}
+button{background:var(--gold);border:2px solid var(--ink);border-radius:7px;padding:11px 15px;font:800 .95rem system-ui;color:var(--ink);margin:4px 6px 5px 0;cursor:pointer}
+button:disabled{opacity:.42;cursor:not-allowed}
+button:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+output{display:block;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--mint);border-left:4px solid var(--green);padding:13px;margin:13px 0;min-height:55px}
+.small{color:#586d60;font-size:.85rem}
+.example{padding:13px;background:var(--alert);border-left:4px solid #a16e36}
+strong.label{font-weight:900;color:var(--green)}
+.stat{font:700 2.5rem Georgia,serif;color:var(--green)}
+.row{border-bottom:1px solid var(--line);padding:10px 0}
+.controls{display:flex;flex-wrap:wrap;gap:4px}
+footer{border-top:2px solid var(--line);padding:18px 0;margin-top:24px;color:#586d60;font-size:.85rem}
+@media(max-width:690px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:17px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury × RELAY × MOTIF research / 012</div>
+<h1>Ask the right<br>question next.</h1>
+<p class="lead">A useful question can open a new possibility. But the question with the most surprising answer isn't always the question that helps people reach a better agreement.</p>
+<div class="tag">PUBLIC FICTIONAL LAB · NO ACTUAL PERSON IS CONTACTED</div>
+<section class="card">
+<div class="eyebrow">01 / Three competing strategies</div>
+<h2>Information is valuable only if it can improve a decision.</h2>
+<p>Eight invented scenarios about a tractor, a learner and a mechanic. One question has maximal information entropy but no economic decision value. Another may change what kind of cooperation both would welcome.</p>
+<button id="compare" type="button">Run the question-selection comparison</button>
+<output id="compare-out" role="status" aria-live="polite">No benchmark run yet. These are invented numerical outcomes, not evidence about any actual person.</output>
+<p class="small">The strongest finite-horizon strategy may ask the learner about their wishes first, saving the mechanic an unnecessary private question if learning isn't desired.</p>
+</section>
+<div class="grid">
+<section class="card"><div class="eyebrow">02 / First, get permission</div>
+<h2>Make a respectful introduction</h2>
+<p>The learner can approach an opt-in community hub. Hub and mechanic each choose whether a discussion is welcome. Only then can the mechanic independently opt into a neutral question.</p>
+<button id="intro" type="button">Simulate two accepted introductions</button>
+<button id="subject" type="button">Mechanic opts into being asked</button>
+<output id="intro-out" role="status" aria-live="polite">No introductions completed. These buttons make only fictional assertions.</output>
+</section>
+<section class="card"><div class="eyebrow">03 / What should we ask?</div>
+<h2>Choose only what could help</h2>
+<p id="next-text">No eligible personalized question has been authorized.</p>
+<div class="controls">
+<button id="learner-yes" type="button">Learner: YES, I'd like to learn</button>
+<button id="learner-no" type="button">Learner: NO, I'd prefer it done</button>
+<button id="mechanic-yes" type="button">Mechanic: YES, I'd consider teaching</button>
+<button id="mechanic-no" type="button">Mechanic: NO, not interested</button>
+</div>
+<output id="question-out" role="status" aria-live="polite">No first-person response received, even in the invented scenario.</output>
+</section>
+<section class="card wide"><div class="eyebrow">04 / Does the question open a good deal?</div>
+<h2>The person isn't a skill tag.</h2>
+<p>If the learner is interested in learning *and* the mechanic independently agrees to share an interest in teaching, RELAY-011 and DEALWEAVER-007 can consider a Saturday teaching session. Otherwise they stop.</p>
+<output id="deal-out" role="status" aria-live="polite">All options remain HOLD. Nothing is offered or performed.</output>
+<div class="example"><strong>Privacy rule:</strong> A neighbor's description of someone else's personality cannot become an established fact. Ask the individual. Honor refusal, expiry and the right to keep personal reasons private.</div>
+</section>
+</div>
+<footer>The original source-owned RELAY-011, RELAY-010 and DEALWEAVER-007 engines are imported by this lab. A separate Python experiment executes a source-pinned native MOTIF-003 structural affordance search in CI; its structural scores are not the same as the Bayesian value-of-information model here. All actors, answers, priors, utilities and consent choices are fabricated; no real identities, work, contracts, social profiling or money movement.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>
