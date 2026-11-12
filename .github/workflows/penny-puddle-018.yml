@@ -1,0 +1,27 @@
+name: Jubilee CAPABILITY-018 / finite missing-primitive check
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-018/**'
+      - '.github/workflows/penny-puddle-018.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-018/**'
+      - '.github/workflows/penny-puddle-018.yml'
+permissions:
+  contents: read
+jobs:
+  verify-grammar-gap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-018
+      - run: npm run demo --prefix labs/penny-puddle-018
+      - run: node --check labs/penny-puddle-018/contract.mjs
+      - run: node --check labs/penny-puddle-018/independent.mjs
+      - run: node --check labs/penny-puddle-018/development.mjs
+      - run: node --check labs/penny-puddle-018/heldout.mjs
+      - run: node --check labs/penny-puddle-018/verify.mjs
