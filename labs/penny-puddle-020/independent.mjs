@@ -3,9 +3,9 @@
  * Does not import GRAFT's implementation. Correctness reference below
  * uses a conventional independent stack parser, not a model assertion.
  */
-import {assertProgram,assertInput,allPrograms} from './contract.mjs';
-import {enumeratePrograms as oldPrograms,runCandidate as oldRun}
-  from '../../../../../GRAFT/experiments/capability-019/program.mjs';
+import {assertProgram,assertInput} from './contract.mjs';
+import {listAllPrograms as oldPrograms} from '../penny-puddle-019/contract.mjs';
+import {compileAndRun as oldRun} from '../penny-puddle-019/independent.mjs';
 
 const kind=c=>c==='('?0:c==='['?1:c===')'?0:1;
 const opening=c=>c==='('||c==='[';
