@@ -1,0 +1,7 @@
+{
+ "name":"jubilee-020-structural-memory", "version":"0.0.20", "private":true,
+ "type":"module",
+ "scripts":{"test":"node --test test/*.test.mjs","demo":"node export.mjs","verify":"node verify-output.mjs"},
+ "engines":{"node":">=22"},
+ "license":"MIT"
+}
