@@ -1,0 +1,9 @@
+{
+  "name":"penny-puddle-009-anchor",
+  "version":"0.0.9",
+  "private":true,
+  "type":"module",
+  "scripts":{"test":"node --test test/*.test.mjs","demo":"node demo.mjs","serve":"node server.mjs"},
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}
