@@ -1,0 +1,1 @@
+{"name":"jubilee-019-nand-derived-primitive","version":"0.0.19","private":true,"type":"module","description":"Independent NAND circuit minimality proof and three-input parity transfer verification","scripts":{"test":"node --test test/*.test.mjs","demo":"node export.mjs","verify":"node verify-output.mjs"},"engines":{"node":">=22"},"license":"MIT"}
