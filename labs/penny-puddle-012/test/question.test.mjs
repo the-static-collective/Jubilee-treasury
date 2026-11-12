@@ -116,7 +116,7 @@ test('actor impersonation and guessed answer attempts are rejected',()=>{
  const q=withMechanicPermission();
  const rec=q.planNext().recommendedQuestion;
  assert.throws(()=>q.poseQuestion({eventId:'wrong',questionId:rec.id,
-  actorId:'mechanic',personAgreedToThisQuestionInFixture:true}),/Only actual subject/);
+  actorId:'mechanic',personAgreedToThisQuestionInFixture:true}),/Only the actual subject/);
  assert.throws(()=>q.poseQuestion({eventId:'without-consent',questionId:rec.id,
   actorId:'learner',personAgreedToThisQuestionInFixture:false}),/opt into/);
  assert.equal(q.audit().events.length,1);
@@ -176,7 +176,7 @@ test('a degenerate prior with invented impossible answers fails validation rathe
  const g=fixture();g.worlds[0].outcomes['no-deal']=100;
  assert.throws(()=>validateQuestionFixture(g),/No-deal/);
  const h=fixture();h.questions[0].asker='learner';
- assert.throws(()=>validateQuestionFixture(h),/Unsolicited/);
+ assert.throws(()=>validateQuestionFixture(h),/unsolicited/);
 });
 test('source-owned RELAY-011 crossing cannot use a subject answer before introductions',()=>{
  const w=createQuestionWeave();
@@ -220,6 +220,6 @@ test('end-to-end demo preserves all zero-authority boundaries',()=>{
  assert.equal(d.hypotheticalFirstAnswer.questionId,'ask-learner-learning');
  assert.equal(d.hypotheticalSecondAnswerAndAgreementOptions.questionId,'ask-mechanic-teaching');
  assert.equal(d.hypotheticalSecondAnswerAndAgreementOptions.realMoneyMovedCents,0);
- assert.equal(d.realWorldIdentityVerified,false);
- assert.equal(d.realAgreementsExecuted,0);
+ assert.equal(d.realHumanDataUsed,false);
+ assert.equal(d.realServicesPerformed,0);
 });
