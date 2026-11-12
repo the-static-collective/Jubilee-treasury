@@ -1,0 +1,8 @@
+{
+  "name":"jubilee-unwritten-method-017",
+  "version":"0.0.17","private":true,"type":"module",
+  "description":"Source-owned typed program evaluator and final-only heldout suite",
+  "scripts":{"test":"node --test test/*.test.mjs","demo":"node export.mjs","verify":"node verify.mjs"},
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}
