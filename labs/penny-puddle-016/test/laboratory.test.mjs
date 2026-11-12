@@ -41,9 +41,9 @@ function report(spec=makeCapabilityExperiment()){
   contractFingerprintSha256:requestFingerprint(spec),
   sourceMethodScope:'hand-authored-local-methods-not-new-mathematics',
   candidates:[
-   {methodId:'unsafe-interpolation',outputs:bad,claims},
-   {methodId:'escaped-compact',outputs:outputs(false),claims},
-   {methodId:'accessible-print',outputs:outputs(true),claims}
+   {methodId:'unsafe-interpolation',outputs:bad,claims:{...claims}},
+   {methodId:'escaped-compact',outputs:outputs(false),claims:{...claims}},
+   {methodId:'accessible-print',outputs:outputs(true),claims:{...claims}}
   ],
   realHumanContactCount:0,actualFundsMovedCents:0,
   externalActionAuthorization:false,productionAdmitted:false
