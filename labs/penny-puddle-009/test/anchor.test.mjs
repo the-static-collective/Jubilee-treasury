@@ -79,7 +79,7 @@ test('undesignated donor and unsupported guarantee must not create synthetic pay
  assert.throws(()=>p.donorReimburses({eventId:'d',donorId:'D',centsAmount:100}),/before/);
  p.angelPays({eventId:'paid',angelId:'angel-B',modeledPayeeReceipt:true});
  assert.throws(()=>p.finishWaterfall({eventId:'short',partnerAvailableInFixture:true,
-   independentShortfallReview:false}),/review/);
+   independentShortfallReview:false}),/assessment/);
  assert.equal(p.snapshot().standbyCashReleasedToAngelCents,0);
 });
 test('risk capacity cannot be double committed to two different households',()=>{
