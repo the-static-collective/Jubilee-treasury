@@ -230,7 +230,7 @@ export function benchmarkQuestionPolicies(f=makeQuestionFixture()){
  */
 export function createQuestionLab(f=makeQuestionFixture(),{
   learnerOptedIntoQuestionsInFixture=true,maxQuestions=2,
-  maxPrivacyWeight=1
+  maxPrivacyWeight=1,lookaheadSteps=2
 }={}){
   validateQuestionFixture(f);
   if(typeof learnerOptedIntoQuestionsInFixture!=='boolean')
@@ -239,6 +239,8 @@ export function createQuestionLab(f=makeQuestionFixture(),{
     throw new TypeError('Bounded questions per encounter');
   if(!Number.isSafeInteger(maxPrivacyWeight)||maxPrivacyWeight<0||maxPrivacyWeight>3)
     throw new TypeError('Bounded privacy question budget');
+  if(!Number.isSafeInteger(lookaheadSteps)||lookaheadSteps<1||lookaheadSteps>3)
+    throw new TypeError('Lookahead must be finite and at most three');
   const scenario=clone(f),now=scenario.nowDay;
   let worlds=[...scenario.worlds],mechanicConsent=false,asked=[],pending=null,
     privacySpent=0,day=now;
@@ -275,17 +277,31 @@ export function createQuestionLab(f=makeQuestionFixture(),{
     const candidates=eligible().map(q=>questionValue(worlds,q,scenario.actions));
     candidates.sort((a,b)=>b.netDecisionValuePoints-a.netDecisionValuePoints ||
       a.id.localeCompare(b.id));
-    const winner=candidates[0];
+    // Crucial counterfactual: ask the learner first if that can avoid
+    // an unnecessary sensitive question of the mechanic later. The optimal
+    // horizon may differ from the greedy maximum one-question EVSI policy.
+    const remainingBudget=Math.max(0,maxQuestions-asked.length);
+    const optimal=(!pending&&remainingBudget>0) ?
+      optimalQuestionPolicy(worlds,eligible(),scenario.actions,
+        Math.min(lookaheadSteps,remainingBudget)) : {
+          firstQuestionId:null,expectedScenarioPointsNet:direct.expectedScenarioPoints
+        };
+    const winner=candidates.find(x=>x.id===optimal.firstQuestionId);
+    const justified=!!winner &&
+      optimal.expectedScenarioPointsNet>direct.expectedScenarioPoints+EPS;
     return {
       status:pending?'awaiting-first-person-answer':
         asked.length>=maxQuestions?'HOLD-question-budget-exhausted':
         day>scenario.expiresDay?'HOLD-expired':
-        winner&&winner.netDecisionValuePoints>EPS?'ask-if-person-chooses':'stop-asking',
+        justified?'ask-if-person-chooses':'stop-asking',
       recommendedQuestion:!pending&&asked.length<maxQuestions&&
-        winner&&winner.netDecisionValuePoints>EPS?{
+        justified?{
         id:winner.id,actorId:winner.target,neutralPrompt:winner.prompt,
         modeledDecisionValuePoints:winner.netDecisionValuePoints,
+        expectedValueOfFullRemainingPlanPoints:optimal.expectedScenarioPointsNet-
+          direct.expectedScenarioPoints,
         answerEntropyBits:winner.answerEntropyBits,
+        decisionPolicy:'exact-bounded-lookahead-not-personality-inference',
         mustAskPersonDirectly:true,askAutomatically:false
       }:null,
       availableCandidates:pending?[]:candidates.map(q=>({
@@ -311,9 +327,9 @@ export function createQuestionLab(f=makeQuestionFixture(),{
     if(q.asker!==actorId)throw new Error('Only the actual subject of question may be addressed');
     if(personAgreedToThisQuestionInFixture!==true)
       throw new Error('Must explicitly opt into this individual question');
-    const value=questionValue(worlds,q,scenario.actions);
-    if(value.netDecisionValuePoints<=EPS)
-      throw new Error('No positive decision value above the question burden');
+    const planned=planNext().recommendedQuestion;
+    if(!planned||planned.id!==questionId)
+      throw new Error('Question is not currently justified by the permitted finite policy');
     record(eventId,'FICTIONAL_QUESTION_PRESENTED_TO_SELF');
     pending={id:q.id,actorId:q.asker,choices:[...q.answers]};
     return {
