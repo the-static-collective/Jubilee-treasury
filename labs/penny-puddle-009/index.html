@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ANCHOR-009 / What do we do with the gold brick?</title>
+<style>
+:root{--ink:#26332e;--forest:#215a49;--paper:#f9f4e5;--cream:#fffdf6;--border:#c6cabb;--yellow:#efd29b;--risk:#f9e5d6}
+*{box-sizing:border-box}body{background:#dfe7dd;margin:0;font:16px/1.5 system-ui;color:var(--ink)}
+main{max-width:980px;margin:auto;background:var(--paper);padding:25px clamp(14px,4vw,44px) 62px;min-height:100vh}
+.eyebrow{text-transform:uppercase;font-size:.74rem;font-weight:850;letter-spacing:.115em;color:var(--forest)}
+h1{font:700 clamp(2.8rem,8vw,5.7rem)/1.02 Georgia,serif;letter-spacing:-.05em;margin:14px 0}
+h2{font:700 1.46rem/1.2 Georgia,serif;margin:0 0 12px}
+.tag{display:inline-block;font-weight:850;padding:7px 12px;margin:12px 0;background:var(--yellow);transform:rotate(-1deg)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.card{border:1.5px solid var(--border);border-radius:12px;background:var(--cream);padding:21px}.wide{grid-column:span 2}
+button{font:750 1rem system-ui;background:var(--yellow);border:2px solid var(--ink);border-radius:8px;padding:11px 14px;margin:5px 5px 5px 0;cursor:pointer}
+button:focus-visible{outline:3px solid var(--forest);outline-offset:3px}
+.small{font-size:.87rem;color:#546a5d}.result{background:#e8f1e7;border-left:4px solid var(--forest);padding:13px;white-space:pre-wrap;margin-top:13px}
+.warn{padding:13px;background:var(--risk);border-left:4px solid #9c5d39}.counter{font:700 1.8rem Georgia,serif;color:var(--forest)}
+footer{padding:18px 0 0;border-top:2px solid var(--border);margin-top:24px;font-size:.85rem;color:#53685c}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:16px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury · ANCHOR-009 / The Unspent Asset</div>
+<h1>What if the gold<br>never moves?</h1>
+<p>Start with a fictional gold-like brick the size of a table and a $300 rent need. Rather than divide, sell or tokenize the object, ask which <em>independent commitments</em> it could help people assemble.</p>
+<div class="tag">FICTIONAL PERSONS, ASSET, OFFERS & MONEY — NO LIVE FINANCE</div>
+<div class="grid">
+<section class="card wide"><div class="eyebrow">01 · The unsolved constraint</div><h2>No counterparty, no liquidity</h2>
+<button id="deadend">Remove standby provider</button>
+<div class="result" id="dead-result" role="status" aria-live="polite">A giant object is not itself a spendable bank balance. An apparent valuation cannot settle the landlord's invoice.</div>
+</section>
+<section class="card"><div class="eyebrow">02 · Absorb bounded downside</div>
+<h2>Gold as a commitment anchor</h2>
+<p>The independent sponsor has $300 but only tolerates a $75 unrecovered loss. Another owner hypothetically backs the remaining risk using a separately funded, approved standby provider.</p>
+<button id="anchor">Model limited downside guarantee</button>
+<div class="result" id="anchor-result" role="status" aria-live="polite">No guarantees, lender, security interests or property actually created.</div>
+</section>
+<section class="card"><div class="eyebrow">03 · Untie a different knot</div>
+<h2>The right to tell its story</h2>
+<p>A fictional filmmaker pays $110 for licensed imagery. After $30 production cost, the owner freely redirects $80 toward the rent. The angel only needs to supply $220.</p>
+<button id="mosaic">Compose the cash-and-rights mosaic</button>
+<div class="result" id="mosaic-result" role="status" aria-live="polite">No paying filmmaker, verified copyright license, funding or financial partner exists.</div>
+</section>
+<section class="card wide"><div class="eyebrow">04 · The least obvious frontier</div><h2>Settle the need instead of selling the asset</h2>
+<p>A landlord might freely accept an electrician's repair instead of $300 cash. The electrician might want a promotional film. The filmmaker might value the right to photograph the gold. The gold owner might choose to give that permission to help the renter.</p>
+<div class="warn"><strong>This requires the creditor's informed advance agreement.</strong> Nobody can unilaterally discharge someone else's bill, and workers must not be asked to perform first without enforceable, mutually acceptable terms and safeguards.</div>
+<button id="satisfaction">Simulate a complete conditional barter chain</button>
+<div class="result" id="satisfaction-result" role="status" aria-live="polite">No real labor, legal waiver, license, payment or property transfer has occurred.</div>
+</section>
+<section class="card wide"><div class="eyebrow">05 · The physical object remains</div><h2>The asset is not the thing circulating</h2>
+<p>The possible exchange is of <strong>permission, attention, independently sourced cash, bounded exposure, useful work, and voluntary creditor satisfaction</strong>. Nothing in the model turns a gold price estimate into dollars.</p>
+<p class="small">The most conservative path is often to avoid pledging irreplaceable property entirely. Contingent guarantees can cause the guarantor to lose collateral and require a licensed or otherwise authorized financial partner. All test approvals are invented assertions, not genuine verification.</p>
+</section>
+</div><footer>Experiment only. No gold, coin, bill, loan, legal discharge, credit facility, custodian, appraisal, intellectual-property license, credential, bank API, real person or real financial action. Satisfying someone's rent through barter requires genuine creditor agreement, completed performance and legally effective release—not a software-generated record.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>
