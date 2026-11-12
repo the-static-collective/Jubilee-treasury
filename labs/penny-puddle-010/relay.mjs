@@ -19,9 +19,9 @@ const bounded=(x,label,lo,hi)=>{
 };
 const relationshipTypes=new Set([
   'worked-together','creative-collaborators','neighbor',
-  'community-introduction','public-opt-in-intake','online-acquaintance'
+  'community-introduction','public-opt-in-intake','online-acquaintance',
+  'existing-contractual-counterparty'
 ]);
-const privacyModes=new Set(['private-introduction','public-opt-in-intake']);
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function makeRelayFixture(){
   return {
@@ -59,6 +59,11 @@ export function makeRelayFixture(){
         kind:'personal',declaredBy:'B',allowedPurposes:['settle-a-need'],
         senderPermitsRequestInFixture:true,recipientMayBeAskedInFixture:true,
         observedDay:29,ttlDays:30,introductionBurden:2},
+      {id:'L-A',from:'L',to:'A',how:'existing-contractual-counterparty',
+        context:'Landlord and beneficiary directly know the proposed rent obligation',
+        kind:'personal',declaredBy:'L',allowedPurposes:['settle-a-need'],
+        senderPermitsRequestInFixture:true,recipientMayBeAskedInFixture:true,
+        observedDay:27,ttlDays:25,introductionBurden:1},
       {id:'A-H',from:'A',to:'H',how:'public-opt-in-intake',
         context:'Hub allows publicly invited community help requests',
         kind:'open-intake',declaredBy:'H',allowedPurposes:['settle-a-need'],
