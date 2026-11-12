@@ -91,7 +91,7 @@ function reply(approve){
  return recipient+' said YES in the made-up scenario.\n'+
    'Accepted '+updated.approvedHopCount+'/'+updated.totalHopCount+
    ' introductions.\n'+
-   (next?'Next person's own choice required: '+next:
+   (next?"Next person's own choice required: "+next:
     'All fictional introductions accepted. The target must still separately agree to the QUESTION.')+
    '\nNo real people contacted.';
 }
