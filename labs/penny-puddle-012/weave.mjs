@@ -46,32 +46,37 @@ export function createQuestionWeave({
     questionAuthorizedInFixture=true;
     return {...permission,permission:true};
   }
-  function askAndAnswer({answer,actorId='mechanic'}){
-    if(!questionAuthorizedInFixture)throw new Error('Mechanic did not opt into this question');
+  let answerCount=0;
+  function askAndAnswer({answer,actorId}){
     const selected=lab.planNext().recommendedQuestion;
     if(!selected||selected.actorId!==actorId)
-      throw new Error('No currently justified consented question for this actor');
-    lab.poseQuestion({eventId:'ask-ranked-question',questionId:selected.id,
+      throw new Error('No currently justified, subject-consented question for this actor');
+    if(actorId==='mechanic'&&!questionAuthorizedInFixture)
+      throw new Error('Mechanic did not opt into this question');
+    const step=++answerCount;
+    lab.poseQuestion({eventId:'ask-ranked-question-'+step,questionId:selected.id,
       actorId,personAgreedToThisQuestionInFixture:true});
-    const response=lab.answerQuestion({eventId:'subject-direct-answer',
+    const response=lab.answerQuestion({eventId:'person-direct-answer-'+step,
       actorId,answer,firstPersonAnswerInFixture:true});
-    if(answer==='yes'){
-      // Subject controls the actual FORMATS. The model's yes/no result
-      // cannot authorize private disclosure on its own.
-      contextWeave.answerOwnPreferences({
-        eventId:'mechanic-self-authorizes-011-formats',
-        actorId:'mechanic',approve:true,
-        shareFormats:['teach-together','remote-guidance'],
-        shareAvailability:true,shareMotivation:false,ttlDays:5
-      });
-    }else{
-      contextWeave.answerOwnPreferences({
-        eventId:'mechanic-declines-011-sharing',
-        actorId:'mechanic',approve:false
-      });
+    if(actorId==='mechanic'){
+      if(answer==='yes'){
+        // Independent consent to share actual permitted formats, NOT
+        // automatically inferred from the answer to a question.
+        contextWeave.answerOwnPreferences({
+          eventId:'mechanic-self-authorizes-011-formats',
+          actorId:'mechanic',approve:true,
+          shareFormats:['teach-together','remote-guidance'],
+          shareAvailability:true,shareMotivation:false,ttlDays:5
+        });
+      }else{
+        contextWeave.answerOwnPreferences({
+          eventId:'mechanic-declines-011-sharing',
+          actorId:'mechanic',approve:false
+        });
+      }
     }
     return {
-      questionId:selected.id,
+      questionId:selected.id,personAnsweredInFixture:actorId,
       answerGivenByFakeSubject:answer,
       suggestedNextWorldAction:response.nextSuggestedAction,
       contextProposals:contextWeave.proposals().candidates.map(x=>x.id),
@@ -116,7 +121,9 @@ export function runQuestion012(){
   const introductions=bridge.openIntroductions();
   bridge.subjectChoosesQuestionConsent({approve:true});
   const after=bridge.planNext();
-  const answer=bridge.askAndAnswer({answer:'yes'});
+  const learnerAnswer=bridge.askAndAnswer({actorId:'learner',answer:'yes'});
+  const followupRecommendation=bridge.planNext().recommendedQuestion?.id??null;
+  const mechanicAnswer=bridge.askAndAnswer({actorId:'mechanic',answer:'yes'});
   return {
     experiment:'JUBILEE QUESTION-012 / ASK THE NEXT USEFUL QUESTION',
     scope:'Synthetic adaptive decision-focused VOI with independent real source-owned RELAY-011 cross',
@@ -136,7 +143,9 @@ export function runQuestion012(){
       exactTwoQuestionFirst:benchmark.exactTwoQuestionPolicy.firstQuestionId,
       allPriorsFabricated:true,realEconomicEvidence:false
     },
-    hypotheticalAnswerAndAgreementOptions:answer,
+    hypotheticalFirstAnswer:learnerAnswer,
+    optionalFollowupQuestion:followupRecommendation,
+    hypotheticalSecondAnswerAndAgreementOptions:mechanicAnswer,
     subsequentQuestionCandidate:bridge.planNext().recommendedQuestion?.id??null,
     sourceAdapter:bridge.carrier().contract,
     realServicesPerformed:0,
