@@ -1,0 +1,26 @@
+name: Jubilee CAPABILITY-019 / NAND synthesis independent verification
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-019/**'
+      - '.github/workflows/penny-puddle-019.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-019/**'
+      - '.github/workflows/penny-puddle-019.yml'
+permissions:
+  contents: read
+jobs:
+  independently-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-019
+      - run: npm run demo --prefix labs/penny-puddle-019
+      - run: node --check labs/penny-puddle-019/contract.mjs
+      - run: node --check labs/penny-puddle-019/independent.mjs
+      - run: node --check labs/penny-puddle-019/heldout.mjs
+      - run: node --check labs/penny-puddle-019/verify.mjs
