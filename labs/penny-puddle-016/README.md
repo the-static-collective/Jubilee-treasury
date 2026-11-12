@@ -16,9 +16,9 @@ The receiving Jubilee verifier does not accept a self-described PASS. It recompu
 |---|---|---|
 | `unsafe-interpolation` | Deliberate red-team template that inserts raw text | **Fail** active-markup/escaping gate |
 | `escaped-compact` | Minimal HTML escaping and print style | Pass mandatory safety; smaller measured HTML bytes |
-| `accessible-print` | Reuse GRAFT's original 015 print-oriented, escaped story-card compiler | Pass safety and additional semantic presentation checks |
+| `accessible-print` | An improved print-oriented successor to 015's HTML compiler | Pass safety and additional semantic presentation checks |
 
-The red-team HTML exists **only as string evidence in a JSON report**, never as an executable `.html` file. No browser, identity/account or external site is used. This is not a complete HTML parser/security audit: in particular, the tests operate on a very small locked-down fixture and output grammar. A production web publisher would require actual DOM parsing, CSP, sandboxing, independent review and real-world vulnerability testing.
+The experiment also exposed a negative regression in original GRAFT-015: its overbroad output filter incorrectly rejected safely escaped URL-looking and event-handler-looking text. GRAFT-016's revised accessible-print method fixes that false positive without permitting executable HTML. The failure is retained as a testable scar.\n\nThe red-team HTML exists **only as string evidence in a JSON report**, never as an executable `.html` file. No browser, identity/account or external site is used. This is not a complete HTML parser/security audit: in particular, the tests operate on a very small locked-down fixture and output grammar. A production web publisher would require actual DOM parsing, CSP, sandboxing, independent review and real-world vulnerability testing.
 
 The verifier's mandatory checks examine:
 - exact expected synthetic story text, escaped into the candidate's HTML;
