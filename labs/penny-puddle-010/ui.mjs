@@ -3,8 +3,9 @@ import {evaluateSocialReach} from './weave.mjs';
 const network=makeRelayFixture();
 const $=id=>document.querySelector(id);
 const write=(id,value)=>{$(id).textContent=value;};
-let lab=null,routeId=null,requestNumber=0,answerNumber=0;
+let lab=null,routeId=null,selectedFrom='G',requestNumber=0,answerNumber=0;
 function create(o){
+  selectedFrom=o.from;
   lab=createRelayLab(network,o);
   routeId=lab.publicPreview().candidates[0]?.routeId??null;
   $('#request').disabled=!routeId;
@@ -23,9 +24,7 @@ $('#open').addEventListener('click',()=>create({from:'A',to:'F',purpose:'settle-
 $('#request').addEventListener('click',()=>{
   if(!lab||!routeId)return;
   try{
-    const from=lab.publicPreview().searchPurpose==='settle-a-need' &&
-      lab.publicPreview().candidates[0]?.firstKnownContact==='H'?'A':'G';
-    lab.request({eventId:'start-'+(++requestNumber),routeId,initiatorId:from});
+    lab.request({eventId:'start-'+(++requestNumber),routeId,initiatorId:selectedFrom});
     $('#request').disabled=true;$('#accept').disabled=false;$('#decline').disabled=false;
     write('#consent','Fictional request prepared. Each recipient may independently say YES or NO. No message sent.');
   }catch(e){write('#consent','HOLD: '+e.message);}
