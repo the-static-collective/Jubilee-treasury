@@ -1,0 +1,14 @@
+{
+  "name":"penny-puddle-011-contextual-consent",
+  "version":"0.0.11",
+  "private":true,
+  "type":"module",
+  "description":"Fictional first-person relationship context, permissioned introductions and win-win proposal search",
+  "scripts":{
+    "test":"node --test test/*.test.mjs",
+    "demo":"node demo.mjs",
+    "serve":"node server.mjs"
+  },
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}
