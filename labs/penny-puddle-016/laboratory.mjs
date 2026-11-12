@@ -66,7 +66,7 @@ export function materializeCases(spec=makeCapabilityExperiment()){
   c,{...copy(spec.baseRequest),syntheticStory:copy(spec.caseStories[c])}
  ]));
 }
-const unsafe=html=>/<script\b|<iframe\b|<img\b|<link\b|<object\b|<embed\b|<form\b|<base\b|\bon\w+\s*=|https?:\/\/|javascript:/i.test(html);
+const unsafe=html=>/<(?:script|iframe|img|link|object|embed|form|base)\b|<[^>]*\bon\w+\s*=|<[^>]*(?:src|href)\s*=\s*["']?(?:https?:|javascript:)|url\s*\(|@import\b/i.test(html);
 function checks(spec,entry){
  const observations={},problems=[];
  if(!entry||typeof entry!=='object'||Array.isArray(entry)){
