@@ -17,7 +17,8 @@ const text=(v,k)=>{
 export function createAnchorFixture(overrides={}){
   return {
     asset:{id:'fictional-giant-gold-like-object',
-      physicalMassVerified:false,metalAssayed:false,legalTitleVerified:false,
+      physicalMassActuallyVerified:false,metalActuallyAssayed:false,legalTitleActuallyVerified:false,
+      partnerAcceptedAssayInFixture:true,partnerAcceptedTitleInFixture:true,
       ownerKeepsTitle:true,currentlyPledged:false,materialValueCents:null,
       custody:'unverified',...overrides.asset},
     urgentNeed:{id:'rent-A',amountCents:30000,beneficiaryOwesSponsor:false,
@@ -56,7 +57,8 @@ export function planAnchor(f){
     throw new TypeError('At most 12 licensed-right proposals');
   const requiredLossCover=Math.max(0,need.amountCents-angel.maxVoluntaryUncoveredLossCents);
   const partnerScenarioApproved=standby.identityTitleAssayLegalAndUnderwritingApprovedInFixture===true &&
-    standby.independentlyAvailableCashInFixture===true;
+    standby.independentlyAvailableCashInFixture===true &&
+    asset.partnerAcceptedAssayInFixture===true && asset.partnerAcceptedTitleInFixture===true;
   const capacity=partnerScenarioApproved ?
     Math.min(standby.committedCashCents,standby.ownerOfferedRiskCapCents) : 0;
   const canModelPayment=angel.cashAvailableCents>=need.amountCents &&
