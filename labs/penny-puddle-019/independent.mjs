@@ -5,9 +5,8 @@
  * typed AST. GRAFT's interpreter is neither imported nor trusted. No eval,
  * arbitrary user JS, network, real asset, authority, or user identification.
  */
-import {listAllPrograms,validateProgram,validateInput} from './contract.mjs';
-import {makePrimitiveChallenge,makeDescriptor,
- independentCountAndRender} from '../penny-puddle-018/independent.mjs';
+import {validateProgram,validateInput} from './contract.mjs';
+import {makeDescriptor,independentCountAndRender} from '../penny-puddle-018/independent.mjs';
 import {makePrimitiveChallenge as earlierChallenge} from '../penny-puddle-018/contract.mjs';
 import {makeUnwrittenSpec,allTypedPrograms} from '../penny-puddle-017/contract.mjs';
 import {independentRun} from '../penny-puddle-017/independent.mjs';
