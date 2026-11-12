@@ -1,0 +1,10 @@
+{
+  "name":"penny-puddle-010-who-knows-whom",
+  "version":"0.0.10",
+  "private":true,
+  "type":"module",
+  "description":"Synthetic, consent-first introduction routing for voluntary multilateral agreements",
+  "scripts":{"test":"node --test test/*.test.mjs","demo":"node demo.mjs","serve":"node server.mjs"},
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}
