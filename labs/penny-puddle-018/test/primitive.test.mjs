@@ -114,7 +114,7 @@ test('a forged digest, false money or altered source-owned specification fails c
  const d=witness();d.runs[1].attempts[0].counterexampleId='invented-yes';
  assert.equal(verifyPrimitiveLaboratory(spec(),d).status,'HOLD-unverified-primitive');
 });
-test('can't predeclare success without first passing the developmental feedback',()=>{
+test("cannot predeclare success without first passing the developmental feedback",()=>{
  const r=witness();
  r.runs[1].attempts[0].developmentPass=true;
  assert.equal(verifyPrimitiveLaboratory(spec(),r).status,'HOLD-unverified-primitive');
