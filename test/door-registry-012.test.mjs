@@ -51,7 +51,8 @@ test('only exact HTTPS provider-host/pathed links may be opened',()=>{
  const cases=[
   ['cash_app','https://cash.app/$TestOnly'],
   ['venmo','https://venmo.com/u/TestOnly'],
-  ['paypal','https://paypal.me/TestOnly']
+  ['paypal','https://paypal.me/TestOnly'],
+  ['paypal_qr','https://www.paypal.com/qrcodes/p2pqrc/GKTLBLRSAM5ZW']
  ];
  for(const [provider,url]of cases){
   const p=add(payment(provider,url));
@@ -68,6 +69,15 @@ test('lookalike domains, URL credentials, parameters, redirects and HTTP are ref
  ];
  for(const url of bad)assert.throws(()=>add(payment('cash_app',url)),/DOOR_HOLD/);
  assert.throws(()=>add(payment('paypal','https://cash.app/$TestOnly')),/DOOR_HOLD/);
+ for(const badQR of [
+   'https://paypal.com/qrcodes/p2pqrc/GKTLBLRSAM5ZW',
+   'https://www.paypal.com.evil.test/qrcodes/p2pqrc/GKTLBLRSAM5ZW',
+   'https://www.paypal.com/qrcodes/p2pqrc/GKTLBLRSAM5ZW?go=evil',
+   'https://www.paypal.com/qrcodes/p2pqrc/GKTLBLRSAM5ZW#frag',
+   'http://www.paypal.com/qrcodes/p2pqrc/GKTLBLRSAM5ZW',
+   'https://www.paypal.com/qrcodes/p2pqrc/WRONG',
+   'https://www.paypal.com@evil.test/qrcodes/p2pqrc/GKTLBLRSAM5ZW'
+ ])assert.throws(()=>add(payment('paypal_qr',badQR)),/DOOR_HOLD/);
 });
 test('wallet target must be chain-pinned and public lower-case address only',()=>{
  assert.equal(inspectRegistry(add(wallet())).open[0].target.chainId,1);
