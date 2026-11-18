@@ -27,7 +27,8 @@ const physicalUnits={pennies:'penny',gold_bullion:'milligram',equipment:'item',s
 const providers={
   cash_app:{host:'cash.app',regex:/^\/\$[A-Za-z0-9_]{1,35}$/},
   venmo:{host:'venmo.com',regex:/^\/u\/[A-Za-z0-9_-]{2,40}$/},
-  paypal:{host:'paypal.me',regex:/^\/[A-Za-z0-9]{1,20}$/}
+  paypal:{host:'paypal.me',regex:/^\/[A-Za-z0-9]{1,20}$/},
+  paypal_qr:{host:'www.paypal.com',regex:/^\/qrcodes\/p2pqrc\/[A-Z0-9]{13}$/}
 };
 function safeProviderLink(provider,url){
   check(Object.hasOwn(providers,provider),'unsupported external payment provider');
