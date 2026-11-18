@@ -45,7 +45,8 @@ Different things can become **separately addressable possibilities** without bei
 | --- | --- | --- |
 | Cash App | User-supplied exact `https://cash.app/$Handle` link syntax, safe output, source-signed publication | No Cash App API, payment check, balance, donor identity or received amount |
 | Venmo | User-supplied exact `https://venmo.com/u/Handle` profile link syntax | No verified charity status, QR generation, Venmo API, payments or fee accounting |
-| PayPal | User-supplied exact `https://paypal.me/Handle` link syntax | No PayPal capture, PayPal webhook, donation receipt or merchant checkout |
+| PayPal.Me | User-supplied exact `https://paypal.me/Handle` link syntax | No PayPal capture, PayPal webhook, donation receipt or merchant checkout |
+| PayPal native QR | User-supplied exact `https://www.paypal.com/qrcodes/p2pqrc/XXXXXXXXXXXXX` deep link, after decoding a recipient-supplied QR image (13 uppercase alphanumeric code) | No account owner proof, PayPal payment confirmation, settlement, provider API, or QR-origin attestation |
 | MetaMask-style EVM wallet | Read-only 20-byte public Ethereum-compatible lowercase address pinned to one supported chain ID | No wallet connection, seed phrase, private key, provider RPC, blockchain watcher, transaction finality or assets controlled |
 | Jar of pennies | Explicit count of individual pennies, `unit=penny`; source may manually report 37 | No automatic bank conversion, physical custody or money transfer |
 | Gold bullion | Explicit quantity in **milligrams**; absence of verified assay/weight/purity/title or any dollar pricing | No buyback, appraisal, vault, assay, exchange or estimated cash value |
@@ -57,6 +58,8 @@ The exact provider URLs must be deliberately supplied by the local owner. The co
 ### Source-backed provider shape, not integrated provider data
 
 Cash App lets recipients share an existing $Cashtag or payment link: https://cash.app/learn/getting-started/how-to-send-and-receive-money
+
+PayPal QR usage is documented at https://www.paypal.com/us/cshelp/article/how-can-i-use-paypal-qr-code-to-send-or-receive-payments--help1113 . A PayPal QR payment link is distinct from a PayPal.Me username. The native QR URL is pinned to one exact approved path pattern; this does not demonstrate actual account ownership or payment success.
 
 PayPal.Me uses owner-defined payment link names: https://www.paypal.com/us/cshelp/article/paypalme-frequently-asked-questions-help432
 
