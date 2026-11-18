@@ -104,3 +104,24 @@ The private signed inbox stores opaque source reports and an SHA-256 transaction
 A separate `npm run bandcamp:hold` command exercises an **actual signed reLATTE crossing** into an independent local receiver that emits distinct `RECEIVED` and `R3_HOLD` receipts, without admitting funds or assets. Duplicate imports remain idempotent. Full, unambiguous linked refunds revoke the original observation; partial and unclear reversals HOLD for reconciliation. Sale, payout and refund reports are never conflated with available cash.
 
 No live Bandcamp account is currently connected and no authenticated Bandcamp artist data has been read. The OAuth-gated API path needs Bandcamp's own authorization and a short-lived operator-provided access token; the owner CSV path does not. This does not affect fans' checkout, connect to Kinship, or assert any rights over artists' contributions.
+
+
+## DOOR REGISTRY 012 — one entrance for every contribution form
+
+[DOOR REGISTRY 012](docs/DOOR-REGISTRY-012.md) adds a **signed, locally owned registry of contribution doors** without inventing a new payment processor:
+
+- Owner-configured **Cash App, Venmo and PayPal** provider links with strict, official HTTPS host/path allowlists and a public-safe, offline HTML board. No handle/recipient is invented or preapproved.
+- An explicit, **watch-only EVM public wallet address** with chain ID. No wallet connect, keys, recovery phrases, RPC or blockchain transaction verification.
+- **Pennies, gold bullion, equipment and supplies** with declared counts/units, but no custody or invented dollar valuations.
+- **Volunteer time, compute, transport and broadcast-rights offers**, with terms references rather than assumed work performed or transferred rights.
+
+    npm run doors:demo
+    npm run doors -- init ./private-doors local-owner-doors-012 purpose-neighbor-support-001
+    npm run doors -- open ./private-doors ./penny-door.json
+    npm run doors -- board ./private-doors ./door-local-board.html
+    npm run doors -- record ./private-doors penny-jar-001 ./penny-report.json
+    npm run doors:relatte -- ./private-doors penny-jar-asset-001 /path/to/reLATTE ./door-native-work
+
+The owner-signed registry can withdraw a destination. A local, manually asserted source report enters private Trickle 009 only as `offer_reported` or `pledge_reported`, **never as a provider-confirmed settlement, chain-confirmed crypto transfer or verified physical receipt**. A real native reLATTE crossing can carry the observation into separately signed `RECEIVED / R3_HOLD` without granting ownership. The 37-penny case is intentionally synthetic and does not require any bank account, payment handle, actual gold, or donor identity.
+
+**This is a reusable front door, not a fundraising launch, live payment connection, hosted public service or charity verification.** Publishing another organization's donation links requires its explicit approval. Each actual contribution remains governed by its source and recipient owners.
