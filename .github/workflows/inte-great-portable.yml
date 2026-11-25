@@ -29,9 +29,11 @@ jobs:
       - name: Build and validate native rehearsal
         run: |
           node --experimental-strip-types inte-great/run.mjs > /tmp/inte-great-rehearsal.json
-          node --experimental-strip-types --test ops/exodus-004/casework.test.mjs ops/exodus-002/returning-node.test.mjs inte-great/workbench.test.mjs
-          mkdir -p portable/inte-great portable/labs portable/ops
+          node --experimental-strip-types --test ops/exodus-004/casework.test.mjs ops/exodus-002/returning-node.test.mjs inte-great/workbench.test.mjs inte-great/living-grammar.test.mjs
+          mkdir -p portable/inte-great/vendor portable/labs portable/ops
           cp inte-great/index.html inte-great/README.md inte-great/run.mjs inte-great/workbench.mjs inte-great/workbench-ui.js inte-great/build-workbench.mjs inte-great/workbench.test.mjs inte-great/WORKBENCH.md portable/inte-great/
+          cp inte-great/living-grammar.mjs inte-great/grammar-ui.js inte-great/build-grammar.mjs inte-great/living-grammar.test.mjs inte-great/LIVING-GRAMMAR.md portable/inte-great/
+          cp inte-great/vendor/response-grammar.mjs portable/inte-great/vendor/
           cp -R labs/puddle-001 labs/penny-puddle-* portable/labs/
           cp -R ops/exodus-001 ops/exodus-002 ops/exodus-003 ops/exodus-004 ops/concord-live-002 ops/concord-live-003 portable/ops/
           if [ -f LICENSE ]; then cp LICENSE portable/; fi
@@ -39,9 +41,10 @@ jobs:
           cd portable
           node --experimental-strip-types inte-great/run.mjs > inte-great/rehearsal.json
           node --experimental-strip-types inte-great/run.mjs --html > inte-great/rehearsal.html
-          node inte-great/build-workbench.mjs
+          node inte-great/build-grammar.mjs
+          test -s inte-great/living-grammar.html
           test -s inte-great/workbench.html
-          node --test inte-great/workbench.test.mjs
+          node --test inte-great/workbench.test.mjs inte-great/living-grammar.test.mjs
           cmp inte-great/rehearsal.json /tmp/inte-great-rehearsal.json
           test -s ops/exodus-004/casework.html
           test -s inte-great/rehearsal.html
@@ -49,7 +52,7 @@ jobs:
           cp /tmp/inte-great-checksums SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: Jubilee-INTE-GREAT-002
+          name: Jubilee-INTE-GREAT-003
           path: portable/
           if-no-files-found: error
           retention-days: 90
