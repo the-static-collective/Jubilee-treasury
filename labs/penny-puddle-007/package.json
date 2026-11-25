@@ -1,0 +1,14 @@
+{
+  "name":"penny-puddle-007-mutual-surplus",
+  "version":"0.0.7",
+  "private":true,
+  "type":"module",
+  "description":"Synthetic voluntary deal composition, oversized asset access and 0% principal-only risk model",
+  "scripts":{
+    "test":"node --test test/*.test.mjs",
+    "demo":"node demo.mjs",
+    "serve":"node server.mjs"
+  },
+  "engines":{"node":">=20"},
+  "license":"MIT"
+}

@@ -1,0 +1,26 @@
+name: Jubilee 020 / structure hypothesis independent verification
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-020/**'
+      - '.github/workflows/penny-puddle-020.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-020/**'
+      - '.github/workflows/penny-puddle-020.yml'
+permissions:
+  contents: read
+jobs:
+  verify-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-020
+      - run: npm run demo --prefix labs/penny-puddle-020
+      - run: node --check labs/penny-puddle-020/contract.mjs
+      - run: node --check labs/penny-puddle-020/independent.mjs
+      - run: node --check labs/penny-puddle-020/heldout.mjs
+      - run: node --check labs/penny-puddle-020/verify.mjs

@@ -1,0 +1,14 @@
+{
+  "name": "penny-puddle-004-rare-coin-frontier",
+  "version": "0.0.4",
+  "private": true,
+  "type": "module",
+  "description": "Synthetic multi-denomination rare coin discovery, owner custody and numismatic premium simulation",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node demo.mjs",
+    "serve": "node server.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

@@ -1,0 +1,14 @@
+{
+  "name":"penny-puddle-015-capability-gap",
+  "version":"0.0.15",
+  "private":true,
+  "type":"module",
+  "description":"Jubilee missing capability detection and strict GRAFT local proof validator",
+  "scripts":{
+    "test":"node --test test/*.test.mjs",
+    "demo":"node export-request.mjs",
+    "verify":"node verify-output.mjs"
+  },
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}

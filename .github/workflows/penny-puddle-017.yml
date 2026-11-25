@@ -1,0 +1,26 @@
+name: Jubilee CAPABILITY-017 / independent unwritten method verification
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-017/**'
+      - '.github/workflows/penny-puddle-017.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-017/**'
+      - '.github/workflows/penny-puddle-017.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-017
+      - run: npm run demo --prefix labs/penny-puddle-017
+      - run: node --check labs/penny-puddle-017/contract.mjs
+      - run: node --check labs/penny-puddle-017/evaluation.mjs
+      - run: node --check labs/penny-puddle-017/heldout.mjs
+      - run: node --check labs/penny-puddle-017/verify.mjs

@@ -1,0 +1,40 @@
+name: Jubilee QUESTION-012 / ask the most useful question
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-012/**'
+      - '.github/workflows/penny-puddle-012.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-012/**'
+      - '.github/workflows/penny-puddle-012.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-012
+      - run: npm run demo --prefix labs/penny-puddle-012
+      - run: node --check labs/penny-puddle-012/question-value.mjs
+      - run: node --check labs/penny-puddle-012/weave.mjs
+      - run: node --check labs/penny-puddle-012/ui.mjs
+      - run: node --check labs/penny-puddle-012/server.mjs
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/MOTIF
+          ref: 66d27cfbd077b2c91d0d86d66e320206d88d8f95
+          path: motif-source
+          persist-credentials: false
+      - name: Exercise original source-pinned MOTIF-003 for structural question options
+        env:
+          MOTIF_SOURCE_ROOT: motif-source
+        run: python3 -m unittest discover -s labs/penny-puddle-012/test -p 'test_native_question.py' -v
+      - name: Emit source-owned native question affordance witness
+        env:
+          MOTIF_SOURCE_ROOT: motif-source
+        run: python3 labs/penny-puddle-012/native_motif_question_probe.py

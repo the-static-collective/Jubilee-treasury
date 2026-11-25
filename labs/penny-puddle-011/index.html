@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASK FIRST — Jubilee RELAY-011</title>
+<style>
+:root{--paper:#faf6e9;--cream:#fffdf6;--ink:#233a30;--moss:#26604e;--sage:#e9f0e6;--gold:#e7b968;--line:#c6ceb9;--pale:#f9e8db}
+*{box-sizing:border-box}body{margin:0;background:#dfe7dd;color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{min-height:100vh;max-width:980px;margin:auto;padding:28px clamp(16px,4vw,48px) 80px;background:var(--paper)}
+h1{font:700 clamp(3rem,8vw,6rem)/.99 Georgia,serif;letter-spacing:-.055em;margin:13px 0}
+h2{font:700 1.52rem/1.2 Georgia,serif;margin:0 0 10px}
+h3{font:700 1.1rem Georgia,serif;margin:10px 0}
+p{max-width:75ch}.eyebrow{text-transform:uppercase;font-size:.75rem;letter-spacing:.11em;font-weight:850;color:var(--moss)}
+.lead{font:1.18rem/1.48 Georgia,serif}.tag{display:inline-block;margin:12px 0;padding:8px 13px;background:var(--gold);transform:rotate(-1deg);font-weight:850;font-size:.87rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin:16px 0}
+.card{border:1.5px solid var(--line);border-radius:12px;background:var(--cream);padding:22px}
+.wide{grid-column:span 2}.pale{background:var(--sage);padding:15px;border-left:4px solid var(--moss);margin:12px 0}.warning{background:var(--pale);padding:12px;border-left:4px solid #ac6742}
+button{font:750 .95rem system-ui;color:var(--ink);background:var(--gold);padding:12px 14px;border:2px solid var(--ink);border-radius:7px;cursor:pointer;margin:3px 6px 6px 0}
+button:disabled{opacity:.48;cursor:not-allowed}button:focus-visible{outline:3px solid var(--moss);outline-offset:3px}
+output{display:block;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--sage);padding:13px;border-left:4px solid var(--moss);margin:12px 0;min-height:55px}
+small,.small{font-size:.86rem;color:#53685c}
+.badge{display:inline-block;border:1px solid #95aa99;border-radius:18px;padding:4px 9px;margin:4px;background:#eff4ed;font-size:.82rem}
+.comp{display:flex;flex-wrap:wrap;gap:12px}.comp article{flex:1;min-width:220px;background:#eff1e7;border:1px solid var(--line);border-radius:8px;padding:14px}
+.step{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--moss)}
+footer{margin-top:20px;padding-top:20px;border-top:2px solid var(--line);font-size:.85rem}
+@media(max-width:690px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:17px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury × RELAY × DEALWEAVER / 011</div>
+<h1>Ask, don't<br>assume.</h1>
+<p class="lead">Someone needs help repairing a tractor. Someone else knows how—but what if the skilled person doesn't want another repair job? What if they actually enjoy <em>teaching</em>?</p>
+<div class="tag">FICTIONAL PEOPLE & PREFERENCES · NO CONTACTS OR MONEY</div>
+<section class="card">
+<div class="step">01 / The ordinary skill matcher</div>
+<h2>One keyword, the wrong agreement</h2>
+<p>Matching "tractor repair" to "mechanic" suggests hiring the mechanic to do the job. The example mechanic explicitly doesn't want that work. Their private interests aren't the intermediary's to announce.</p>
+<div class="warning"><strong>Skill match ≠ willingness to participate.</strong> A guessed personality is not evidence. Ask the person directly.</div>
+</section>
+<div class="grid">
+<section class="card"><div class="step">02 / Who knows whom?</div>
+<h2>Open a respectful introduction</h2>
+<p>The learner approaches an opt-in community hub. The hub can invite a mechanic it has worked with, but cannot agree on the mechanic's behalf.</p>
+<button id="start-intro">Learner asks community hub</button>
+<button id="hub-yes">Hub says YES</button>
+<button id="hub-no">Hub says NO</button>
+<button id="mechanic-yes">Mechanic says YES</button>
+<button id="mechanic-no">Mechanic says NO</button>
+<output id="intro-out" aria-live="polite">No fictional introductions approved yet.</output>
+</section>
+<section class="card"><div class="step">03 / Who gets to describe the person?</div>
+<h2>The person does.</h2>
+<p>After both introductions, ask one neutral question. The mechanic chooses what to reveal, including whether their personal motivation stays private.</p>
+<button id="ask-question">Ask about a learning arrangement</button>
+<button id="share-teaching">Mechanic shares TEACHING + available time</button>
+<button id="share-motive">Mechanic also chooses to share WHY</button>
+<button id="refuse-share">Mechanic refuses to share</button>
+<output id="context-out" aria-live="polite">No personal context should be inferred or disclosed.</output>
+</section>
+<section class="card wide">
+<div class="step">04 / Design the encounter</div>
+<h2>Which agreement would everyone actually want?</h2>
+<button id="compare">Compare two approaches</button>
+<div class="comp">
+<article><h3>Skill-only</h3><output id="baseline">Naive match: mechanic does repair. No consent established.</output></article>
+<article><h3>Permissioned context</h3><output id="contextual">No available first-person preference yet.</output></article>
+</div>
+<p class="small">Benefits are separate, self-reported numbers in a made-up scenario. People/planet signals are unverified hypotheses, not money or measured impact.</p>
+</section>
+<section class="card wide">
+<div class="step">05 / A voluntary two-sided proposal</div>
+<h2>Not a placement. A conversation.</h2>
+<p>A possible agreement: bring replacement parts, take safety precautions, and spend Saturday afternoon learning diagnostics together. Nobody is assigned work just because an algorithm thinks they'd enjoy it.</p>
+<button id="offer">Learner proposes learning session</button>
+<button id="mentor-accept">Mechanic accepts the TERMS</button>
+<button id="mentor-decline">Mechanic declines</button>
+<button id="learner-confirm">Learner reaffirms</button>
+<button id="revoke">Mechanic revokes shared context</button>
+<output id="deal-out" aria-live="polite">No agreement exists, even in the fictional scenario.</output>
+<div class="pale"><strong>All fictional YES responses still end at HOLD.</strong> No work is performed, no actual relationship is verified, no real person is contacted, and no financial or legal obligation is created.</div>
+</section>
+</div>
+<footer>
+This experiment imports source-owned RELAY-010 introduction rules and DEALWEAVER-007 proposal constraints. A personal preference remains private until its own subject explicitly permits the specific disclosure. An intermediary's hint triggers a question, never a fact. This is an offline educational model, not an identity platform, employer, social scoring system, or actual marketplace.
+</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>

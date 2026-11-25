@@ -1,0 +1,26 @@
+name: Jubilee QUESTION-013 network investigator
+on:
+  push:
+    paths:
+      - 'labs/penny-puddle-013/**'
+      - '.github/workflows/penny-puddle-013.yml'
+  pull_request:
+    paths:
+      - 'labs/penny-puddle-013/**'
+      - '.github/workflows/penny-puddle-013.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test --prefix labs/penny-puddle-013
+      - run: npm run demo --prefix labs/penny-puddle-013
+      - run: node --check labs/penny-puddle-013/network.mjs
+      - run: node --check labs/penny-puddle-013/demo.mjs
+      - run: node --check labs/penny-puddle-013/ui.mjs
+      - run: node --check labs/penny-puddle-013/server.mjs

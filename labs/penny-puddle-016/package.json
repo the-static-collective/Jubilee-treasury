@@ -1,0 +1,10 @@
+{
+  "name":"penny-puddle-016-capability-lab",
+  "version":"0.0.16",
+  "private":true,
+  "type":"module",
+  "description":"Independent safety-and-quality evaluator for source-pinned GRAFT method contest",
+  "scripts":{"test":"node --test test/*.test.mjs","demo":"node export.mjs","verify":"node verify.mjs"},
+  "engines":{"node":">=22"},
+  "license":"MIT"
+}

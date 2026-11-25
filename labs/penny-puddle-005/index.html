@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PENNY × PUDDLE — Hidden Value Discovery Lab</title>
+<style>
+:root{--ink:#1e3029;--cream:#fcf8e9;--pine:#205c4e;--line:#c9d1be;--highlight:#e5bb69;--light:#e5f1e8;--red:#883c25}
+*{box-sizing:border-box}body{margin:0;background:#e1e9e0;color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:1060px;min-height:100vh;background:var(--cream);margin:auto;padding:26px clamp(17px,4vw,44px) 65px}
+.eyebrow{font-size:.75rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--pine)}
+h1{font:700 clamp(2.8rem,7vw,5.5rem)/.98 Georgia,serif;letter-spacing:-.05em;margin:14px 0}
+h2{font:700 1.42rem/1.23 Georgia,serif;margin:0 0 12px}
+p{max-width:75ch}.subtitle{font:1.16rem/1.5 Georgia,serif}
+.tag{font-size:.85rem;display:inline-block;transform:rotate(-.8deg);font-weight:850;background:var(--highlight);padding:8px 11px;margin:8px 0 16px}
+.options{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+button{background:#fffdf3;color:var(--ink);border:2px solid var(--pine);border-radius:8px;padding:12px 14px;font-size:.95rem;font-weight:750;cursor:pointer;text-align:left}
+button[aria-pressed="true"]{background:var(--pine);color:#fff}
+button:focus-visible{outline:3px solid #b96924;outline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin:18px 0}
+.card{border:1.5px solid var(--line);border-radius:12px;padding:20px;background:#fffdf5}
+.wide{grid-column:span 2}.stat{font:700 1.75rem Georgia,serif;color:var(--pine)}
+.small{font-size:.88rem;color:#536a5e}.weak{font-size:.76rem}
+.notice{padding:13px;background:var(--light);border-left:4px solid var(--pine);margin-top:14px}
+.danger{padding:13px;background:#f6e8df;border-left:4px solid var(--red);margin-top:14px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+.nowrap{white-space:nowrap}.row{display:flex;gap:10px;justify-content:space-between;border-bottom:1px solid var(--line);padding:7px 0}
+mark{background:#ffecb2;padding:0 3px}
+footer{border-top:2px solid var(--line);padding-top:20px;font-size:.84rem}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:17px}
+  table{display:block;overflow-x:auto;white-space:normal;min-width:0}th,td{font-size:.84rem;padding:8px 5px}}
+</style>
+</head><body><main>
+<div class="eyebrow">Jubilee Treasury · PENNY × PUDDLE · Discovery Frontier 005</div>
+<h1>What else could<br>this penny do?</h1>
+<p class="subtitle">A simulated rare-coin encounter becomes a little economy of owner choices, inspection work, collector demand, creative sponsorship and community needs. Let an action open possibilities—and compare that to simply taking the quickest fictional offer.</p>
+<div class="tag">FICTIONAL MARKET · NO REAL CUSTODY, INVESTMENTS OR PAYMENTS</div>
+
+<section class="card" aria-labelledby="scenarios"><div class="eyebrow">01 · Select a reality</div>
+<h2 id="scenarios">Change the constraints</h2>
+<div class="options" role="group" aria-label="Hypothetical scenario">
+<button data-scenario="discovery" aria-pressed="true">Investigate the coin</button>
+<button data-scenario="urgent" aria-pressed="false">Need results in 5 days</button>
+<button data-scenario="poor" aria-pressed="false">No money for grading</button>
+<button data-scenario="no-buyers" aria-pressed="false">No collectors available</button>
+<button data-scenario="no-sponsor" aria-pressed="false">No creative sponsor</button>
+</div>
+<p class="small" id="scenario-note" aria-live="polite">All rarity weights, bids and buyers are invented for a mathematics experiment—not forecasts about a coin.</p>
+</section>
+
+<div class="grid">
+<section class="card"><div class="eyebrow">02 · What looks valuable now?</div><h2>Immediate cash-out</h2>
+<div id="quick-pick" class="stat">—</div><p id="quick-detail" class="small"></p>
+</section>
+<section class="card"><div class="eyebrow">03 · What creates new options?</div><h2>MOTIF-style affordance search</h2>
+<div id="frontier-pick" class="stat">—</div><p id="frontier-detail" class="small"></p>
+</section>
+<section class="card"><div class="eyebrow">04 · The strong classical control</div><h2>Exact contingent planning</h2>
+<div id="classical-pick" class="stat">—</div><p id="classical-detail" class="small"></p>
+</section>
+<section class="card"><div class="eyebrow">05 · Protect the worst case</div><h2>Robust planning</h2>
+<div id="robust-pick" class="stat">—</div><p id="robust-detail" class="small"></p>
+</section>
+<section class="card wide">
+<div class="eyebrow">06 · Compare on the same invented worlds</div><h2>Potential return versus painful loss</h2>
+<p class="small">The averages below are conditional mathematical calculations from invented weights; they are not calibrated probabilities or real profit forecasts. No offer is verified.</p>
+<div id="results" role="status" aria-live="polite"></div>
+<div class="danger" id="risk">The value of information can be negative when screening leads to expensive false-positive grading.</div>
+</section>
+<section class="card"><div class="eyebrow">07 · The network of possibilities</div><h2>Typed, permission-held links</h2>
+<div class="row"><span>Specimen</span><strong id="specimen">—</strong></div>
+<div class="row"><span>Fictional buyer paths</span><strong id="buyers">—</strong></div>
+<div class="row"><span>Services / sponsor</span><strong id="services">—</strong></div>
+<div class="row"><span>Actual settled dollars</span><strong>$0.00</strong></div>
+<div class="row"><span>Real PENNY issued</span><strong>0</strong></div>
+<p class="small">Every edge is a proposal and every counterparty needs independent evidence, consent and permissions before any action.</p>
+</section>
+<section class="card"><div class="eyebrow">08 · Bring findings to the community</div><h2>Potential isn't funding</h2>
+<p id="campaign" class="stat">—</p>
+<p>Even when a simulation imagines a profitable collector sale and an owner agrees to donate part of the premium, the amount added to the actual PUDDLE is <strong>$0.00</strong> until real proceeds settle.</p>
+<div class="notice">A separate sponsor-funded photo or story can have value without selling the owner's coin. Sponsor funds and collectible proceeds are never the same ledger.</div>
+</section>
+</div>
+<footer>Local-first source code experiment. No API credentials, real coins, third-party accounts, bank calls, payment processing, fund custody, auction listings, authentication, offers or personal financial advice. Source evidence can inform costs—not establish an individual coin's worth.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>

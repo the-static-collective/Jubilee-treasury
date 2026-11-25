@@ -1,0 +1,14 @@
+{
+  "name": "penny-puddle-006-worth-to-whom",
+  "version": "0.0.6",
+  "private": true,
+  "type": "module",
+  "description": "Grade-optional direct exchange of raw coins with cash, barter, gifts, and two-party HOLD",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node demo.mjs",
+    "serve": "node server.mjs"
+  },
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}

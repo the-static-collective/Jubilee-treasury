@@ -1,0 +1,13 @@
+{
+  "name": "puddle-001",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PENNY × PUDDLE local-first fragmented-balance feasibility lab; no payments",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

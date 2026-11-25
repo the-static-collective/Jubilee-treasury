@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WHO DO WE ASK FIRST? — Jubilee Treasury</title>
+<style>
+:root{--paper:#faf4e4;--ink:#263b33;--forest:#28614e;--gold:#ebba6a;--line:#c7cbb9;--cream:#fffdf7;--mint:#e8f1e8;--warning:#faeadd}
+*{box-sizing:border-box}
+body{margin:0;background:#e2eade;color:var(--ink);font:16px/1.51 system-ui,sans-serif}
+main{margin:0 auto;max-width:1020px;background:var(--paper);padding:28px clamp(16px,4vw,45px) 65px;min-height:100vh}
+h1{font:700 clamp(3rem,8vw,5.7rem)/1.02 Georgia,serif;letter-spacing:-.055em;margin:12px 0 18px}
+h2{font:700 1.5rem/1.2 Georgia,serif;margin:0 0 12px}
+h3{font:700 1.1rem/1.3 Georgia,serif}
+p{max-width:77ch}.lead{font:1.16rem/1.48 Georgia,serif}
+.eyebrow{text-transform:uppercase;font-weight:850;color:var(--forest);letter-spacing:.11em;font-size:.76rem}
+.tag{display:inline-block;background:var(--gold);font-weight:850;font-size:.83rem;padding:8px 12px;margin:10px 0 15px;transform:rotate(-1deg)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:15px 0}
+.card{background:var(--cream);border:1.5px solid var(--line);padding:21px;border-radius:12px}
+.wide{grid-column:span 2}
+button{font:760 .95rem system-ui;color:var(--ink);background:var(--gold);border:2px solid var(--ink);padding:11px 14px;border-radius:7px;margin:5px 7px 5px 0;cursor:pointer}
+button:disabled{opacity:.43;cursor:not-allowed}button:focus-visible{outline:3px solid var(--forest);outline-offset:3px}
+output{display:block;white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;margin:12px 0;background:var(--mint);border-left:4px solid var(--forest);min-height:52px}
+.warn{background:var(--warning);padding:13px;border-left:4px solid #ad7141}
+.sign{font:1.08rem/1.7 Georgia,serif;padding:16px;background:#f4edda;border-radius:8px}
+.small{font-size:.86rem;color:#53695c}
+footer{border-top:2px solid var(--line);margin-top:25px;padding-top:17px;font-size:.83rem;color:#587064}
+@media(max-width:690px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:16px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury · QUESTION-013 / The Network Investigator</div>
+<h1>Who do we<br>ask first?</h1>
+<p class="lead">The right person may be three introductions away. The next useful question might be the one that prevents everybody else from wasting time—or opens an entirely new agreement.</p>
+<div class="tag">EVERY PERSON, ANSWER & PAYMENT HERE IS INVENTED</div>
+<section class="card">
+<div class="eyebrow">01 / The gold brick and the rent</div>
+<h2>Move the agreement, not the gold</h2>
+<div class="sign">Gold owner G → Filmmaker F → Electrician E → Landlord L → Renter A</div>
+<p>The landlord might consider repairs instead of $300 rent. If not, there's no reason to pressure the filmmaker, electrician, or gold owner into completing this particular chain.</p>
+<button id="compare">Compare the next-question strategies</button>
+<output id="compare-out" role="status" aria-live="polite">No strategy comparison yet.</output>
+<p class="small">The model's numerical predictions come from eight invented worlds. Nothing is known about real people's willingness.</p>
+</section>
+<div class="grid">
+<section class="card"><div class="eyebrow">02 / Protect both ends</div>
+<h2>The renter and owner choose first.</h2>
+<p>Even a seemingly clever exchange isn't an excuse to expose someone's housing need or volunteer somebody's irreplaceable property.</p>
+<button id="tenant">Renter A approves a fictional inquiry</button>
+<button id="owner">Gold owner G approves a fictional inquiry</button>
+<output id="gates-out" role="status" aria-live="polite">Awaiting both separate authorizations.</output>
+</section>
+<section class="card"><div class="eyebrow">03 / Purposeful, limited reach</div>
+<h2>Find a willing path</h2>
+<button id="start">Request the recommended introduction</button>
+<button id="hop-yes">Next contact agrees to introduce</button>
+<button id="hop-no">Next contact declines</button>
+<output id="route-out" role="status" aria-live="polite">No friend-of-friend network has been traversed.</output>
+<p class="small">Only the first already-known contact is disclosed in a preview. Each later person may accept or refuse independently. These clicks only simulate people.</p>
+</section>
+<section class="card wide"><div class="eyebrow">04 / Only that person can answer</div>
+<h2>Ask one neutral question.</h2>
+<p id="current-question">No contact has consented to a question.</p>
+<button id="allow-question">Question target agrees to be asked</button>
+<button id="answer-yes">Target answers YES</button>
+<button id="answer-no">Target answers NO</button>
+<button id="answer-decline">Target declines answering</button>
+<output id="answer-out" role="status" aria-live="polite">No answers collected, even in the invented world.</output>
+</section>
+<section class="card wide"><div class="eyebrow">05 / What became possible?</div>
+<h2>Stop when a missing YES ends this route.</h2>
+<button id="result">Check source-owned satisfaction boundary</button>
+<output id="result-out" role="status" aria-live="polite">No specific terms agreed. No work completed or rent discharged.</output>
+<div class="warn"><strong>Discussion ≠ enforceable satisfaction.</strong> Even three separate fictional expressions of interest do not mean the rent is discharged. The original SATISFACTION-009 engine remains on HOLD until actual agreements, performance and legal release can be separately proven.</div>
+</section>
+</div>
+<footer>This local research interface reuses original RELAY-010 introduction logic, QUESTION-012 finite decision-search, and SATISFACTION-009 read-only snapshots. It has no authentication, private contact import, real payments, loan, contractual signature, voice recording, real personal preference measurement, automated messaging or outbound network API.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>

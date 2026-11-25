@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WHO YOU KNOW — Jubilee Treasury RELAY-010</title>
+<style>
+:root{--paper:#f9f4e5;--cream:#fffdf6;--ink:#243c34;--pine:#285f50;--gold:#e6b75e;--line:#c8c8b7;--sage:#ecf2e7;--risk:#f8e8db}
+*{box-sizing:border-box}body{margin:0;background:#e3e9df;color:var(--ink);font:16px/1.52 system-ui,-apple-system,sans-serif}
+main{margin:0 auto;padding:28px clamp(15px,4vw,42px) 66px;max-width:940px;min-height:100vh;background:var(--paper)}
+.eyebrow{font-size:.75rem;letter-spacing:.115em;text-transform:uppercase;font-weight:850;color:var(--pine)}
+h1{font:700 clamp(3rem,7.5vw,5.6rem)/1 Georgia,serif;letter-spacing:-.05em;margin:14px 0}
+h2{font:700 1.55rem/1.21 Georgia,serif;margin:0 0 14px}
+p{max-width:72ch}.tag{display:inline-block;padding:6px 12px;background:var(--gold);font-weight:850;transform:rotate(-1deg);margin:10px 0 18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:12px 0}
+.card{padding:20px;border:1.5px solid var(--line);border-radius:12px;background:var(--cream)}.wide{grid-column:span 2}
+button{border:2px solid var(--ink);background:var(--gold);border-radius:7px;padding:11px 14px;color:var(--ink);font:750 .94rem system-ui;margin:4px 7px 4px 0;cursor:pointer}
+button:focus-visible{outline:3px solid var(--pine);outline-offset:3px}button:disabled{opacity:.42;cursor:not-allowed}
+output{display:block;white-space:pre-wrap;padding:14px;border-left:4px solid var(--pine);background:var(--sage);margin:14px 0;font-variant-numeric:tabular-nums}
+.chain{padding:18px;background:#edf1e7;border:1px dashed #829585;border-radius:9px;font:1.07rem/1.8 Georgia,serif}
+.mini{font-size:.86rem;color:#5a7063}
+.warn{padding:14px;background:var(--risk);border-left:4px solid #a66c49}
+.hops{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}
+.hops span{border:1px solid var(--line);border-radius:5px;padding:5px 9px;background:#faf7ed}
+footer{font-size:.84rem;color:#53675d;border-top:2px solid var(--line);padding-top:18px;margin-top:22px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.wide{grid-column:span 1}.card{padding:16px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury / PENNY × PUDDLE / RELAY-010</div>
+<h1>It's who<br>you know.</h1>
+<p>And <em>how</em> you know them. A great deal might already exist as a possibility—but the people needed to make it happen haven't met yet.</p>
+<div class="tag">ONLY FICTIONAL PEOPLE & CONTACTS · NO MESSAGES SENT</div>
+<section class="card"><div class="eyebrow">A different kind of exchange</div><h2>Move an introduction, not the gold.</h2>
+<div class="chain">Gold owner wants to help a renter.<br>Filmmaker wants to photograph the gold.<br>Electrician wants a promotional film.<br>Landlord needs a lawful electrical repair.<br>Renter wants the rent obligation resolved.</div>
+<p class="mini">The landlord's prior acceptance, the tenant's agreement, actual services, and legal debt discharge must all be separately confirmed. A connection by itself accomplishes none of them.</p>
+</section>
+<div class="grid">
+<section class="card"><div class="eyebrow">01 / The hidden bridge</div><h2>Can a person reach the right people?</h2>
+<button id="search" type="button">Find an introduction</button>
+<button id="strong" type="button">Restrict to close ties</button>
+<button id="open" type="button">Try the public community door</button>
+<output id="path" aria-live="polite">No fictional contact path searched yet.</output>
+<p class="mini">A relationship is directed, purpose-specific and time-sensitive. A shared acquaintance does not grant access to someone's private contacts.</p>
+</section>
+<section class="card"><div class="eyebrow">02 / Ask, don't assume</div><h2>A friend can't consent for their friend.</h2>
+<button id="request" type="button" disabled>Request the first introduction</button>
+<button id="accept" type="button" disabled>Simulate next person's YES</button>
+<button id="decline" type="button" disabled>Simulate next person's NO</button>
+<output id="consent" aria-live="polite">Each person gets an independent choice. No one has answered.</output>
+<p class="mini">Buttons perform fictional assertions only. In a real app, authentication and consent must come from each actual participant, not whoever clicked a shared screen.</p>
+</section>
+<section class="card wide"><div class="eyebrow">03 / The real win-win test</div><h2>Connections are only the beginning.</h2>
+<button id="evaluate" type="button">Check whether a deal could be discussed</button>
+<output id="deal" aria-live="polite">No rent has been paid or discharged. No work has been commissioned.</output>
+<div class="warn"><strong>Consent to an introduction ≠ consent to a transaction.</strong> No global reputation score, inferred creditworthiness, secret contact scraping, automatic money or false claims about completed work.</div>
+</section>
+</div>
+<footer>This is an entirely synthetic example. The names are role initials, all links are invented, and no private data is connected. Local UI has no network egress. Social reach is not a guarantee of repayment, a license to sell an asset, an enforceable deal, or a verified introduction.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>

@@ -1,0 +1,1 @@
+{"name":"jubilee-composed-primitive-019","version":"0.0.19","private":true,"type":"module","scripts":{"test":"node --test test/*.test.mjs","demo":"node export.mjs","verify":"node verify-output.mjs"},"engines":{"node":">=22"},"license":"MIT"}

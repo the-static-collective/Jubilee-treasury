@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>PUDDLE 001 · Every cent counts</title>
+  <style>
+    :root { --ink:#22372f; --paper:#f9f6eb; --line:#d9d9c9; --sea:#125e63; --amber:#ffc25e; --soft:#e6f1ee; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#e7ebdf; font:16px/1.48 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    .page { max-width:760px; min-height:100vh; margin:auto; padding:28px 18px 56px; background:var(--paper); box-shadow:0 0 48px #1a33391a; }
+    .eyebrow { font:700 12px/1.3 system-ui; text-transform:uppercase; letter-spacing:.13em; color:var(--sea); }
+    h1 { font:700 clamp(3rem,9vw,5rem)/.98 Georgia,serif; margin:12px 0; letter-spacing:-.04em; }
+    h2 { font:700 1.25rem/1.2 Georgia,serif; margin:0 0 12px; }
+    p { max-width:62ch; }
+    .lead { font:1.17rem/1.5 Georgia,serif; }
+    .ribbon { background:var(--amber); padding:7px 12px; font-weight:700; display:inline-block; transform:rotate(-1deg); }
+    .panel { border:1.5px solid var(--line); border-radius:12px; padding:19px; margin:20px 0; background:#fffdf6; }
+    .row { display:grid; grid-template-columns:minmax(0,1fr) minmax(100px,145px); gap:14px; margin-top:15px; align-items:center; }
+    label { font-weight:650; }
+    .detail { font-size:.84rem; font-weight:400; color:#556c66; display:block; }
+    input[type=number] { width:100%; padding:12px; border:1px solid #8fa8a0; border-radius:8px; background:#fff; font:650 1.1rem system-ui; }
+    .toggle { display:flex; align-items:flex-start; gap:12px; margin-top:15px; cursor:pointer; }
+    .toggle input { width:22px; height:22px; accent-color:var(--sea); flex:none; }
+    .toggle span { flex:1; }
+    .bar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+    button { padding:13px 20px; border:2px solid var(--ink); border-radius:8px; font-weight:800; cursor:pointer; background:var(--amber); color:var(--ink); font-size:1rem; }
+    button.secondary { background:transparent; }
+    button:focus-visible,input:focus-visible { outline:3px solid var(--sea); outline-offset:3px; }
+    .result { padding:22px 20px; border:2px solid var(--sea); border-radius:12px; background:var(--soft); margin-top:24px; }
+    .result strong.money { font:700 2.45rem Georgia,serif; display:block; }
+    .result .state { display:inline-block; font-weight:800; color:var(--sea); margin:12px 0 4px; }
+    .result ul { padding-left:20px; }
+    .small { font-size:.87rem; color:#536b64; }
+    .note { border-left:4px solid var(--amber); padding-left:12px; }
+    footer { padding:20px 0; border-top:1px solid var(--line); font-size:.84rem; }
+    @media (max-width:470px) { .row { grid-template-columns: 1fr 110px; } .page { padding-top:22px; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="eyebrow">Jubilee Treasury / PENNY × PUDDLE</div>
+    <h1>PUDDLE<span aria-hidden="true">.</span></h1>
+    <p class="lead">Money in different places is still your money. But can you actually spend it together?</p>
+    <span class="ribbon">001 / OFFLINE EXPERIMENT — NO REAL PAYMENTS</span>
+    <p class="small">This calculator uses amounts you type. It does not connect to Venmo, Cash App, banks, cards or merchants. Nothing is sent or saved.</p>
+    <form id="planner">
+      <section class="panel" aria-labelledby="balances-heading">
+        <h2 id="balances-heading">1. Where are your cents?</h2>
+        <p class="small">Fictional example amounts are loaded. Enter your own amounts only on a device you trust.</p>
+        <div class="row"><label for="bank">Bank balance <span class="detail">Can you pay with it here?</span></label><input id="bank" name="bank" type="number" min="0" step="0.01" inputmode="decimal" value="1.20" required></div>
+        <label class="toggle"><input type="checkbox" id="bank-card" checked><span>Bank debit card works at this merchant</span></label>
+        <div class="row"><label for="wallet-a">Wallet A balance <span class="detail">e.g. Cash App</span></label><input id="wallet-a" type="number" min="0" step="0.01" inputmode="decimal" value="2.30" required></div>
+        <label class="toggle"><input type="checkbox" id="wallet-a-card" checked><span>Wallet A has an accepted spending method</span></label>
+        <div class="row"><label for="wallet-b">Wallet B balance <span class="detail">e.g. Venmo</span></label><input id="wallet-b" type="number" min="0" step="0.01" inputmode="decimal" value="0.70" required></div>
+        <label class="toggle"><input type="checkbox" id="wallet-b-card" checked><span>Wallet B has an accepted spending method</span></label>
+      </section>
+      <section class="panel" aria-labelledby="purchase-heading">
+        <h2 id="purchase-heading">2. What would you buy?</h2>
+        <div class="row"><label for="price">Purchase price</label><input id="price" type="number" min="0.01" step="0.01" inputmode="decimal" value="3.80" required></div>
+        <label class="toggle"><input type="checkbox" id="split"><span><strong>Merchant confirms split tender is allowed</strong><span class="detail">Leave off unless the merchant really accepts multiple payment methods for one purchase.</span></span></label>
+      </section>
+      <div class="bar"><button type="submit">Find a way →</button><button type="button" class="secondary" id="reset">Reset example</button></div>
+    </form>
+    <section class="result" id="result" aria-live="polite" aria-atomic="true" hidden></section>
+    <section class="panel">
+      <h2>3. What this experiment cannot do</h2>
+      <p>It cannot merge balances, move funds, guarantee a card authorization, or unlock transfers. A suggested split is only possible when the actual merchant and payment methods support it.</p>
+      <p class="note">PENNY's conserved, physically backed cent-claims are <strong>not</strong> the same thing as dollar balances reported by Cash App, Venmo or a bank. No PENNY tokens are created here.</p>
+    </section>
+    <footer>Prototype only · Local-first · No credentials · No payment instructions · No custody · No claims of free instant transfer</footer>
+  </main>
+  <script type="module" src="./ui.mjs"></script>
+</body>
+</html>

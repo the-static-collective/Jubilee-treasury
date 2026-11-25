@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WORTH TO WHOM? · PENNY × PUDDLE</title>
+<style>
+:root{--paper:#f9f4e5;--ink:#26362f;--green:#1d6557;--gold:#dda84d;--line:#c8c9b5}
+*{box-sizing:border-box}body{background:#e0e6db;color:var(--ink);margin:0;font:16px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:900px;min-height:100vh;margin:auto;padding:26px 18px 64px;background:var(--paper)}
+h1{font:700 clamp(3rem,9vw,5.2rem)/1.03 Georgia,serif;letter-spacing:-.04em;margin:14px 0}
+h2{font:700 1.48rem/1.2 Georgia,serif;margin:4px 0 14px}
+p{max-width:68ch}.eyebrow{font-weight:800;font-size:.75rem;letter-spacing:.11em;text-transform:uppercase;color:var(--green)}
+.tag{background:#f1cf8a;padding:7px 11px;font-weight:800;display:inline-block;transform:rotate(-1deg);margin:12px 0}
+.deck{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+.panel{border:1.5px solid var(--line);border-radius:12px;background:#fffdf6;padding:20px}
+.wide{grid-column:span 2}.small{font-size:.88rem;color:#59675e}
+button{font:700 .96rem system-ui;border:2px solid var(--green);color:var(--ink);background:#fffdf5;padding:12px 15px;border-radius:8px;cursor:pointer;margin:4px}
+button[aria-pressed="true"]{background:var(--green);color:#fff}button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.choices{display:flex;flex-wrap:wrap;gap:5px;margin:15px 0}
+.rows{display:grid;gap:12px}.match{padding:13px;border-left:4px solid var(--green);background:#e9f0e6}
+.counter{font:700 2.5rem Georgia,serif;color:var(--green)}
+.notice{padding:12px;border-left:4px solid var(--gold);background:#faf1d4}
+.chip{border:1px solid #a6b5a8;border-radius:99px;display:inline-block;font-size:.75rem;padding:2px 9px;margin:3px 4px 0 0}
+ol{padding-left:22px}li{margin-bottom:9px}
+footer{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+@media(max-width:650px){.deck{grid-template-columns:1fr}.wide{grid-column:span 1}.panel{padding:16px}}
+</style></head><body><main>
+<div class="eyebrow">Jubilee Treasury / PENNY × PUDDLE / 006</div>
+<h1>Worth<br>to whom?</h1>
+<p>What if a penny isn't rare, but it is exactly the penny someone has been looking for?</p>
+<div class="tag">EXPERIMENTAL DIRECT EXCHANGE · FICTIONAL PEOPLE & COINS</div>
+<section class="panel">
+<div class="eyebrow">01 / Choose what kind of exchange to explore</div>
+<h2>Grade isn't the only way to meet someone.</h2>
+<div class="choices" role="group" aria-label="Comparison policy">
+<button type="button" data-policy="meaning-first" aria-pressed="true">Meaning first: sales + trades + gifts</button>
+<button type="button" data-policy="cash-only" aria-pressed="false">Cash sales only</button>
+<button type="button" data-policy="grade-gate" aria-pressed="false">Third-party grade required</button>
+</div>
+<p class="small">In this invented sample every specimen is ungraded. Both sides must agree to that uncertainty. No grading company participates in the selected exchange.</p>
+</section>
+<div class="deck">
+<section class="panel"><div class="eyebrow">02 / New matches</div><h2>Shared personal meaning</h2>
+<div id="match-total" class="counter" aria-live="polite">—</div>
+<p class="small">Candidate exchanges, not transactions.</p>
+</section>
+<section class="panel"><div class="eyebrow">03 / Unspent currencies</div><h2>More than dollar prices</h2>
+<p>Some people have no spare cash but can offer an artwork, a photograph, or a song. Others might exchange an object as a gift.</p>
+<p class="notice">A trade or gift only happens when the owner and other participant *both* choose it. Matching is not consent.</p>
+</section>
+<section class="panel wide"><div class="eyebrow">04 / Who wants what?</div>
+<h2>Show the candidate connections</h2>
+<div id="match-results" class="rows" role="status" aria-live="polite"></div></section>
+<section class="panel wide"><div class="eyebrow">05 / What would verify its value?</div>
+<h2>Two people choosing, then fulfilling the exchange.</h2>
+<ol><li>Observe the object honestly. Say what is known and what is uncertain.</li>
+<li>Show it only to people who voluntarily expressed an interest.</li>
+<li>Find a <strong>specific proposed exchange</strong>: $8, a photo session, a song, or a gift.</li>
+<li>Let the owner affirm or decline. Let the other person reaffirm or decline.</li>
+<li>Only independently confirmed payment and delivery could establish a real completed exchange. This demo stops at <strong>HOLD</strong>.</li></ol>
+<button id="mock-receipt" type="button">Run a two-sided fictional agreement</button>
+<p id="receipt-status" class="notice" role="status" aria-live="polite">No simulated commitments recorded yet.</p>
+</section>
+</div>
+<footer class="small">Every example, claimed owner, buyer preference, object and sale is invented. No external market, grade, title verification, identity verification, money, legal agreement or shipment exists. A grade is optional; honest description and legal rights are not. No private budgets or passwords are collected.</footer>
+</main><script type="module" src="/ui.mjs"></script></body></html>

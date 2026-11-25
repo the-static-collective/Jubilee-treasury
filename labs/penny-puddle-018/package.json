@@ -1,0 +1,7 @@
+{
+  "name":"jubilee-missing-primitive-018","version":"0.0.18",
+  "private":true,"type":"module",
+  "description":"Finite old-grammar impossibility check and independent Unicode-primitive synthesis verification",
+  "scripts":{"test":"node --test test/*.test.mjs","demo":"node export.mjs","verify":"node verify-output.mjs"},
+  "engines":{"node":">=22"},"license":"MIT"
+}
