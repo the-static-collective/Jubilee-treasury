@@ -1,0 +1,23 @@
+name: PENNY BOX 001 Lab
+on:
+  pull_request:
+    paths:
+      - 'labs/penny-box-001/**'
+      - '.github/workflows/penny-box-001.yml'
+  workflow_dispatch:
+jobs:
+  local-lab:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify typed contribution and no-minting boundaries
+        run: node --test labs/penny-box-001/test/*.test.mjs
+      - name: Smoke synthetic demo seed
+        run: |
+          cd labs/penny-box-001
+          PENNY_BOX_JOURNAL="${RUNNER_TEMP}/penny-box-demo.jsonl" npm run seed
