@@ -1,0 +1,13 @@
+name = "jubilee-steward-desk"
+main = "worker.mjs"
+compatibility_date = "2026-11-24"
+workers_dev = false
+preview_urls = false
+
+[vars]
+STATIC_ID_APP_ORIGIN = "https://steward.abundent.org"
+STATIC_ID_ISSUER = "https://kbhqacsdvjsstzyplqij.supabase.co/auth/v1"
+
+# Attach steward.abundent.org as a Worker Custom Domain in Cloudflare only after
+# provisioning its dedicated OAuth client and encrypted bindings.
+# Do not use a CNAME to a guessed workers.dev host.
