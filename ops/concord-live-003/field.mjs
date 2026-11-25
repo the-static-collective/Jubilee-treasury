@@ -18,8 +18,9 @@ const digest=x=>createHash('sha256').update(JSON.stringify(x)).digest('hex');
 const unique=xs=>new Set(xs).size===xs.length;
 const fail=m=>{throw Error('HOLD: '+m)};
 const card=(id,requires,produces,exclusiveClaims=[])=>({id,actor:'grammar',requires,produces,question:'Review the scoped candidate; no authority implied.',status:'unknown',declaredByActorInFixture:true,purpose:PURPOSE,expiresDay:1,priorYesBps:5000,directQuestionBurden:0,risks:[],exclusiveClaims});
-function validate(s,now){
- if(!exact(s,['schema','caseKey','asOf','cards','links'])||s.schema!=='jubilee.capability-field/v1'||s.caseKey!=='JUB-HON-001'||typeof s.asOf!=='string'||!Number.isFinite(Date.parse(s.asOf))||!Number.isFinite(now)||Date.parse(s.asOf)>now+5000||now-Date.parse(s.asOf)>900000)fail('invalid or stale snapshot');
+function validate(s,now,expectedCaseKey){
+ if(!['JUB-HON-001','EXODUS-FIXTURE-001'].includes(expectedCaseKey))fail('unknown case scope');
+ if(!exact(s,['schema','caseKey','asOf','cards','links'])||s.schema!=='jubilee.capability-field/v1'||s.caseKey!==expectedCaseKey||typeof s.asOf!=='string'||!Number.isFinite(Date.parse(s.asOf))||!Number.isFinite(now)||Date.parse(s.asOf)>now+5000||now-Date.parse(s.asOf)>900000)fail('invalid or stale snapshot');
  if(!Array.isArray(s.cards)||s.cards.length>18||!Array.isArray(s.links)||s.links.length>24||!unique(s.cards.map(c=>c?.id))||!unique(s.links.map(l=>l?.id)))fail('bounded distinct records required');
  for(const c of s.cards){
   if(!exact(c,['id','actor','kind','purpose','state','sourceRef','consentRef','expiresAt'])||!id(c.id)||!id(c.actor)||!TYPES.includes(c.kind)||c.purpose!==PURPOSE||!['offered','declined','withdrawn'].includes(c.state)||!id(c.sourceRef)||!id(c.consentRef)||typeof c.expiresAt!=='string'||!Number.isFinite(Date.parse(c.expiresAt)))fail('invalid scoped capability');
@@ -47,8 +48,8 @@ function verify(ids,all){
  if(!facts.has(GOAL)||used.size!==selected.length)fail('incomplete proof');
  return selected;
 }
-export function field(snapshot,{now=Date.now()}={}){
- validate(snapshot,now);
+export function field(snapshot,{now=Date.now(),expectedCaseKey='JUB-HON-001'}={}){
+ validate(snapshot,now,expectedCaseKey);
  const admitted=snapshot.cards.filter(c=>c.state==='offered'&&Date.parse(c.expiresAt)>now);
  const admittedById=new Map(admitted.map(c=>['cap:'+c.id,c]));
  const all=[...admitted.map(c=>card('cap:'+c.id,[],c.kind,[c.sourceRef])),...RULES.map(([k,r,p])=>card('rule:'+k,r,p))];
