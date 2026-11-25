@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {MODE,GATES,replay,recoveryPacket,restore} from './returning-node.mjs';
+const o={mode:MODE};
+const prefix=[{kind:'need'},...Array.from({length:8},(_,i)=>({kind:'offer',slot:i+1})),{kind:'proposal'}];
+const reviews=GATES.map(gate=>({kind:'review',gate}));
+const admitted=[...prefix,...reviews,{kind:'admission',decision:'ADMIT'}];
+test('original EXODUS route plus eight synthetic offers, no actual commitment',()=>{const r=replay(prefix,o);assert.equal(r.fixture.offeredMinor,800000);assert.equal(r.actualCommitmentMinor,0);assert.equal(r.status,'HOLD')});
+test('no complete native verification path cannot produce a proposal',()=>assert.throws(()=>replay(prefix,{...o,complete:false}),/no review route/));
+test('explicit simulated admission and receipt reconcile without real authority',()=>{const r=replay([...admitted,{kind:'movement',amountMinor:800000},{kind:'receipt',movementIndex:1}],o);assert.equal(r.fixture.remainingMinor,0);assert.equal(r.fixture.simulatedReceiptMinor,800000);assert.equal(r.actualMovementMinor,0);assert.equal(r.settlementAllowed,false)});
+test('HOLD and REFUSE block all simulated movement',()=>{for(const decision of ['HOLD','REFUSE'])assert.throws(()=>replay([...prefix,{kind:'admission',decision},{kind:'movement',amountMinor:1}],o),/movement not admitted/)});
+test('review gate cannot be skipped',()=>assert.throws(()=>replay([...prefix,{kind:'admission',decision:'ADMIT'}],o),/missing fixture reviews/));
+test('overdraw and duplicate receipts rejected',()=>{assert.throws(()=>replay([...admitted,{kind:'movement',amountMinor:800000},{kind:'movement',amountMinor:1}],o),/exceeds/);assert.throws(()=>replay([...admitted,{kind:'movement',amountMinor:1},{kind:'receipt',movementIndex:1},{kind:'receipt',movementIndex:1}],o),/duplicate/)});
+test('unknown mode, arbitrary identity fields and duplicate offers refused',()=>{assert.throws(()=>replay(prefix,{}),/synthetic/);assert.throws(()=>replay([{kind:'need',name:'fixture'}],o),/closed/);assert.throws(()=>replay([{kind:'need'},{kind:'offer',slot:1},{kind:'offer',slot:1}],o),/invalid offer/)});
+test('restart via bounded recovery packet; corruption and injection refused',()=>{const p=recoveryPacket(admitted,o);assert.deepEqual(restore(JSON.parse(JSON.stringify(p)),o),replay(admitted,o));p.events[1].slot=9;assert.throws(()=>restore(p,o),/invalid offer/);const q=recoveryPacket(prefix,o);q.events.reverse();assert.throws(()=>restore(q,o));const t=recoveryPacket(prefix,o);t.digest='bad';assert.throws(()=>restore(t,o),/digest mismatch/)});
+test('HOLD can become fixture ADMIT only with all explicit reviews; refusal terminal',()=>{const p=[...prefix,{kind:'admission',decision:'HOLD'},...reviews,{kind:'admission',decision:'ADMIT'}];assert.equal(replay(p,o).fixture.admission,'ADMIT');assert.throws(()=>replay([...prefix,{kind:'admission',decision:'REFUSE'},...reviews],o),/invalid fixture review/)});
