@@ -2,6 +2,8 @@ import {handleStaticIdRequest,requireStaticIdOwner,SESSION_COOKIE} from './vendo
 import {identityConfig,decryptJson} from './vendor/oidc.mjs';
 import {PAGE,SCRIPT} from './ui.mjs';
 import {PAGE as CASE_PAGE,SCRIPT as CASE_SCRIPT,BRIDGE as CASE_BRIDGE} from './casework-assets.mjs';
+import {commonIdentity,commonApi} from './common-auth.mjs';
+import {PAGE as COMMON_PAGE,SCRIPT as COMMON_SCRIPT,SYNC as COMMON_SYNC} from './common-assets.mjs';
 const headers={'Cache-Control':'private, no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'"};
 const json=(x,status=200)=>new Response(JSON.stringify(x),{status,headers:{...headers,'Content-Type':'application/json'}});
 const text=(x,type)=>new Response(x,{headers:{...headers,'Content-Type':type}});
@@ -24,6 +26,17 @@ async function rpc(request,env,name,params,fetcher){
 export async function handle(request,env,fetcher=fetch){
  const u=new URL(request.url);
  if(u.origin!==env.STATIC_ID_APP_ORIGIN)return json({error:'Unknown origin'},403);
+ if(u.pathname.startsWith('/api/common-id/')||u.pathname==='/api/static-id/callback'){
+  const response=await commonIdentity(request,env,fetcher);if(response)return response;
+ }
+ if(u.pathname.startsWith('/api/common/'))return commonApi(request,env,fetcher);
+ if(['/common-table','/common-casework.js','/common-table.js'].includes(u.pathname)){
+  if(env.JUBILEE_COMMON_ENABLED!=='true')return json({error:'Common Table held'},503);
+  if(request.method!=='GET')return json({error:'Method not allowed'},405);
+  // Public inert login shell and source assets only. Every case read/write is separately authenticated and scoped.
+  if(u.pathname==='/common-table')return text(COMMON_PAGE,'text/html; charset=utf-8');
+  return text(u.pathname==='/common-casework.js'?COMMON_SCRIPT:COMMON_SYNC,'application/javascript; charset=utf-8');
+ }
  if(u.pathname.startsWith('/api/static-id/'))return handleStaticIdRequest(request,env,fetcher);
  if(request.method==='GET'&&u.pathname==='/')return text(PAGE,'text/html; charset=utf-8');
  if(request.method==='GET'&&u.pathname==='/desk.js')return text(SCRIPT,'application/javascript; charset=utf-8');
