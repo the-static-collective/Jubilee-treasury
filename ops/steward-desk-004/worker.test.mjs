@@ -28,3 +28,31 @@ test('EXODUS projects shared gates and preserves source question ordering withou
 test('EXODUS rejects unexpected execution permission or malformed source',()=>{for(const r of [reviewLens([{...route('a',[]),execution_allowed:true}],[]),reviewLens([route('a',[]),route('a',[])],[]),reviewLens([route('a',[])],[question('counsel',2)]),reviewLens(null,[])]){assert.equal(r.available,false);assert.equal(r.executionAllowed,false);assert.deepEqual(r.shared,[]);}});
 test('EXODUS no source results never infer safety',()=>{const r=reviewLens([],[]);assert.equal(r.status,'HOLD');assert.deepEqual(r.shared,[]);assert.equal(r.authority,'none');});
 test('EXODUS client script parses and lens is within authenticated hidden desk',()=>{assert.doesNotThrow(()=>new Function(SCRIPT));assert.match(PAGE,/<div id="desk" hidden>/);assert.match(PAGE,/id="exodus"/);assert.match(SCRIPT,/const lens=reviewLens\(d.routes,d.questions\)/);assert.match(SCRIPT,/\x27questions\x27,\x27exodus\x27,\x27totals\x27/);assert.doesNotMatch(SCRIPT,/https?:\/\//);});
+
+import {PAGE as CASE_PAGE,SCRIPT as CASE_SCRIPT,BRIDGE as CASE_BRIDGE} from './casework-assets.mjs';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
+test('casework shell and scripts require owner and fresh Jubilee grant',async()=>{
+ for(const p of ['/casework','/casework.js','/casework-bridge.js']){
+  const f=await fixture();assert.equal((await handle(req(p),f.env,f.fetcher)).status,403);
+  const r=await handle(req(p,{headers:{Cookie:f.cookie}}),f.env,f.fetcher);assert.equal(r.status,200);assert.match(r.headers.get('Cache-Control'),/no-store/);
+  f.deny();assert.equal((await handle(req(p,{headers:{Cookie:f.cookie}}),f.env,f.fetcher)).status,403);
+ }
+ const f=await fixture({sub:'0bdcd8ce-13f3-4417-8a5b-324ad69148c3'});assert.equal((await handle(req('/casework',{headers:{Cookie:f.cookie}}),f.env,f.fetcher)).status,403);
+});
+test('hosted assets preserve exact offline core and app; scripts parse and CSP remains external',()=>{
+ const h=readFileSync(new URL('../exodus-004/casework.html',import.meta.url),'utf8');
+ const scripts=[...h.matchAll(/<script(?: id="core")?>([\s\S]*?)<\/script>/g)].map(x=>x[1]);
+ assert.equal(CASE_SCRIPT,scripts.join('\n'));assert.doesNotThrow(()=>new Function(CASE_SCRIPT));assert.doesNotThrow(()=>new Function(CASE_BRIDGE));
+ assert.match(CASE_PAGE,/<script src="\/casework.js"><\/script>/);assert.match(CASE_PAGE,/<script src="\/casework-bridge.js"><\/script>/);assert.doesNotMatch(CASE_PAGE,/<script(?: id="core")?>/);
+});
+test('explicit metadata review imports source and open task only; duplicates refused',()=>{
+ const core=CASE_SCRIPT.split('const $=')[0];
+ const bridge=CASE_BRIDGE.split('\n(function(){')[0];
+ const x=runInNewContext(core+'\n'+bridge+'\n({C:Casework,mailCandidates,deskCandidates,addCandidate,parse:s=>JSON.parse(s)})',{crypto,TextEncoder,TextDecoder});
+ const data=v=>x.parse(JSON.stringify(v));let b=x.C.append(x.C.blank(),null,'case',data({title:'Fixture'}));const id=b.events[0].id;
+ const packet=data({schema:'jubilee.correspondence-candidates/v1',items:[{ref:'gmail:123456789abcdef0',category:'reply'}]});
+ const [c]=x.mailCandidates(packet);assert.equal(c.authority,'none');b=x.addCandidate(x.C,b,id,c);const view=x.C.projection(b).get(id);assert.equal(view.sources.size,1);assert.equal(view.tasks.size,1);assert.equal(view.offers.size,0);assert.equal(view.claims.size,0);
+ assert.throws(()=>x.addCandidate(x.C,b,id,c),/already/);assert.throws(()=>x.mailCandidates(data({schema:packet.schema,items:[{ref:'gmail:123456789abcdef0',category:'reply',body:'private'}]})));
+ const d=x.deskCandidates(data({queue:[],questions:[{gate:'document',question:'Review document'}]}));assert.equal(d[0].status,'REVIEW_ONLY');assert.equal(d[0].ref,'concord-gate:document');
+});

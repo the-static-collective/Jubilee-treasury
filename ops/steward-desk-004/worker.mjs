@@ -1,6 +1,7 @@
 import {handleStaticIdRequest,requireStaticIdOwner,SESSION_COOKIE} from './vendor/cloudflare.mjs';
 import {identityConfig,decryptJson} from './vendor/oidc.mjs';
 import {PAGE,SCRIPT} from './ui.mjs';
+import {PAGE as CASE_PAGE,SCRIPT as CASE_SCRIPT,BRIDGE as CASE_BRIDGE} from './casework-assets.mjs';
 const headers={'Cache-Control':'private, no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'"};
 const json=(x,status=200)=>new Response(JSON.stringify(x),{status,headers:{...headers,'Content-Type':'application/json'}});
 const text=(x,type)=>new Response(x,{headers:{...headers,'Content-Type':type}});
@@ -26,6 +27,16 @@ export async function handle(request,env,fetcher=fetch){
  if(u.pathname.startsWith('/api/static-id/'))return handleStaticIdRequest(request,env,fetcher);
  if(request.method==='GET'&&u.pathname==='/')return text(PAGE,'text/html; charset=utf-8');
  if(request.method==='GET'&&u.pathname==='/desk.js')return text(SCRIPT,'application/javascript; charset=utf-8');
+ if(['/casework','/casework.js','/casework-bridge.js'].includes(u.pathname)){
+  if(request.method!=='GET')return json({error:'Method not allowed'},405);
+  if(!await requireStaticIdOwner(request,env,fetcher))return json({error:'Sign in required'},403);
+  try{
+   const grant=await rpc(request,env,'jubilee_desk_read_v1',{},fetcher);
+   if(!grant.ok)return json({error:'Jubilee grant required'},403);
+   if(u.pathname==='/casework')return text(CASE_PAGE,'text/html; charset=utf-8');
+   return text(u.pathname==='/casework.js'?CASE_SCRIPT:CASE_BRIDGE,'application/javascript; charset=utf-8');
+  }catch{return json({error:'Desk unavailable'},503)}
+ }
  if(!['/api/desk/read','/api/desk/review'].includes(u.pathname))return json({error:'Not found'},404);
  if(!await requireStaticIdOwner(request,env,fetcher))return json({error:'Sign in required'},403);
  try{
