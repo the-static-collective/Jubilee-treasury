@@ -1,0 +1,21 @@
+name: Exodus branch recovery
+on:
+  push:
+    branches: ['experiment/exodus-001-branch-recovery']
+  pull_request:
+    paths:
+      - 'ops/exodus-001/**'
+      - 'ops/concord-live-003/**'
+      - '.github/workflows/exodus-001.yml'
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - run: node --experimental-strip-types --test ops/concord-live-002/adapter.test.mjs ops/concord-live-003/field.test.mjs ops/exodus-001/exodus.test.mjs
