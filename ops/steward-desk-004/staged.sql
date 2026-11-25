@@ -33,7 +33,7 @@ create function jubilee_private.desk_review(p_id uuid,p_disposition text,p_basis
 declare u uuid; ln text; reply_available boolean;
 begin
  u:=jubilee_private.desk_check();
- if p_disposition is null or p_disposition not in ('hold','contact_candidate','no_action') or p_basis is null or length(trim(p_basis)) not between 1 and 300 then raise exception 'invalid review' using errcode='22023';end if;
+ if p_disposition is null or p_disposition not in ('hold','contact_candidate','no_action') or p_basis is distinct from case p_disposition when 'hold' then 'Needs human verification' when 'contact_candidate' then 'Potential follow-up for separate approval' when 'no_action' then 'No actionable information' end then raise exception 'invalid review' using errcode='22023';end if;
  select lane,contact<>'' into ln,reply_available from jubilee_private.intake where id=p_id and state='pending' for update;
  if not found or exists(select 1 from jubilee_private.dispatch_review where intake_id=p_id) then raise exception 'stale review' using errcode='40001';end if;
  if p_disposition='contact_candidate' and (ln='signal' or not reply_available) then raise exception 'no safe reply channel for contact candidate' using errcode='42501';end if;
