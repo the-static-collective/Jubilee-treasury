@@ -1,0 +1,52 @@
+name: INTE-GREAT portable kit
+on:
+  pull_request:
+    paths:
+      - 'inte-great/**'
+      - '.github/workflows/inte-great-portable.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'inte-great/**'
+      - 'labs/**'
+      - 'ops/exodus-*/**'
+      - 'ops/concord-live-*/**'
+      - '.github/workflows/inte-great-portable.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Build and validate native rehearsal
+        run: |
+          node --experimental-strip-types inte-great/run.mjs > /tmp/inte-great-rehearsal.json
+          node --experimental-strip-types --test ops/exodus-004/casework.test.mjs ops/exodus-002/returning-node.test.mjs
+          mkdir -p portable/inte-great portable/labs portable/ops
+          cp inte-great/index.html inte-great/README.md inte-great/run.mjs portable/inte-great/
+          cp -R labs/puddle-001 labs/penny-puddle-* portable/labs/
+          cp -R ops/exodus-001 ops/exodus-002 ops/exodus-003 ops/exodus-004 ops/concord-live-002 ops/concord-live-003 portable/ops/
+          if [ -f LICENSE ]; then cp LICENSE portable/; fi
+          git rev-parse HEAD > portable/SOURCE-COMMIT.txt
+          cd portable
+          node --experimental-strip-types inte-great/run.mjs > inte-great/rehearsal.json
+          node --experimental-strip-types inte-great/run.mjs --html > inte-great/rehearsal.html
+          cmp inte-great/rehearsal.json /tmp/inte-great-rehearsal.json
+          test -s ops/exodus-004/casework.html
+          test -s inte-great/rehearsal.html
+          find . -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/inte-great-checksums
+          cp /tmp/inte-great-checksums SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Jubilee-INTE-GREAT-001
+          path: portable/
+          if-no-files-found: error
+          retention-days: 90
