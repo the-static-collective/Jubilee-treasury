@@ -39,4 +39,5 @@ export async function handle(request,env,fetcher=fetch){
   return json({error:'Method not allowed'},405);
  }catch{return json({error:'Desk unavailable'},503)}
 }
-export default {fetch:handle};
+// Workers pass an ExecutionContext as argument three, not a fetch implementation.
+export default {fetch(request,env,ctx){return handle(request,env,fetch);}};
