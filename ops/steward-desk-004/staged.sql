@@ -30,13 +30,13 @@ begin
  'totals',coalesce((select jsonb_agg(to_jsonb(t)) from (select currency,stage,amount,commitments from jubilee_private.treasury_totals where case_key='JUB-HON-001') t),'[]'::jsonb));
 end $$;
 create function jubilee_private.desk_review(p_id uuid,p_disposition text,p_basis text) returns jsonb language plpgsql security definer set search_path='' as $$
-declare u uuid; ln text;
+declare u uuid; ln text; reply_available boolean;
 begin
  u:=jubilee_private.desk_check();
  if p_disposition is null or p_disposition not in ('hold','contact_candidate','no_action') or p_basis is null or length(trim(p_basis)) not between 1 and 300 then raise exception 'invalid review' using errcode='22023';end if;
- select lane into ln from jubilee_private.intake where id=p_id and state='pending' for update;
+ select lane,contact<>'' into ln,reply_available from jubilee_private.intake where id=p_id and state='pending' for update;
  if not found or exists(select 1 from jubilee_private.dispatch_review where intake_id=p_id) then raise exception 'stale review' using errcode='40001';end if;
- if ln='signal' and p_disposition='contact_candidate' then raise exception 'anonymous signal cannot authorize contact' using errcode='42501';end if;
+ if p_disposition='contact_candidate' and (ln='signal' or not reply_available) then raise exception 'no safe reply channel for contact candidate' using errcode='42501';end if;
  insert into jubilee_private.dispatch_review(intake_id,disposition,basis) values(p_id,p_disposition,p_basis);
  update jubilee_private.intake set state='reviewed' where id=p_id;
  insert into jubilee_private.desk_audit(actor,intake_id,disposition) values(u,p_id,p_disposition);
