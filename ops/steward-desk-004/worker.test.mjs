@@ -56,3 +56,58 @@ test('explicit metadata review imports source and open task only; duplicates ref
  assert.throws(()=>x.addCandidate(x.C,b,id,c),/already/);assert.throws(()=>x.mailCandidates(data({schema:packet.schema,items:[{ref:'gmail:123456789abcdef0',category:'reply',body:'private'}]})));
  const d=x.deskCandidates(data({queue:[],questions:[{gate:'document',question:'Review document'}]}));assert.equal(d[0].status,'REVIEW_ONLY');assert.equal(d[0].ref,'concord-gate:document');
 });
+
+import {commonApi,commonIdentity} from './common-auth.mjs';
+import {PAGE as COMMON_PAGE,SCRIPT as COMMON_SCRIPT,SYNC as COMMON_SYNC} from './common-assets.mjs';
+test('PENTECOST is held by default; inert login shell only on opt-in',async()=>{
+ const env=cfg();assert.equal((await handle(req('/common-table'),env)).status,503);
+ env.JUBILEE_COMMON_ENABLED='true';const page=await handle(req('/common-table'),env);assert.equal(page.status,200);assert.match(await page.text(),/PENTECOST/);
+ assert.equal((await handle(req('/api/common/list',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:'{}'}),env)).status,403);
+ assert.equal((await handle(req('/api/common/anything',{method:'POST'}),env)).status,404);
+});
+async function commonFixture(opts={}){
+ const f=await fixture(opts);f.env.JUBILEE_COMMON_ENABLED='true';
+ const seal=await encryptJson({accessToken:f.token,expires:Date.now()+120000},identityConfig(f.env),'common-session');f.commonCookie='__Host-common-session='+seal;return f;
+}
+const commonReq=(f,p,data,originValue=origin)=>req('/api/common/'+p,{method:'POST',headers:{Origin:originValue,Cookie:f.commonCookie,'Content-Type':'application/json'},body:JSON.stringify(data)});
+test('separate member session never authorizes private owner desk; RPC denial still decisive',async()=>{
+ const f=await commonFixture({sub:'0bdcd8ce-13f3-4417-8a5b-324ad69148c3'});
+ assert.equal((await handle(commonReq(f,'list',{}),f.env,f.fetcher)).status,200);
+ assert.ok(f.calls.some(x=>x.url.endsWith('jubilee_common_list_v1')));
+ assert.equal((await handle(req('/api/desk/read',{headers:{Cookie:f.commonCookie}}),f.env,f.fetcher)).status,403);
+ assert.equal((await handle(req('/casework',{headers:{Cookie:f.commonCookie}}),f.env,f.fetcher)).status,403);
+ f.deny();assert.equal((await handle(commonReq(f,'list',{}),f.env,f.fetcher)).status,403);
+});
+test('common API rejects wrong client, owner cookie, CSRF, extra fields and raw plaintext',async()=>{
+ const f=await commonFixture();
+ assert.equal((await handle(commonReq(f,'list',{},'https://foreign.invalid'),f.env,f.fetcher)).status,403);
+ assert.equal((await handle(req('/api/common/list',{method:'POST',headers:{Origin:origin,Cookie:f.cookie,'Content-Type':'application/json'},body:'{}'}),f.env,f.fetcher)).status,403);
+ const c='a'.repeat(32);
+ assert.equal((await handle(commonReq(f,'create',{p_case:c,p_envelope:{plaintext:'private'}}),f.env,f.fetcher)).status,400);
+ assert.equal((await handle(commonReq(f,'read',{p_case:c,role:'owner'}),f.env,f.fetcher)).status,400);
+ const wrong=await commonFixture({client:'other-app'});assert.equal((await handle(commonReq(wrong,'list',{}),wrong.env,wrong.fetcher)).status,403);
+ assert.ok(f.calls.every(x=>!x.url.includes('/rpc/')));
+});
+test('common identity uses distinct flow cookie and preserves owner callback fallback',async()=>{
+ const env={...cfg(),JUBILEE_COMMON_ENABLED:'true'};
+ const r=await commonIdentity(req('/api/common-id/login'),env);
+ assert.equal(r.status,303);assert.match(r.headers.get('Set-Cookie'),/__Host-common-flow=/);assert.match(r.headers.get('Location'),/redirect_uri=/);
+ assert.equal(await commonIdentity(req('/api/static-id/callback?state=unrelated'),env),null);
+});
+const vm=()=>runInNewContext(COMMON_SCRIPT.split('const $=')[0]+'\n'+COMMON_SYNC.split('\n(function(){')[0]+'\n({C:Casework,S:Common,parse:s=>JSON.parse(s)})',{crypto,TextEncoder,TextDecoder});
+test('shared crypto roundtrip binds case, revision and epoch; rejects key and ciphertext substitution',async()=>{
+ const {C,S,parse}=vm();const d=x=>parse(JSON.stringify(x));const b=C.append(C.blank(),null,'case',d({title:'Fixture only'})),c=b.events[0].id,k=S.generate();
+ const e=await S.seal(C,b,k,c,1,1);assert.ok(!JSON.stringify(e).includes('Fixture only'));assert.equal(JSON.stringify(await S.unseal(C,e,k,c,1,1)),JSON.stringify(b));
+ await assert.rejects(S.unseal(C,e,S.generate(),c,1,1));await assert.rejects(S.unseal(C,e,k,c,2,1));await assert.rejects(S.unseal(C,e,k,c,1,2));
+ const tamper=d({...e,ciphertext:(e.ciphertext[0]==='0'?'1':'0')+e.ciphertext.slice(1)});await assert.rejects(S.unseal(C,tamper,k,c,1,1));
+});
+test('only independent additive edits rebase; competing decisions and unrelated cases stay held',()=>{
+ const {C,S,parse}=vm();const d=x=>parse(JSON.stringify(x));let base=C.append(C.blank(),null,'case',d({title:'Fixture'})),c=base.events[0].id;
+ const l=C.append(base,c,'task',d({text:'Local task',due:''})),r=C.append(base,c,'task',d({text:'Remote task',due:'2026-11-30'}));
+ const b=S.rebase(C,base,l,r,c);assert.equal(b.events.length,3);assert.equal(S.brief(C,b,c,1).changes,2);assert.equal(S.brief(C,b,c,1).next[0].text,'Remote task');
+ const decision=C.append(base,c,'case-status',d({state:'HOLD',text:'review'}));assert.throws(()=>S.rebase(C,base,l,decision,c),/manual review/);
+ const other=C.append(base,null,'case',d({title:'Unrelated'}));assert.throws(()=>S.single(C,other,c));
+});
+test('shared UI reuses canonical casework and excludes owner intake bridge',()=>{
+ assert.equal(COMMON_SCRIPT,CASE_SCRIPT);assert.doesNotThrow(()=>new Function(COMMON_SYNC));assert.match(COMMON_PAGE,/common-table.js/);assert.doesNotMatch(COMMON_PAGE,/id="shepherd"|casework-bridge.js/);assert.doesNotMatch(COMMON_SYNC,/localStorage|sessionStorage|indexedDB/);
+});
