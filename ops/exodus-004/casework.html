@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'"><title>Jubilee Casework — Local Steward Desk</title><style>
+:root{color-scheme:light dark;--accent:#527b67}*{box-sizing:border-box}body{font:16px system-ui;margin:0;line-height:1.5}header,main{max-width:65rem;margin:auto;padding:1rem}header{border-bottom:1px solid #8885}h1{margin:.2rem 0;font-size:1.65rem}h2{font-size:1.15rem}h3{font-size:1rem;margin:.4rem 0}section{border:1px solid #8886;border-radius:12px;padding:1rem;margin:.9rem 0}label{display:block;margin:.6rem 0}input,select,textarea,button{font:inherit;max-width:100%;padding:.5rem;border:1px solid #888;border-radius:6px}input:not([type=file]),textarea,select{width:100%}textarea{min-height:5rem}button{cursor:pointer;margin:.3rem .3rem .3rem 0}button.primary{background:var(--accent);color:#fff;border:0}button:disabled{opacity:.5;cursor:default}.muted{opacity:.75;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}.entry{border-top:1px solid #8885;padding:.75rem 0;overflow-wrap:anywhere;white-space:pre-wrap}#message{min-height:1.5em;font-weight:600}#dirty{color:#a26d00;font-weight:700}pre{white-space:pre-wrap;overflow-wrap:anywhere} [hidden]{display:none!important} @media(max-width:500px){header,main{padding:.75rem}section{padding:.7rem}}
+</style></head><body><header><div class="muted">JUBILEE / EXODUS 004</div><h1>Local Casework Desk</h1><p>Evidence, decisions and the next useful action. No network requests, no payment processing.</p></header><main>
+<section><h2>Private casebook</h2><p class="muted">Use a long, unique passphrase. Unencrypted records exist in memory while open. Save an encrypted file after changes; keep independent backups. Do not store endangered people's identities, document images or banking details in this version. No multi-user synchronization. Losing your passphrase means losing access.</p>
+<label>Passphrase (at least 14 characters)<input id="pass" type="password" autocomplete="off" minlength="14"></label>
+<button id="newbook">New empty casebook</button><label>Open encrypted casebook<input id="openfile" type="file" accept=".json,application/json"></label><button id="open">Open file</button>
+<button id="save" class="primary" disabled>Save encrypted casebook</button><button id="lock" disabled>Lock / discard memory</button><div id="dirty"></div><div id="message" role="status" aria-live="polite"></div></section>
+<div id="desk" hidden><section><h2>Cases</h2><label>Case title (use a non-identifying alias)<input id="title" maxlength="100"></label><button id="addcase" class="primary">Create case</button><label>Active case<select id="cases"></select></label></section>
+<div id="active" hidden><section><h2 id="caseheading"></h2><div class="grid" id="summary"></div><p class="muted">Totals are operator-entered reports, not bank reconciliation or verified funding.</p></section>
+<section><h2>Next actions</h2><div id="actions"></div></section>
+<section><h2>Add a record</h2><label>Type<select id="kind"><option value="source">Source reference</option><option value="claim">Reported claim / interpretation</option><option value="task">Task / question</option><option value="offer">Conditional sponsorship offer</option><option value="review">Evidence review</option><option value="task-status">Task disposition</option><option value="offer-status">Offer disposition</option><option value="case-status">Case disposition</option></select></label>
+<label id="textlabel">Description<textarea id="description" maxlength="2000"></textarea></label>
+<label id="reflabel">Source / record reference<input id="ref" maxlength="120"></label>
+<label id="duelabel">Due date<input id="due" type="date"></label>
+<label id="amountlabel">Amount in USD (whole cents)<input id="amount" type="number" step=".01" min="0" max="100000000"></label>
+<label id="statelabel">Disposition<select id="state"></select></label>
+<button id="add" class="primary">Append record</button><p id="hint" class="muted"></p></section>
+<section><h2>Case history</h2><div id="history"></div></section></div></div></main>
+<script id="core">
+"use strict";
+const Casework=(()=>{
+const fail=m=>{throw new Error(m)}, enc=new TextEncoder(), dec=new TextDecoder("utf-8",{fatal:true});
+const keys=(o,ks)=>o&&Object.getPrototypeOf(o)===Object.prototype&&Reflect.ownKeys(o).length===ks.length&&ks.every(k=>Object.hasOwn(Object.getOwnPropertyDescriptor(o,k)||{},"value"));
+const str=(x,n)=>typeof x==="string"&&x.length>0&&x.length<=n&&x.trim()===x;
+const id=x=>typeof x==="string"&&/^[a-f0-9]{32}$/.test(x);
+const date=x=>typeof x==="string"&&/^\d{4}-\d\d-\d\d$/.test(x)&&Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x;
+const timestamp=x=>typeof x==="string"&&Number.isFinite(Date.parse(x))&&new Date(x).toISOString()===x;
+const money=x=>Number.isSafeInteger(x)&&x>0&&x<=10000000000;
+const hex=b=>Array.from(b,x=>x.toString(16).padStart(2,"0")).join("");
+const unhex=(s,n)=>{if(typeof s!=="string"||s.length!==n*2||!/^[a-f0-9]+$/.test(s))fail("Invalid encrypted envelope");return Uint8Array.from(s.match(/../g),x=>parseInt(x,16));};
+const newid=()=>hex(crypto.getRandomValues(new Uint8Array(16)));
+const blank=()=>({schema:"jubilee.casebook/v1",events:[]});
+const statuses={"task-status":["OPEN","WAITING","DONE","REFUSED"],"offer-status":["CONDITIONAL","COMMITTED_REPORTED","WITHDRAWN","RECEIVED_REPORTED"],"case-status":["OPEN","HOLD","CLOSED"],review:["UNVERIFIED","SUPPORTED","DISPUTED","WITHDRAWN"]};
+function projection(book){
+ if(!keys(book,["schema","events"])||book.schema!=="jubilee.casebook/v1"||!Array.isArray(book.events)||book.events.length>2000)fail("Invalid or oversized casebook");
+ const cases=new Map(),seen=new Set();
+ for(const e of book.events){
+  if(!keys(e,["id","caseId","at","kind","data"])||!id(e.id)||!id(e.caseId)||!timestamp(e.at)||seen.has(e.id)||typeof e.kind!=="string")fail("Invalid or duplicate event");
+  seen.add(e.id);
+  const d=e.data;
+  if(e.kind==="case"){
+   if(e.caseId!==e.id||cases.has(e.id)||!keys(d,["title"])||!str(d.title,100))fail("Invalid case");
+   cases.set(e.id,{id:e.id,title:d.title,status:"OPEN",records:[],sources:new Map(),claims:new Map(),tasks:new Map(),offers:new Map()});continue;
+  }
+  const c=cases.get(e.caseId);if(!c)fail("Unknown case");
+  if(c.status==="CLOSED"&&e.kind!=="case-status")fail("Reopen closed case before adding records");
+  switch(e.kind){
+   case "source": if(!keys(d,["text","ref"])||!str(d.text,2000)||!str(d.ref,120))fail("Source reference required");c.sources.set(e.id,e);break;
+   case "claim": if(!keys(d,["text","ref"])||!str(d.text,2000)||!c.sources.has(d.ref))fail("Claim needs an existing source ID");c.claims.set(e.id,{event:e,status:"UNVERIFIED",reviews:[]});break;
+   case "review": {if(!keys(d,["ref","state","text"])||!statuses.review.includes(d.state)||!str(d.text,2000)||!c.claims.has(d.ref))fail("Review needs existing claim and reasoning");const claim=c.claims.get(d.ref);claim.status=d.state;claim.reviews.push(e);break;}
+   case "task": if(!keys(d,["text","due"])||!str(d.text,2000)||!(d.due===""||date(d.due)))fail("Invalid task");c.tasks.set(e.id,{event:e,status:"OPEN"});break;
+   case "task-status": {if(!keys(d,["ref","state","text"])||!statuses[e.kind].includes(d.state)||!str(d.text,2000)||!c.tasks.has(d.ref))fail("Invalid task disposition");c.tasks.get(d.ref).status=d.state;break;}
+   case "offer": if(!keys(d,["text","amountMinor","ref"])||!str(d.text,2000)||!money(d.amountMinor)||!c.sources.has(d.ref))fail("Offer requires source and positive exact cents");c.offers.set(e.id,{event:e,status:"CONDITIONAL"});break;
+   case "offer-status": {if(!keys(d,["ref","state","text"])||!statuses[e.kind].includes(d.state)||!str(d.text,2000)||!c.offers.has(d.ref))fail("Invalid offer disposition");const offer=c.offers.get(d.ref);if(d.state==="RECEIVED_REPORTED"&&offer.status!=="COMMITTED_REPORTED")fail("Record reported commitment before reported receipt");offer.status=d.state;break;}
+   case "case-status": if(!keys(d,["state","text"])||!statuses[e.kind].includes(d.state)||!str(d.text,2000))fail("Disposition needs a reason");c.status=d.state;break;
+   default: fail("Unknown record type");
+  }
+  c.records.push(e);
+ }
+ return cases;
+}
+function append(book,caseId,kind,data){
+ projection(book);const eid=newid();
+ const candidate={schema:book.schema,events:[...book.events,{id:eid,caseId:kind==="case"?eid:caseId,at:new Date().toISOString(),kind,data}]};
+ projection(candidate);return candidate;
+}
+function totals(c){const t={CONDITIONAL:0,COMMITTED_REPORTED:0,RECEIVED_REPORTED:0,WITHDRAWN:0};for(const o of c.offers.values())t[o.status]+=o.event.data.amountMinor;return t;}
+const policy="JUBILEE-CASEBOOK-v1|PBKDF2-SHA256|600000|AES-256-GCM";
+async function key(pass,salt){if(typeof pass!=="string"||pass.length<14||pass.length>1024)fail("Use a unique passphrase of at least 14 characters");return crypto.subtle.deriveKey({name:"PBKDF2",hash:"SHA-256",salt,iterations:600000},await crypto.subtle.importKey("raw",enc.encode(pass),"PBKDF2",false,["deriveKey"]),{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);}
+async function seal(book,pass){projection(book);const bytes=enc.encode(JSON.stringify(book));if(bytes.length>2000000)fail("Casebook exceeds 2 MB");const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const ciphertext=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv,additionalData:enc.encode(policy)},await key(pass,salt),bytes));return {schema:"jubilee.casebook.encrypted/v1",salt:hex(salt),iv:hex(iv),ciphertext:hex(ciphertext)};}
+async function unseal(e,pass){if(!keys(e,["schema","salt","iv","ciphertext"])||e.schema!=="jubilee.casebook.encrypted/v1"||typeof e.ciphertext!=="string"||e.ciphertext.length<32||e.ciphertext.length>4000032||e.ciphertext.length%2)fail("Invalid encrypted envelope");const salt=unhex(e.salt,16),iv=unhex(e.iv,12),ct=unhex(e.ciphertext,e.ciphertext.length/2);const bytes=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:enc.encode(policy)},await key(pass,salt),ct);const b=JSON.parse(dec.decode(bytes));projection(b);return b;}
+return {blank,append,projection,totals,seal,unseal,statuses};
+})();
+</script><script>
+"use strict";
+const $=id=>document.getElementById(id),fmt=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(n/100);
+let book=null,active=null,dirty=false,busy=false;
+function msg(s){$("message").textContent=s;}
+function text(parent,tag,s,cls){const el=document.createElement(tag);el.textContent=s;if(cls)el.className=cls;parent.append(el);return el;}
+function change(b){book=b;dirty=true;render();}
+function render(){
+ $("desk").hidden=!book;$("save").disabled=!book||busy;$("lock").disabled=!book||busy;$("dirty").textContent=dirty?"Unsaved changes — save encrypted copy before leaving.":book?"No new unsaved changes.":"";
+ if(!book)return;const cases=Casework.projection(book);if(!cases.has(active))active=cases.keys().next().value||null;
+ $("cases").replaceChildren();for(const c of cases.values()){const o=document.createElement("option");o.value=c.id;o.textContent=c.title;$("cases").append(o);}$("cases").value=active||"";
+ $("active").hidden=!active;if(!active)return;const c=cases.get(active),t=Casework.totals(c);$("caseheading").textContent=c.title+" · "+c.status;$("summary").replaceChildren();for(const [label,value] of [["Conditional offers",fmt(t.CONDITIONAL)],["Reported commitments",fmt(t.COMMITTED_REPORTED)],["Reported receipts",fmt(t.RECEIVED_REPORTED)],["Unverified / disputed claims",[...c.claims.values()].filter(x=>["UNVERIFIED","DISPUTED"].includes(x.status)).length]]){const el=document.createElement("div");text(el,"div",label,"muted");text(el,"strong",String(value));$("summary").append(el);}
+ $("actions").replaceChildren();const tasks=[...c.tasks.values()].filter(x=>["OPEN","WAITING"].includes(x.status)).sort((a,b)=>(a.event.data.due||"9999").localeCompare(b.event.data.due||"9999"));if(!tasks.length)text($("actions"),"p","No open tasks.");for(const x of tasks){const d=x.event.data;const el=text($("actions"),"div",x.status+" · "+(d.due||"No date")+"\n"+d.text+"\nID: "+x.event.id,"entry");const btn=document.createElement("button");btn.textContent="Update task";btn.onclick=()=>{$("kind").value="task-status";fields();$("ref").value=x.event.id;$("description").focus();};el.append(btn);}
+ $("history").replaceChildren();for(const e of [...c.records].reverse()){const el=text($("history"),"div",e.kind.toUpperCase()+" · "+e.at+"\nID: "+e.id,"entry");text(el,"div",Object.entries(e.data).map(([k,v])=>k+": "+v).join("\n"));if(e.kind==="claim"){text(el,"div","Current review: "+c.claims.get(e.id).status);}}
+}
+function fields(){const k=$("kind").value;const hasRef=["source","claim","offer","review","task-status","offer-status"].includes(k);$("reflabel").hidden=!hasRef;$("duelabel").hidden=k!=="task";$("amountlabel").hidden=k!=="offer";$("statelabel").hidden=!Casework.statuses[k];$("state").replaceChildren();for(const s of Casework.statuses[k]||[]){const o=document.createElement("option");o.textContent=s;$("state").append(o);}$("hint").textContent=k==="source"?"Use an opaque reference to a securely stored document or correspondence.":hasRef?"Copy the applicable existing record ID from history (source, claim, task or offer).":"Describe the action or reason. Do not add identifying or financial-account data.";}
+function guarded(fn){return async()=>{if(busy)return;busy=true;render();try{await fn();}catch(e){msg(e.message||"Operation failed");}finally{busy=false;render();}};}
+function canReplace(){return !dirty||confirm("Discard unsaved changes?");}
+$("newbook").onclick=guarded(async()=>{if(!crypto.subtle)throw Error("This browser does not provide secure Web Crypto");if($("pass").value.length<14)throw Error("Enter a unique passphrase of at least 14 characters");if(!canReplace())return;change(Casework.blank());active=null;msg("New local casebook. Save an encrypted copy.");});
+$("open").onclick=guarded(async()=>{if(!canReplace())return;const f=$("openfile").files[0];if(!f||f.size>4100000)throw Error("Choose an encrypted casebook smaller than 4.1 MB");book=await Casework.unseal(JSON.parse(await f.text()),$("pass").value);active=null;dirty=false;msg("Encrypted file opened.");});
+$("save").onclick=guarded(async()=>{const sealed=await Casework.seal(book,$("pass").value);const blob=new Blob([JSON.stringify(sealed)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="jubilee-casebook-"+new Date().toISOString().replace(/[:.]/g,"-")+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);msg("Encrypted download initiated. Verify the file exists and opens before locking; downloads are not independently confirmed.");});
+$("lock").onclick=guarded(async()=>{if(!canReplace())return;book=null;active=null;dirty=false;$("pass").value="";$("description").value="";$("title").value="";$("ref").value="";$("history").replaceChildren();$("actions").replaceChildren();$("summary").replaceChildren();$("caseheading").textContent="";$("cases").replaceChildren();$("openfile").value="";msg("Locked. JavaScript memory clearing is not secure erasure.");});
+$("addcase").onclick=guarded(async()=>{change(Casework.append(book,null,"case",{title:$("title").value.trim()}));active=book.events.at(-1).caseId;$("title").value="";msg("Case created.");});
+$("cases").onchange=()=>{active=$("cases").value;render();};$("kind").onchange=fields;
+$("add").onclick=guarded(async()=>{const k=$("kind").value,t=$("description").value.trim(),r=$("ref").value.trim(),s=$("state").value;let d;if(k==="source"||k==="claim")d={text:t,ref:r};else if(k==="task")d={text:t,due:$("due").value};else if(k==="offer"){const a=$("amount").value;if(!/^\d+(?:\.\d{1,2})?$/.test(a))throw Error("Use an exact USD amount with up to two decimal places");const [whole,cents=""]=a.split(".");d={text:t,ref:r,amountMinor:Number(whole)*100+Number(cents.padEnd(2,"0"))};}else if(k==="case-status")d={state:s,text:t};else d={ref:r,state:s,text:t};change(Casework.append(book,active,k,d));$("description").value="";$("ref").value="";$("due").value="";$("amount").value="";msg("Record appended. Save encrypted copy.");});
+window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue="";}});fields();render();
+</script></body></html>
