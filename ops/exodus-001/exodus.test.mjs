@@ -1,0 +1,23 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
+import {CASE,prepare,rehearse} from './exodus.mjs';
+import {identity,verify,Mirror,nextNeed} from './vendor/portable-protocol.mjs';
+import {field} from '../concord-live-003/field.mjs';
+
+const now=Date.parse('2026-11-24T00:00:00Z'), expiresAt=new Date(now+3600000).toISOString(), purpose='verification-preparation';
+const cap=(kind,actor='operator')=>({id:'cap-'+kind,actor,kind,purpose,state:'offered',sourceRef:'src-'+kind,consentRef:'consent-'+kind,expiresAt});
+const snap=(cards=[],links=[])=>({schema:'jubilee.capability-field/v1',caseKey:CASE,asOf:new Date(now).toISOString(),cards,links});
+const options={mode:'SYNTHETIC_ONLY',now};
+const baseline=()=>['document-access','translation','property-counsel','independent-review'].map(x=>cap(x));
+const link=(from,to)=>({id:'link-'+from+'-'+to,from,to,purpose,state:'both-consented',consentA:'consent-a-'+from+'-'+to,consentB:'consent-b-'+from+'-'+to,expiresAt});
+test('portable protocol bytes equal original donor',()=>{const b=readFileSync(new URL('./vendor/portable-protocol.mjs',import.meta.url));assert.equal(createHash('sha1').update(Buffer.from('blob '+b.length+'\0')).update(b).digest('hex'),'aaac009bb5b8973cc5e6f359674936ce68244bd2')});
+test('empty field produces only optional discovery tasks; all gates remain unverified',()=>{const r=prepare(snap(),options);assert.equal(r.capabilityProposal.paths.length,0);assert.equal(r.publicDraft.requirements.length,6);assert.ok(r.reviewGates.every(g=>g.state==='UNVERIFIED'));assert.equal(r.publicationAllowed,false)});
+test('translation and independent counsel combine into a held option',()=>{const r=prepare(snap(baseline()),options);assert.equal(r.capabilityProposal.paths.length,1);assert.equal(r.capabilityProposal.plenty.viable,0);assert.ok(r.capabilityProposal.paths[0].operators.includes('rule:translate'));assert.equal(r.status,'HOLD')});
+test('bilingual counsel yields alternate route, withdrawal removes the affected one',()=>{const cards=[...baseline(),cap('bilingual-property-counsel')];assert.equal(prepare(snap(cards),options).capabilityProposal.paths.length,2);cards[1].state='withdrawn';assert.equal(prepare(snap(cards),options).capabilityProposal.paths.length,1)});
+test('two-party relationship consent does not grant contact or execution',()=>{const cs=baseline();cs[1].actor='translator';let r=prepare(snap(cs),options);assert.equal(r.capabilityProposal.paths[0].relationshipHolds.length,1);r=prepare(snap(cs,[link('operator','translator')]),options);assert.equal(r.capabilityProposal.paths[0].relationshipHolds.length,0);assert.equal(r.contactAllowed,false);assert.equal(r.executionAllowed,false);assert.equal(r.settlementAllowed,false)});
+test('stale and sensitive records are refused',()=>{let s=snap(baseline());s.cards[0].email='fixture@example.invalid';assert.throws(()=>prepare(s,options),/invalid scoped capability/);s=snap();s.asOf=new Date(now-900001).toISOString();assert.throws(()=>prepare(s,options),/stale/)});
+test('unknown cases and mode refused; original case default preserved',()=>{assert.throws(()=>prepare(snap(),{now}),/synthetic case only/);assert.throws(()=>prepare({...snap(),caseKey:'other'},options),/synthetic case only/);assert.throws(()=>field(snap(),{now}),/stale/);assert.equal(field({...snap(),caseKey:'JUB-HON-001'},{now}).caseKey,'JUB-HON-001');assert.throws(()=>field(snap(),{now,expectedCaseKey:'anything'}),/unknown case scope/)});
+test('portable fixture cold restore and offer remain proposals, not publication',()=>{const k=identity(),helper=identity(),r=rehearse(snap(),k,helper,options);assert.ok(verify(r.portable.signedFixture));assert.equal(r.portable.matches[0].state,'proposal_not_acceptance');assert.equal(r.portable.status,'SYNTHETIC_ONLY_NOT_PUBLIC');assert.equal(r.publicationAllowed,false);assert.equal(r.authority,'none');const mirror=new Mirror('second');mirror.receive(r.portable.signedFixture);const withdrawn=nextNeed(k,r.portable.signedFixture,{status:'withdrawn'});mirror.receive(withdrawn);assert.equal(mirror.latest(CASE).payload.status,'withdrawn')});
+test('no missing categories means no fabricated portable request',()=>{const cs=[...baseline(),cap('interpretation'),cap('bilingual-property-counsel')];assert.equal(rehearse(snap(cs),identity(),identity(),options).portable,null)});
