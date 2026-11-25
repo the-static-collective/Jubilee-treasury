@@ -30,8 +30,8 @@ function chooseOffers(c,selected,target){
  const sources=new Set(),offers=[];
  for(const id of selected){
   const o=c.offers.get(id);if(!ref(id)||!o||!['CONDITIONAL','COMMITTED_REPORTED'].includes(o.status))fail('Only current conditional or reported commitment records may be selected');
-  const d=o.event.data;if(!safe(d.amountMinor)||!c.sources.has(d.ref)||sources.has(d.ref))fail('Duplicate source or invalid amount; review overlapping offers separately');
-  sources.add(d.ref);offers.push({id,sourceId:d.ref,status:o.status,amountMinor:d.amountMinor});
+  const d=o.event.data;if(!safe(d.amountMinor)||!c.sources.has(c.sources.get(d.ref).data.ref)||sources.has(d.ref))fail('Duplicate source or invalid amount; review overlapping offers separately');
+  sources.add(c.sources.get(d.ref).data.ref);offers.push({id,sourceId:d.ref,status:o.status,amountMinor:d.amountMinor});
  }
  // Exhaustive bounded subset search; ranking is arithmetic, not an assessment
  // of genuine availability, distinct donors, legal eligibility or consent.
